@@ -3,30 +3,29 @@
 import Image from 'next/image'
 import { SiGithub } from 'react-icons/si'
 
-
 const founders = [
   {
     name: 'Vivek Thakur',
     designation: 'CEO & AI Leader',
-    image: '/IshvaraX/founder1.jpeg',
+    image: '/founder1.jpeg', // Remove /IshvaraX prefix
     github: 'https://github.com/vivek09thakur'
   },
   {
     name: 'Mayank Sinha',
     designation: 'Business Lead & Co-Founder',
-    image: '/IshvaraX/founder2.jpeg',
+    image: '/founder2.jpeg',
     github: 'https://github.com/Mayanksinha12'
   },
   {
     name: 'Abhishek Prasad Verma',
     designation: 'Design & Development',
-    image: '/IshvaraX/founder3.jpeg',
+    image: '/founder3.jpeg',
     github: 'https://github.com/avi-verma01'
   },
   {
     name: 'Suraj Kumar Gupta',
     designation: 'Product & Research',
-    image: '/IshvaraX/founder4.jpeg',
+    image: '/founder4.jpeg',
     github: 'https://github.com/spature'
   }
 ]
@@ -50,6 +49,7 @@ export default function Founders() {
                 alt={f.name}
                 fill
                 className="object-cover"
+                unoptimized // Required for static export
               />
             </div>
 
