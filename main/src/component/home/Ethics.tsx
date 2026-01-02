@@ -1,3 +1,4 @@
+
 const Ethics = () => {
   return (
     <section id="ethics" className="px-8 py-24 bg-zinc-50 dark:bg-zinc-950">

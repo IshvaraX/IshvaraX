@@ -1,3 +1,4 @@
+
 import Navbar from "@/component/nav/Navbar"
 import Hero from "@/component/home/Hero"
 import Mission from "@/component/home/Mission"
@@ -23,3 +24,4 @@ const Home = () => {
 }
 
 export default Home
+

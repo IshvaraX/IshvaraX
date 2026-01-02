@@ -14,12 +14,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "IshvaraX",
-  description: "A modern web application built with Next.js",
-  keywords: ["IshvaraX", "web", "application"],
+  description: "Decoding human consciousness through Brain-Computer Interfaces and Predictive Artificial Intelligence.",
+  keywords: ["IshvaraX", "BCI", "AI", "Neuroscience", "Artificial Intelligence", "Brain-Computer Interface"],
   authors: [{ name: "IshvaraX" }],
   openGraph: {
     title: "IshvaraX",
-    description: "A modern web application built with Next.js",
+    description: "Decoding human consciousness through Brain-Computer Interfaces and Predictive Artificial Intelligence.",
     type: "website",
   },
 };
@@ -30,9 +30,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         {children}
       </body>

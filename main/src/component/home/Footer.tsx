@@ -1,3 +1,4 @@
+
 const Footer = () => {
   return (
     <footer className="px-8 py-12 border-t border-black/10 dark:border-white/10">
