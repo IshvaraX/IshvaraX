@@ -7,26 +7,26 @@ import { SiGithub } from 'react-icons/si'
 const founders = [
   {
     name: 'Vivek Thakur',
-    designation: 'CEO & AI Leadr',
-    image: '/ishvarax/assets/founder1.png',
+    designation: 'CEO & AI Leader',
+    image: '/IshvaraX/founder1.jpeg',
     github: 'https://github.com/vivek09thakur'
   },
   {
     name: 'Mayank Sinha',
     designation: 'Business Lead & Co-Founder',
-    image: '/ishvarax/assets/founder2.png',
+    image: '/IshvaraX/founder2.jpeg',
     github: 'https://github.com/Mayanksinha12'
   },
   {
     name: 'Abhishek Prasad Verma',
     designation: 'Design & Development',
-    image: '/ishvarax/assets/founder3.png',
+    image: '/IshvaraX/founder3.jpeg',
     github: 'https://github.com/avi-verma01'
   },
   {
     name: 'Suraj Kumar Gupta',
     designation: 'Product & Research',
-    image: '/ishvarax/assets/founder4.png',
+    image: '/IshvaraX/founder4.jpeg',
     github: 'https://github.com/spature'
   }
 ]
