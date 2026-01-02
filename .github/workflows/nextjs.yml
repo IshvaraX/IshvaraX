@@ -23,30 +23,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js with caching
+      # 2. Setup Node.js (no automatic cache)
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
-          cache-dependency-path: main/package-lock.json
 
-      # 3. Install dependencies inside main/
+      # 3. Restore npm cache manually
+      - name: Restore npm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('main/package-lock.json') }}
+
+      # 4. Install dependencies inside main/
       - name: Install dependencies
         run: npm ci
         working-directory: ./main
 
-      # 4. Build Next.js
+      # 5. Build Next.js
       - name: Build Next.js
         run: npm run build
         working-directory: ./main
 
-      # 5. Export static site
+      # 6. Export static HTML
       - name: Export Next.js static HTML
         run: npm run export
         working-directory: ./main
 
-      # 6. Upload static site artifact
+      # 7. Upload static site artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
