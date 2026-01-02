@@ -1,4 +1,5 @@
 import Image from "next/image"
+import logo from "../../app/icon.png"
 
 const Navbar = () => {
   return (
@@ -6,11 +7,11 @@ const Navbar = () => {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="relative h-9 w-9 overflow-hidden rounded-full">
-            <Image
-              src="/IshvaraX - Logo Dark.png"
+            {/* Use img tag instead of Next.js Image for static export */}
+            <img
+              src="/IshvaraX/icon.png"
               alt="IshvaraX Logo"
-              fill
-              className="object-cover"
+              className="h-full w-full object-cover"
             />
           </div>
           <span className="font-medium text-black dark:text-white">
