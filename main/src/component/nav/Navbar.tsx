@@ -24,6 +24,7 @@ const Navbar = () => {
           <a href="#technology">Technology</a>
           <a href="#jan-seva">Jan-Seva</a>
           <a href="#ethics">Ethics</a>
+          <a href="#founders">Founders</a>
         </div>
       </nav>
     </header>

@@ -5,6 +5,7 @@ import Mission from "@/component/home/Mission"
 import Technology from "@/component/home/Technology"
 import JanSeva from "@/component/home/JanSeva"
 import Ethics from "@/component/home/Ethics"
+import Founders from "@/component/home/Founders"
 import Footer from "@/component/home/Footer"
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
         <Technology />
         <JanSeva />
         <Ethics />
+        <Founders />
         <Footer />
       </main>
     </>
