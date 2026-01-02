@@ -21,7 +21,7 @@ const founders = [
     name: 'Abhishek Prasad Verma',
     designation: 'Design & Development',
     image: '/ishvarax/assets/founder3.png',
-    github: 'https://github.com/abhi-vermak'
+    github: 'https://github.com/avi-verma01'
   },
   {
     name: 'Suraj Kumar Gupta',
