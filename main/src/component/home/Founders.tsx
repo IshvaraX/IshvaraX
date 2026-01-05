@@ -7,25 +7,25 @@ const founders = [
   {
     name: 'Vivek Thakur',
     designation: 'CEO & AI Leader',
-    image: '/founder1.jpeg', // Remove /IshvaraX prefix
+    image: '/IshvaraX/founder1.jpeg', // Remove /IshvaraX prefix
     github: 'https://github.com/vivek09thakur'
   },
   {
     name: 'Mayank Sinha',
     designation: 'Business Lead & Co-Founder',
-    image: '/founder2.jpeg',
+    image: '/IshvaraX/founder2.jpeg',
     github: 'https://github.com/Mayanksinha12'
   },
   {
     name: 'Abhishek Prasad Verma',
     designation: 'Design & Development',
-    image: '/founder3.jpeg',
+    image: '/IshvaraX/founder3.jpeg',
     github: 'https://github.com/avi-verma01'
   },
   {
     name: 'Suraj Kumar Gupta',
     designation: 'Product & Research',
-    image: '/founder4.jpeg',
+    image: '/IshvaraX/founder4.jpeg',
     github: 'https://github.com/spature'
   }
 ]

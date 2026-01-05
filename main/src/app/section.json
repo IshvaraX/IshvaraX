@@ -1,0 +1,211 @@
+{
+  "pinaka": {
+    "icon": "Brain",
+    "title": "PINAKA",
+    "subtitle": "Predictive Intelligence for Neural Activity and Kinetic Awareness",
+    "cards": [
+      {
+        "label": "Core Product",
+        "title": "Brainwave Prediction",
+        "description": "AI model for analyzing neural activity patterns from brain scan data with predictive capabilities."
+      },
+      {
+        "label": "AI Research",
+        "title": "Memory Reconstruction",
+        "description": "Exploring AI techniques to simulate and analyze memory patterns from neural signals."
+      },
+      {
+        "label": "Medical Research",
+        "title": "Cognitive Diagnostics",
+        "description": "Research in early detection methods for neurological conditions through brain activity analysis."
+      },
+      {
+        "label": "Research",
+        "title": "Neurological Research Platform",
+        "description": "Developing tools for neuroscientists to study brainwave patterns and cognitive correlations."
+      }
+    ]
+  },
+  "core_mission": {
+    "icon": "Target",
+    "title": "Research Mission",
+    "cards": [
+      {
+        "label": "Neuroscience",
+        "title": "Decode Neural Intelligence",
+        "description": "Research focused on reconstructing intelligence patterns from neural signals using AI."
+      },
+      {
+        "label": "AI Development",
+        "title": "Neuro-AI Systems",
+        "description": "Developing neural network architectures for brain-computer interface applications."
+      },
+      {
+        "label": "Technology",
+        "title": "Breakthrough Research",
+        "description": "Creating proprietary algorithms for neural signal processing and analysis."
+      },
+      {
+        "label": "Research",
+        "title": "Scientific Contribution",
+        "description": "Contributing to neuroscience and AI research with innovative approaches."
+      }
+    ]
+  },
+  "social_mission": {
+    "icon": "Handshake",
+    "title": "Social Mission",
+    "cards": [
+      {
+        "label": "Public Service",
+        "title": "AI Tools Development",
+        "description": "Creating AI-powered tools to assist with administrative and informational challenges."
+      },
+      {
+        "label": "Healthcare",
+        "title": "Medical Access Research",
+        "description": "Researching ways to make medical diagnostics more accessible through technology."
+      },
+      {
+        "label": "Education",
+        "title": "Digital Literacy",
+        "description": "Developing educational resources about AI and neuroscience technologies."
+      },
+      {
+        "label": "Governance",
+        "title": "Public Service Innovation",
+        "description": "Exploring technology applications for improving public service delivery."
+      }
+    ]
+  },
+  "technology": {
+    "icon": "Cpu",
+    "title": "Technology Stack",
+    "cards": [
+      {
+        "label": "AI Models",
+        "title": "Neural Synthesis AI",
+        "description": "Algorithms for processing and analyzing neural signals with AI techniques."
+      },
+      {
+        "label": "AI Models",
+        "title": "Pattern Analytics",
+        "description": "Modeling behavioral patterns through data analysis and prediction algorithms."
+      },
+      {
+        "label": "Hardware",
+        "title": "BCI Systems",
+        "description": "Research in brain-computer interface devices for neural data capture."
+      },
+      {
+        "label": "Software",
+        "title": "Neuro-AI Platform",
+        "description": "Integrated platform for neural data processing and AI model training."
+      }
+    ]
+  },
+  "janseva": {
+    "icon": "Heart",
+    "title": "Jan-Seva Services",
+    "cards": [
+      {
+        "label": "Public AI",
+        "title": "Citizen Assistance Tools",
+        "description": "Developing AI tools for common administrative and informational needs."
+      },
+      {
+        "label": "Healthcare",
+        "title": "Health Support Research",
+        "description": "Researching AI applications for basic healthcare support and information."
+      },
+      {
+        "label": "Education",
+        "title": "Learning Resources",
+        "description": "Creating educational content and basic learning assistance tools."
+      },
+      {
+        "label": "Governance",
+        "title": "Public Service Tools",
+        "description": "Developing technology to help navigate government services and information."
+      }
+    ]
+  },
+  "research": {
+    "icon": "Flask",
+    "title": "Research & Development",
+    "cards": [
+      {
+        "label": "Neuroscience",
+        "title": "Cognitive Mapping",
+        "description": "Research in mapping neural pathways to cognitive functions and processes."
+      },
+      {
+        "label": "AI Research",
+        "title": "AGI Development Research",
+        "description": "Exploring approaches to artificial general intelligence with safety considerations."
+      },
+      {
+        "label": "Clinical",
+        "title": "Medical Applications Research",
+        "description": "Researching AI solutions for neurological and mental health applications."
+      },
+      {
+        "label": "Partnerships",
+        "title": "Academic Collaboration",
+        "description": "Working with academic institutions on neuroscience and AI research projects."
+      }
+    ]
+  },
+  "ethics": {
+    "icon": "Shield",
+    "title": "Ethics & Governance",
+    "cards": [
+      {
+        "label": "Privacy",
+        "title": "Data Protection",
+        "description": "Implementing data anonymization and protection protocols for neural data."
+      },
+      {
+        "label": "Security",
+        "title": "Information Security",
+        "description": "Developing security protocols for sensitive data and research systems."
+      },
+      {
+        "label": "Ethics",
+        "title": "Ethical Framework",
+        "description": "Establishing ethical guidelines for AI development and neural research."
+      },
+      {
+        "label": "Governance",
+        "title": "Transparent Operations",
+        "description": "Maintaining clear governance structures for research and development."
+      }
+    ]
+  },
+  "future": {
+    "icon": "Rocket",
+    "title": "Future Vision",
+    "cards": [
+      {
+        "label": "Phase 1",
+        "title": "Research Foundation",
+        "description": "Establish research methodologies and develop initial prototypes for neural analysis."
+      },
+      {
+        "label": "Phase 2",
+        "title": "Service Development",
+        "description": "Scale research capabilities and develop practical applications of our technology."
+      },
+      {
+        "label": "Phase 3",
+        "title": "Integration",
+        "description": "Integrate research findings into functional systems and public tools."
+      },
+      {
+        "label": "Phase 4",
+        "title": "Advancement",
+        "description": "Advance the field of neuro-AI through continued research and innovation."
+      }
+    ]
+  }
+}
