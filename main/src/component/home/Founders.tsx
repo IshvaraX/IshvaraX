@@ -30,42 +30,38 @@ const founders = [
   }
 ]
 
+const FounderCard = ({ name, designation, image, github }: typeof founders[0]) => (
+  <div className="rounded-xl p-6 text-center ">
+    <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border">
+      <Image
+        src={image}
+        alt={name}
+        fill
+        className="object-fill"
+        unoptimized
+      />
+    </div>
+    <h3 className="text-m font-semibold mb-1">{name}</h3>
+    <p className="text-gray-600 text-sm mb-3">{designation}</p>
+    <a
+      href={github}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 text-sm text-white-600 hover:text-blue-800"
+    >
+      <SiGithub size={16} />
+      GitHub
+    </a>
+  </div>
+)
+
 export default function Founders() {
   return (
-    <section className="w-full py-16">
-      <h2 className="text-3xl font-semibold text-center mb-12">
-        Meet Our Founders
-      </h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
-        {founders.map((f) => (
-          <div
-            key={f.name}
-            className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6 text-center hover:scale-[1.02] transition"
-          >
-            <div className="relative w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden">
-              <Image
-                src={f.image}
-                alt={f.name}
-                fill
-                className="object-cover"
-                unoptimized // Required for static export
-              />
-            </div>
-
-            <h3 className="text-lg font-medium">{f.name}</h3>
-            <p className="text-sm opacity-70 mb-3">{f.designation}</p>
-
-            <a
-              href={f.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm opacity-80 hover:opacity-100"
-            >
-              <SiGithub size={18} />
-              GitHub
-            </a>
-          </div>
+    <section className="w-full py-12 px-4">
+      <h2 className="text-2xl font-bold text-center mb-8">Meet Our Founders</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        {founders.map((founder) => (
+          <FounderCard key={founder.name} {...founder} />
         ))}
       </div>
     </section>

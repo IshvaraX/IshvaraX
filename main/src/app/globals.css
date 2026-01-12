@@ -9,22 +9,22 @@ code, pre, kbd, samp {
   font-family: var(--font-geist-mono), monospace;
 }
 
-/* Base styles */
+/* Google Color Scheme */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
+  --foreground-rgb: 60, 64, 67; /* Google Grey 900 */
+  --background-rgb: 255, 255, 255; /* White */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-rgb: 0, 0, 0;
+    --foreground-rgb: 232, 234, 237; /* Google Grey 100 */
+    --background-rgb: 20, 20, 20; /* Google Grey 900 */
   }
 }
 
-body {
+html {
   color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  background: rgb(var(--background-rgb)) !important;
   margin: 0;
   padding: 0;
 }

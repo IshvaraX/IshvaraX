@@ -1,54 +1,52 @@
-"use client"
+"use client";
 
 type SectionCard = {
-  label: string
-  title: string
-  description: string
-  href?: string
-}
+  label: string;
+  title: string;
+  description: string;
+  href?: string;
+};
 
 type SectionGridProps = {
-  icon?: React.ReactNode
-  sectionTitle: string
-  cards: SectionCard[]
-  hue?: number
-  id?: string
-}
+  icon?: React.ReactNode;
+  sectionTitle: string;
+  cards: SectionCard[];
+  hue?: number;
+  id?: string;
+};
 
-const SectionGrid = ({ 
-  icon, 
-  sectionTitle, 
+const SectionGrid = ({
+  icon,
+  sectionTitle,
   cards,
   hue = 160,
-  id
+  id,
 }: SectionGridProps) => {
   return (
-    <section id={id} className="px-4 py-16 md:px-8 md:py-20">
-      <div className="w-full lg:w-[70%] mx-auto">
-        <div 
+    <section id={id} className="px-4 py-14 md:px-8 md:py-20">
+      <div className="w-full lg:w-[65%] mx-auto">
+        <div
           className="rounded-3xl p-8 md:p-12"
-          style={{ 
-            backgroundColor: `hsl(${hue}, 85%, 15%)`,
+          style={{
+            backgroundColor: `hsl(${hue}, 30%, 25%)`,
           }}
         >
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
-            
-            {/* Left Column - Title and Icon */}
             <div className="flex flex-col gap-6">
               {icon && (
                 <div className="flex items-center justify-start">
-                  <div 
+                  <div
                     className="rounded-xl p-3"
-                    style={{ 
-                      backgroundColor: `hsl(${hue}, 85%, 25%)`,
+                    style={{
+                      backgroundColor: `hsl(${hue}, 65%, 10%)`,
                     }}
                   >
                     {icon}
                   </div>
                 </div>
               )}
-              
-              <h2 className="text-3xl md:text-4xl font-semibold leading-tight text-white">
+
+              <h2 className="text-2xl md:text-3xl font-semibold leading-tight text-white">
                 {sectionTitle}
               </h2>
             </div>
@@ -56,29 +54,29 @@ const SectionGrid = ({
             {/* Right Column - Cards Grid */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {cards.map((card, index) => {
-                const Wrapper = card.href ? "a" : "div"
-                const wrapperProps = card.href ? { href: card.href } : {}
-                const cardBg = `hsl(${hue}, 90%, 4%)`
+                const Wrapper = card.href ? "a" : "div";
+                const wrapperProps = card.href ? { href: card.href } : {};
+                const cardBg = `hsl(${hue}, 50%, 4%)`;
 
                 return (
                   <Wrapper
                     key={index}
                     {...wrapperProps}
                     className="group rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-                    style={{ 
+                    style={{
                       backgroundColor: cardBg,
                     }}
                   >
-                    <p 
-                      className="text-xs font-medium tracking-wider mb-2"
-                      style={{ 
-                        color: `hsl(${hue}, 100%, 70%)`,
+                    <p
+                      className="text-xs font-medium tracking-wider mb-1"
+                      style={{
+                        color: `hsl(${hue}, 75%, 70%)`,
                       }}
                     >
                       {card.label.toUpperCase()}
                     </p>
 
-                    <h3 className="text-xl font-medium mb-3 text-white">
+                    <h3 className="text-m font-medium mb-3 text-white">
                       {card.title}
                     </h3>
 
@@ -87,9 +85,9 @@ const SectionGrid = ({
                     </p>
 
                     {card.href && (
-                      <div 
+                      <div
                         className="mt-4 text-sm font-medium flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
-                        style={{ 
+                        style={{
                           color: `hsl(${hue}, 100%, 70%)`,
                         }}
                       >
@@ -97,14 +95,14 @@ const SectionGrid = ({
                       </div>
                     )}
                   </Wrapper>
-                )
+                );
               })}
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default SectionGrid
+export default SectionGrid;
