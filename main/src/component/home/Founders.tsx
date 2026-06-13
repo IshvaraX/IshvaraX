@@ -11,6 +11,12 @@ const founders = [
     github: 'https://github.com/vivek09thakur'
   },
   {
+    name: 'Nandini Thakur',
+    designation: 'VP & Lead',
+    image: '/IshvaraX/founder1.jpeg', // Remove /IshvaraX prefix
+    github: 'https://github.com/vivek09thakur'
+  },
+  {
     name: 'Mayank Sinha',
     designation: 'Business Lead & Co-Founder',
     image: '/IshvaraX/founder2.jpeg',
