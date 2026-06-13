@@ -45,7 +45,7 @@ jobs:
       # 5. Upload npm logs if installation failed
       - name: Upload npm logs
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: npm-logs
           path: ./main/logs
