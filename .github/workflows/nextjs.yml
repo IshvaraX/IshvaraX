@@ -50,29 +50,25 @@ jobs:
           name: npm-logs
           path: ./main/logs
 
-      # 6. Build Next.js
+      # 6. Build Next.js and export static HTML
       - name: Build Next.js
         run: npm run build
         working-directory: ./main
 
-      # 7. Export static site
-      - name: Export Next.js static HTML
-        run: npm run export
-        working-directory: ./main
+      # 7. Copy exported site into docs
+      - name: Copy static export to docs
+        run: |
+          rm -rf ./main/docs
+          mkdir -p ./main/docs
+          cp -a ./main/out/. ./main/docs/
+          touch ./main/docs/.nojekyll
 
-      # 8. Upload static site artifact
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./main/out
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # 8. Commit docs folder back to main branch
+      - name: Commit docs folder back to main
+        run: |
+          cd ./main
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add docs
+          git diff --cached --quiet || git commit -m 'Deploy docs [skip ci]'
+          git push origin main
