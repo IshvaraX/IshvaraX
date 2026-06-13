@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-// import { FaDiceThree, FaWindowClose } from "react-icons/fa";
 import { RiMenuFold3Line } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
 
@@ -117,7 +116,7 @@ const Navbar = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
-              <RiMenuFold3Line size={24} />
+              <IoMdClose size={24} />
             ) : (
               <RiMenuFold3Line size={24} />
             )}
