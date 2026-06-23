@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { RiMenuFold3Line } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
-import icon from "/icon.png";
+import icon from "/icon.jpg";
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState("");
