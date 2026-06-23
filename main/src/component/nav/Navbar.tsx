@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { RiMenuFold3Line } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
-
+import icon from "/icon.png";
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState("");
@@ -83,7 +83,7 @@ const Navbar = () => {
           >
             <div className="relative h-9 w-9 overflow-hidden rounded-full border border-zinc-300 dark:border-zinc-700 p-1">
               <img
-                src="/IshvaraX/icon.png"
+                src={icon}
                 alt="IshvaraX Logo"
                 className="h-full w-full object-cover transition-transform group-hover:scale-105"
               />
