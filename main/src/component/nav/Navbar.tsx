@@ -140,7 +140,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 overflow-hidden rounded-full border border-zinc-300 dark:border-zinc-700 p-1">
                     <img
-                      src={icon}
+                      src={iconSrc}
                       alt="IshvaraX Logo"
                       className="h-full w-full object-cover"
                     />
