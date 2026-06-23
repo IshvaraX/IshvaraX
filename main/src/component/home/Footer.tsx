@@ -31,20 +31,20 @@ const socials = [
 
 const Footer = () => {
   return (
-    <footer className="px-8 py-12 border-t border-black/10 dark:border-white/10">
+    <footer className="px-8 py-12 border-t-2 border-zinc-900 dark:border-white">
       <div className="mx-auto max-w-4xl flex flex-col gap-6 items-center sm:flex-row sm:justify-between">
-        <div className="text-sm text-zinc-500">
-          © {new Date().getFullYear()} IshvaraX · Proprietary Technology
+        <div className="text-xs font-bold uppercase tracking-widest text-zinc-900 dark:text-white border-2 border-zinc-900 dark:border-white px-4 py-2">
+          © {new Date().getFullYear()} IshvaraX · PROPRIETARY
         </div>
 
-        <div className="flex gap-5">
+        <div className="flex gap-2 border-2 border-zinc-900 dark:border-white p-2">
           {socials.map(({ name, href, icon: Icon }) => (
             <a
               key={name}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-500 hover:text-black dark:hover:text-white transition"
+              className="text-zinc-900 dark:text-white hover:bg-zinc-900 dark:hover:bg-white hover:text-white dark:hover:text-zinc-900 p-2 border border-zinc-900 dark:border-white transition font-bold"
               aria-label={name}
             >
               <Icon size={18} />

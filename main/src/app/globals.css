@@ -3,6 +3,7 @@
 /* Apply Geist font globally */
 body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-weight: 500;
 }
 
 code, pre, kbd, samp {
@@ -27,4 +28,50 @@ html {
   background: rgb(var(--background-rgb)) !important;
   margin: 0;
   padding: 0;
+}
+
+/* Neobrutalism Utilities */
+.brutal-border {
+  border: 2px solid currentColor;
+}
+
+.brutal-border-thick {
+  border: 3px solid currentColor;
+}
+
+.brutal-shadow {
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dark .brutal-shadow {
+  box-shadow: 4px 4px 0px rgba(255, 255, 255, 0.1);
+}
+
+.brutal-heading {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+/* Minimal radius for brutalism */
+.rounded-sm {
+  border-radius: 2px;
+}
+
+/* Override Tailwind rounded for brutalism */
+.rounded-lg {
+  border-radius: 2px;
+}
+
+.rounded-xl {
+  border-radius: 2px;
+}
+
+.rounded-3xl {
+  border-radius: 2px;
+}
+
+.rounded-full {
+  border-radius: 2px;
 }

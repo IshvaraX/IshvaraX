@@ -10,14 +10,14 @@ const HeroColumn = ({
   tagColor: string;
 }) => {
   return (
-    <div className="space-y-6">
-      <h2 className="text-1xl font-semibold text-black dark:text-white">
+    <div className="space-y-4 border-2 border-zinc-900 dark:border-white p-6">
+      <h2 className="text-lg font-bold text-black dark:text-white uppercase tracking-tight">
         {title}
       </h2>
-      <p className="text-zinc-300 dark:text-zinc-400 text-sm">{description}</p>
+      <p className="text-zinc-700 dark:text-zinc-300 text-sm font-medium leading-relaxed">{description}</p>
       <div>
         <span
-          className={`inline-block px-3 py-1 text-xs font-medium rounded ${tagColor}`}
+          className={`inline-block px-3 py-2 text-xs font-bold uppercase tracking-widest border-2 ${tagColor}`}
         >
           {tag}
         </span>
@@ -33,7 +33,7 @@ const Hero = () => {
       description:
         "Advanced neuroscience and AI research focused on brain-computer interfaces and neural pattern analysis.",
       tag: "Neural Synthesis AI",
-      tagColor: "bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-gray-200",
+      tagColor: "border-zinc-900 dark:border-white bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white",
     },
     {
       title: "Technology",
@@ -41,7 +41,7 @@ const Hero = () => {
         "Developing PINAKA platform for brainwave prediction and neural activity analysis using AI models.",
       tag: "PINAKA Platform",
       tagColor:
-        "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200",
+        "border-blue-600 bg-blue-50 dark:bg-blue-950 text-blue-900 dark:text-blue-100",
     },
     {
       title: "Impact",
@@ -49,24 +49,24 @@ const Hero = () => {
         "Ethical AI development and public service initiatives through Jan-Seva for accessible technology.",
       tag: "Jan-Seva AI",
       tagColor:
-        "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200",
+        "border-emerald-600 bg-emerald-50 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-100",
     },
   ];
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20">
+    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20 border-b-2 border-zinc-900 dark:border-white">
       <div className="w-full max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-black dark:text-white mb-4">
+        <div className="text-center mb-12 border-2 border-zinc-900 dark:border-white p-8">
+          <h1 className="text-5xl md:text-7xl font-black text-black dark:text-white mb-4 uppercase tracking-tighter">
             IshvaraX
           </h1>
-          <p className="text-m text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-base text-zinc-800 dark:text-zinc-200 max-w-2xl mx-auto font-bold">
             Decoding human consciousness through Brain-Computer Interfaces and
             Predictive AI.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {columns.map((column, index) => (
             <HeroColumn
               key={index}

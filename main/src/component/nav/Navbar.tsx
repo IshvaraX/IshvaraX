@@ -69,40 +69,40 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`fixed top-0 z-50 w-full transition-all duration-200 ${
+        className={`fixed top-0 z-50 w-full border-b-2 transition-all duration-200 ${
           scrolled
-            ? "border-b border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md shadow-sm"
-            : "border-b border-transparent bg-white/90 dark:bg-[rgb(var(--background-rgb))] backdrop-blur-sm"
+            ? "border-zinc-900 dark:border-white bg-white dark:bg-zinc-900"
+            : "border-zinc-900 dark:border-white bg-white dark:bg-[rgb(var(--background-rgb))]"
         }`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
           {/* Logo */}
           <div
-            className="flex items-center gap-3 cursor-pointer group"
+            className="flex items-center gap-3 cursor-pointer group border-2 border-zinc-900 dark:border-white p-2"
             onClick={() => scrollToSection("hero")}
           >
-            <div className="relative h-9 w-9 overflow-hidden rounded-full border border-zinc-300 dark:border-zinc-700 p-1">
+            <div className="h-9 w-9 overflow-hidden border border-zinc-900 dark:border-white p-1">
               <img
                 src={iconSrc}
                 alt="IshvaraX Logo"
-                className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                className="h-full w-full object-cover"
               />
             </div>
-            <span className="font-semibold text-zinc-900 dark:text-white text-sm md:text-base tracking-tight">
+            <span className="font-bold text-zinc-900 dark:text-white text-sm md:text-base tracking-widest uppercase">
               IshvaraX
             </span>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-0 md:flex border-2 border-zinc-900 dark:border-white">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`px-3 py-2 rounded-lg transition-all text-sm ${
+                className={`px-4 py-2 transition-all text-xs font-bold uppercase tracking-widest border-r-2 border-zinc-900 dark:border-white last:border-r-0 ${
                   activeSection === item.id
-                    ? "text-google-blue font-medium bg-google-blue/10"
-                    : "text-zinc-700 dark:text-zinc-300 hover:text-google-blue dark:hover:text-google-blue hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900"
+                    : "text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800"
                 }`}
               >
                 {item.label}
@@ -112,7 +112,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-zinc-700 dark:text-zinc-300 hover:text-google-blue dark:hover:text-google-blue transition-colors"
+            className="md:hidden p-2 text-zinc-900 dark:text-white border-2 border-zinc-900 dark:border-white font-bold"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
@@ -129,49 +129,49 @@ const Navbar = () => {
         <div className="fixed inset-0 z-40 md:hidden">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black"
             onClick={() => setIsMenuOpen(false)}
           />
 
           {/* Menu Panel */}
-          <div className="absolute right-0 top-0 h-full w-64 bg-white dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 shadow-xl">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 overflow-hidden rounded-full border border-zinc-300 dark:border-zinc-700 p-1">
+          <div className="absolute right-0 top-0 h-full w-64 bg-white dark:bg-zinc-900 border-l-2 border-zinc-900 dark:border-white">
+            <div className="p-4 border-b-2 border-zinc-900 dark:border-white">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 border-2 border-zinc-900 dark:border-white p-2">
+                  <div className="h-8 w-8 overflow-hidden border border-zinc-900 dark:border-white">
                     <img
                       src={iconSrc}
                       alt="IshvaraX Logo"
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <span className="font-semibold text-zinc-900 dark:text-white">
+                  <span className="font-bold text-zinc-900 dark:text-white text-xs uppercase tracking-widest">
                     IshvaraX
                   </span>
                 </div>
                 <button
                   onClick={() => setIsMenuOpen(false)}
-                  className="p-2 text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+                  className="p-2 text-zinc-900 dark:text-white border-2 border-zinc-900 dark:border-white font-bold"
                 >
                   <IoMdClose size={20} />
                 </button>
               </div>
+            </div>
 
-              <div className="space-y-1">
-                {navItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-colors text-sm ${
-                      activeSection === item.id
-                        ? "text-google-blue font-medium bg-google-blue/10"
-                        : "text-zinc-700 dark:text-zinc-300 hover:text-google-blue hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
+            <div className="space-y-0 p-0">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`w-full text-left px-4 py-3 transition-colors text-xs font-bold uppercase tracking-widest border-b border-zinc-900 dark:border-white ${
+                    activeSection === item.id
+                      ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900"
+                      : "text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
