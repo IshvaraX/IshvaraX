@@ -23,7 +23,7 @@ const SectionGrid = ({
   id,
 }: SectionGridProps) => {
   return (
-    <section id={id} className="px-4 py-14 md:px-8 md:py-20 border-t-2 border-current">
+    <section id={id} className="px-4 py-14 md:px-8 md:py-20 border-t-2 border-zinc-900 dark:border-white">
       <div className="w-full lg:w-[65%] mx-auto">
         {/* Main Container with brutal border */}
         <div
@@ -106,26 +106,6 @@ const SectionGrid = ({
                 );
               })}
             </div>
-                    </h3>
-
-                    <p className="text-sm text-zinc-300 leading-relaxed">
-                      {card.description}
-                    </p>
-
-                    {card.href && (
-                      <div
-                        className="mt-4 text-sm font-medium flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
-                        style={{
-                          color: `hsl(${hue}, 100%, 70%)`,
-                        }}
-                      >
-                        Learn more →
-                      </div>
-                    )}
-                  </Wrapper>
-                );
-              })}
-            </div>
           </div>
         </div>
       </div>
@@ -134,3 +114,4 @@ const SectionGrid = ({
 };
 
 export default SectionGrid;
+
