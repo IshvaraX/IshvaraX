@@ -1,59 +1,64 @@
-import { FiInstagram, FiFacebook, FiLinkedin, FiTwitter } from "react-icons/fi"
-import { SiDiscord } from "react-icons/si"
+import {
+  FiInstagram,
+  FiFacebook,
+  FiLinkedin,
+  FiTwitter,
+} from "react-icons/fi";
+import { SiDiscord } from "react-icons/si";
 
 const socials = [
   {
     name: "Instagram",
     href: "https://www.instagram.com/id_here",
-    icon: FiInstagram
+    icon: FiInstagram,
   },
   {
     name: "Facebook",
     href: "https://www.facebook.com/id_here",
-    icon: FiFacebook
+    icon: FiFacebook,
   },
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/company/id_here",
-    icon: FiLinkedin
+    icon: FiLinkedin,
   },
   {
     name: "Twitter",
     href: "https://twitter.com/id_here",
-    icon: FiTwitter
+    icon: FiTwitter,
   },
   {
     name: "Discord",
     href: "https://discord.gg/id_here",
-    icon: SiDiscord
-  }
-]
+    icon: SiDiscord,
+  },
+];
 
 const Footer = () => {
   return (
-    <footer className="px-8 py-12 border-t-2 border-zinc-900 dark:border-white">
-      <div className="mx-auto max-w-4xl flex flex-col gap-6 items-center sm:flex-row sm:justify-between">
-        <div className="text-xs font-bold uppercase tracking-widest text-zinc-900 dark:text-white border-2 border-zinc-900 dark:border-white px-4 py-2">
-          © {new Date().getFullYear()} IshvaraX · PROPRIETARY
-        </div>
+    <div className="px-4 md:px-8 py-10 border-t border-[rgb(var(--border-rgb))]">
+      <div className="mx-auto max-w-6xl flex flex-col gap-6 items-center sm:flex-row sm:justify-between">
+        <span className="gdm-body text-[0.8rem]">
+          © {new Date().getFullYear()} IshvaraX · Proprietary
+        </span>
 
-        <div className="flex gap-2 border-2 border-zinc-900 dark:border-white p-2">
+        <div className="flex gap-1">
           {socials.map(({ name, href, icon: Icon }) => (
             <a
               key={name}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-900 dark:text-white hover:bg-zinc-900 dark:hover:bg-white hover:text-white dark:hover:text-zinc-900 p-2 border border-zinc-900 dark:border-white transition font-bold"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-[rgb(var(--muted-rgb))] hover:text-[rgb(var(--foreground-rgb))] hover:bg-[rgb(var(--surface-rgb))] transition-colors"
               aria-label={name}
             >
-              <Icon size={18} />
+              <Icon size={16} />
             </a>
           ))}
         </div>
       </div>
-    </footer>
-  )
-}
+    </div>
+  );
+};
 
-export default Footer
+export default Footer;

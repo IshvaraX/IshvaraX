@@ -32,10 +32,8 @@ const Home = () => {
       <Navbar />
       <Hero />
       <main className="bg-[rgb(var(--background-rgb))] text-[rgb(var(--foreground-rgb))]">
-        {Object.entries(SiteContent).map(([key, section], index) => {
+        {Object.entries(SiteContent).map(([key, section]) => {
           const icon = sectionIcons[key as keyof typeof sectionIcons];
-          const totalSections = Object.keys(SiteContent).length;
-          const hue = Math.round(((index * 250)*2) / totalSections);
 
           return (
             <SectionGrid
@@ -43,7 +41,6 @@ const Home = () => {
               icon={icon}
               sectionTitle={section.title}
               cards={section.cards}
-              hue={hue}
               id={key}
             />
           );

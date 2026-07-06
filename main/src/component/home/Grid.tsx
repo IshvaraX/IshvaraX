@@ -10,102 +10,70 @@ type SectionCard = {
 type SectionGridProps = {
   icon?: React.ReactNode;
   sectionTitle: string;
+  sectionIndex?: string;
   cards: SectionCard[];
-  hue?: number;
   id?: string;
 };
 
 const SectionGrid = ({
   icon,
   sectionTitle,
+  sectionIndex,
   cards,
-  hue = 160,
   id,
 }: SectionGridProps) => {
   return (
-    <section id={id} className="px-4 py-14 md:px-8 md:py-20 border-t-2 border-zinc-900 dark:border-white">
-      <div className="w-full lg:w-[65%] mx-auto">
-        {/* Main Container with brutal border */}
-        <div
-          className="p-8 md:p-12 border-2"
-          style={{
-            backgroundColor: `hsl(${hue}, 30%, 25%)`,
-            borderColor: `hsl(${hue}, 100%, 50%)`,
-          }}
-        >
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
-            {/* Left Column - Icon & Title */}
-            <div className="flex flex-col gap-6">
-              {icon && (
-                <div className="flex items-center justify-start">
-                  <div
-                    className="p-3 border-2"
-                    style={{
-                      backgroundColor: `hsl(${hue}, 100%, 50%)`,
-                      borderColor: `hsl(${hue}, 100%, 50%)`,
-                      color: `hsl(${hue}, 30%, 25%)`,
-                    }}
-                  >
-                    {icon}
-                  </div>
-                </div>
-              )}
+    <section
+      id={id}
+      className="px-4 py-16 md:px-8 md:py-24 border-t border-[rgb(var(--border-rgb))]"
+    >
+      <div className="w-full max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
+          {/* Left Column - Icon & Title */}
+          <div className="flex flex-col gap-4">
+            {sectionIndex && (
+              <span className="gdm-eyebrow">{sectionIndex}</span>
+            )}
 
-              <h2 className="text-xl md:text-2xl font-bold leading-tight uppercase tracking-tight" style={{
-                color: `hsl(${hue}, 100%, 70%)`,
-              }}>
-                {sectionTitle}
-              </h2>
-            </div>
+            {icon && (
+              <div className="w-fit p-2.5 rounded-full bg-[rgb(var(--surface-rgb))] text-[rgb(var(--foreground-rgb))]">
+                {icon}
+              </div>
+            )}
 
-            {/* Right Column - Cards Grid */}
-            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {cards.map((card, index) => {
-                const Wrapper = card.href ? "a" : "div";
-                const wrapperProps = card.href ? { href: card.href, target: "_blank" } : {};
-                const cardBg = `hsl(${hue}, 50%, 4%)`;
+            <h2 className="gdm-heading-xl text-2xl md:text-3xl">
+              {sectionTitle}
+            </h2>
+          </div>
 
-                return (
-                  <Wrapper
-                    key={index}
-                    {...wrapperProps}
-                    className="group p-4 border-2 hover:shadow-none transition-all duration-200 hover:-translate-y-0.5"
-                    style={{
-                      backgroundColor: cardBg,
-                      borderColor: `hsl(${hue}, 75%, 50%)`,
-                    }}
-                  >
-                    <p
-                      className="text-xs font-bold tracking-widest mb-2 uppercase brutal-heading"
-                      style={{
-                        color: `hsl(${hue}, 100%, 60%)`,
-                      }}
-                    >
-                      {card.label}
-                    </p>
+          {/* Right Column - Cards Grid */}
+          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {cards.map((card, index) => {
+              const Wrapper = card.href ? "a" : "div";
+              const wrapperProps = card.href
+                ? { href: card.href, target: "_blank", rel: "noopener noreferrer" }
+                : {};
 
-                    <h3 className="text-base font-bold mb-3 text-white uppercase">
+              return (
+                <Wrapper key={index} {...wrapperProps} className="gdm-card block">
+                  <div className="gdm-card-body">
+                    <p className="gdm-eyebrow mb-2">{card.label}</p>
+
+                    <h3 className="gdm-heading-md mb-2 text-base">
                       {card.title}
                     </h3>
 
-                    <p className="text-sm text-zinc-300 leading-relaxed font-medium">
-                      {card.description}
-                    </p>
+                    <p className="gdm-body">{card.description}</p>
 
                     {card.href && (
-                      <div
-                        className="mt-4 text-xs font-bold flex items-center opacity-70 group-hover:opacity-100 transition-opacity uppercase tracking-wide"
-                        style={{
-                          color: `hsl(${hue}, 100%, 60%)`,
-                        }}
-                      >
-                        Learn more →
+                      <div className="gdm-link mt-4">
+                        Learn more <span className="arrow">→</span>
                       </div>
                     )}
-                  </Wrapper>
-                );
-              })}
-            </div>
+                  </div>
+                </Wrapper>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -114,4 +82,3 @@ const SectionGrid = ({
 };
 
 export default SectionGrid;
-
