@@ -1,7 +1,7 @@
 const HeroColumn = ({
   title,
   description,
-  tag,
+  // tag,
 }: {
   title: string;
   description: string;
@@ -9,9 +9,9 @@ const HeroColumn = ({
 }) => {
   return (
     <div className="gdm-card">
-      <div className="gdm-card-media flex items-center justify-center">
+      {/* <div className="gdm-card-media flex items-center justify-center">
         <span className="gdm-eyebrow">{tag}</span>
-      </div>
+      </div> */}
       <div className="gdm-card-body">
         <h2 className="gdm-heading-md mb-2">{title}</h2>
         <p className="gdm-body mb-4">{description}</p>
@@ -68,7 +68,7 @@ const Hero = () => {
               key={index}
               title={column.title}
               description={column.description}
-              tag={column.tag}
+              // tag={column.tag}
             />
           ))}
         </div>

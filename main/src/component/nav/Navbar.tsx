@@ -102,10 +102,6 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* <div className="hidden md:block">
-            <button className="gdm-btn gdm-btn-primary">Get in touch</button>
-          </div> */}
-
           {/* Mobile Menu Button */}
           <button
             className="md:hidden p-2 text-[rgb(var(--foreground-rgb))]"
