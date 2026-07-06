@@ -1,7 +1,7 @@
 const HeroColumn = ({
   title,
   description,
-  // tag,
+  tag,
 }: {
   title: string;
   description: string;
@@ -68,7 +68,7 @@ const Hero = () => {
               key={index}
               title={column.title}
               description={column.description}
-              // tag={column.tag}
+              tag={column.tag}
             />
           ))}
         </div>
