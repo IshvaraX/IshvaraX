@@ -1,18 +1,20 @@
-"use client";
+import Card, { type CardData } from "@/component/ui/Card";
 
-type SectionCard = {
-  label: string;
-  title: string;
-  description: string;
-  href?: string;
-};
+const accents = ["g-icon-blue", "g-icon-red", "g-icon-yellow", "g-icon-green"];
+const contained = [
+  "g-contained-blue",
+  "g-contained-red",
+  "g-contained-yellow",
+  "g-contained-green",
+];
 
 type SectionGridProps = {
   icon?: React.ReactNode;
   sectionTitle: string;
   sectionIndex?: string;
-  cards: SectionCard[];
+  cards: CardData[];
   id?: string;
+  accentIndex?: number;
 };
 
 const SectionGrid = ({
@@ -21,59 +23,38 @@ const SectionGrid = ({
   sectionIndex,
   cards,
   id,
+  accentIndex = 0,
 }: SectionGridProps) => {
   return (
-    <section
-      id={id}
-      className="px-4 py-16 md:px-8 md:py-24 border-t border-[rgb(var(--border-rgb))]"
-    >
-      <div className="w-full max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
-          {/* Left Column - Icon & Title */}
-          <div className="flex flex-col gap-4">
-            {sectionIndex && (
-              <span className="gdm-eyebrow">{sectionIndex}</span>
-            )}
+    <section id={id} className="px-4 py-4 md:px-8 md:py-6">
+      <div className="mx-auto w-full max-w-6xl">
+        <div
+          className={`g-contained ${contained[accentIndex % contained.length]} p-6 md:p-12`}
+        >
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
+            {/* Left Column - Icon & Title */}
+            <div className="flex flex-col gap-4">
+              {sectionIndex && <span className="g-label">{sectionIndex}</span>}
 
-            {icon && (
-              <div className="w-fit p-2.5 rounded-full bg-[rgb(var(--surface-rgb))] text-[rgb(var(--foreground-rgb))]">
-                {icon}
-              </div>
-            )}
+              {icon && (
+                <div
+                  className={`g-icon ${accents[accentIndex % accents.length]}`}
+                >
+                  {icon}
+                </div>
+              )}
 
-            <h2 className="gdm-heading-xl text-2xl md:text-3xl">
-              {sectionTitle}
-            </h2>
-          </div>
+              <h2 className="gdm-heading-xl text-2xl md:text-3xl">
+                {sectionTitle}
+              </h2>
+            </div>
 
-          {/* Right Column - Cards Grid */}
-          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {cards.map((card, index) => {
-              const Wrapper = card.href ? "a" : "div";
-              const wrapperProps = card.href
-                ? { href: card.href, target: "_blank", rel: "noopener noreferrer" }
-                : {};
-
-              return (
-                <Wrapper key={index} {...wrapperProps} className="gdm-card block">
-                  <div className="gdm-card-body">
-                    <p className="gdm-eyebrow mb-2">{card.label}</p>
-
-                    <h3 className="gdm-heading-md mb-2 text-base">
-                      {card.title}
-                    </h3>
-
-                    <p className="gdm-body">{card.description}</p>
-
-                    {card.href && (
-                      <div className="gdm-link mt-4">
-                        Learn more <span className="arrow">→</span>
-                      </div>
-                    )}
-                  </div>
-                </Wrapper>
-              );
-            })}
+            {/* Right Column - Cards Grid */}
+            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {cards.map((card, index) => (
+                <Card key={index} {...card} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

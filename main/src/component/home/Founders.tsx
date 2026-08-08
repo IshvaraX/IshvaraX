@@ -7,31 +7,31 @@ const founders = [
   {
     name: 'Vivek Thakur',
     designation: 'CEO & AI Leader',
-    image: '/IshvaraX/founder1.jpeg',
+    image: '/founder1.jpeg',
     github: 'https://github.com/vivek09thakur'
   },
   {
     name: 'Nandini Thakur',
     designation: 'VP & Lead',
-    image: '/IshvaraX/founder1.jpeg',
+    image: '/founder1.jpeg',
     github: 'https://github.com/vivek09thakur'
   },
   {
     name: 'Mayank Sinha',
     designation: 'Business Lead & Co-Founder',
-    image: '/IshvaraX/founder2.jpeg',
+    image: '/founder2.jpeg',
     github: 'https://github.com/Mayanksinha12'
   },
   {
     name: 'Abhishek Prasad Verma',
     designation: 'Design & Development',
-    image: '/IshvaraX/founder3.jpeg',
+    image: '/founder3.jpeg',
     github: 'https://github.com/avi-verma01'
   },
   {
     name: 'Suraj Kumar Gupta',
     designation: 'Product & Research',
-    image: '/IshvaraX/founder4.jpeg',
+    image: '/founder4.jpeg',
     github: 'https://github.com/spature'
   }
 ]
@@ -48,8 +48,8 @@ const FounderCard = ({
         src={image}
         alt={name}
         fill
+        sizes="96px"
         className="object-cover"
-        unoptimized
       />
     </div>
 

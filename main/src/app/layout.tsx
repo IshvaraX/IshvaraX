@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
+import { ProjectsProvider } from "@/context/ProjectsContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,12 +16,28 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "IshvaraX",
-  description: "Decoding human consciousness through Brain-Computer Interfaces and Predictive Artificial Intelligence.",
-  keywords: ["IshvaraX", "BCI", "AI", "Neuroscience", "Artificial Intelligence", "Brain-Computer Interface"],
+  description:
+    "A community for the upliftment of people who love to code. PINAKA is our separate, independent research side project.",
+  icons: {
+    icon: "/icon.jpg",
+    shortcut: "/icon.jpg",
+    apple: "/icon.jpg",
+  },
+  keywords: [
+    "IshvaraX",
+    "Coding community",
+    "Learn to code",
+    "Open collaboration",
+    "PINAKA",
+    "BCI",
+    "AI",
+    "Neuroscience",
+  ],
   authors: [{ name: "IshvaraX" }],
   openGraph: {
     title: "IshvaraX",
-    description: "Decoding human consciousness through Brain-Computer Interfaces and Predictive Artificial Intelligence.",
+    description:
+      "A community for the upliftment of people who love to code. PINAKA is our separate, independent research side project.",
     type: "website",
   },
 };
@@ -35,7 +53,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        {children}
+        <AuthProvider>
+          <ProjectsProvider>{children}</ProjectsProvider>
+        </AuthProvider>
       </body>
     </html>
   );

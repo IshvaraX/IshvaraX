@@ -2,8 +2,13 @@
   "pinaka": {
     "icon": "Brain",
     "title": "PINAKA",
-    "subtitle": "Predictive Intelligence for Neural Activity and Kinetic Awareness",
+    "subtitle": "Predictive Intelligence for Neural Activity and Kinetic Awareness — a separate, independent research side project of IshvaraX, unrelated to our main community mission.",
     "cards": [
+      {
+        "label": "Side Project",
+        "title": "Independent Research",
+        "description": "PINAKA is a separate research side project of ours, exploring neural activity patterns. It is independent from our community goal."
+      },
       {
         "label": "Core Product",
         "title": "Brainwave Prediction",
@@ -15,14 +20,9 @@
         "description": "Exploring AI techniques to simulate and analyze memory patterns from neural signals."
       },
       {
-        "label": "Medical Research",
-        "title": "Cognitive Diagnostics",
-        "description": "Research in early detection methods for neurological conditions through brain activity analysis."
-      },
-      {
         "label": "Research",
-        "title": "Neurological Research Platform",
-        "description": "Developing tools for neuroscientists to study brainwave patterns and cognitive correlations."
+        "title": "Cognitive Diagnostics",
+        "description": "Early-detection research for neurological conditions through brain-activity analysis."
       }
     ]
   },

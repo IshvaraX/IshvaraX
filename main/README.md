@@ -18,6 +18,33 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Backend API (auth)
+
+Login and registration talk to the HFI FastAPI backend. Point the frontend at your
+backend by setting a single environment variable (copy `.env.example` to `.env.local`):
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+```
+
+The base URL lives in one place — [`src/lib/api.ts`](src/lib/api.ts). Change that
+env value (or the fallback in that file) to swap between local and deployed backends.
+Endpoints used: `POST /auth/register`, `POST /auth/login`.
+
+## Deploy on Vercel
+
+This app deploys to Vercel with zero config — Vercel auto-detects Next.js
+(build command `next build`, no special settings). Import the repo at
+[vercel.com/new](https://vercel.com/new) and add one environment variable in
+the project settings:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=https://your-backend-url
+```
+
+next/image optimization and the App Router run natively on Vercel — no extra
+configuration required.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More

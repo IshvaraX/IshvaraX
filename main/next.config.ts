@@ -1,20 +1,10 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   reactStrictMode: false,
-// }
+import type { NextConfig } from "next";
 
-// export default nextConfig
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: false,
-  output: 'export', // Required for GitHub Pages
   images: {
-    unoptimized: true, // Required for static export
+    formats: ["image/avif", "image/webp"],
   },
-  basePath: '/IshvaraX', // Your repository name
-  assetPrefix: '/IshvaraX/', // Your repository name
-  trailingSlash: true,
-}
+};
 
-export default nextConfig
+export default nextConfig;

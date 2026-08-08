@@ -1,6 +1,9 @@
-import Navbar from "@/component/nav/Navbar";
+import AppShell from "@/component/nav/AppShell";
 import SectionGrid from "@/component/home/Grid";
 import Hero from "@/component/home/Hero";
+import Stats from "@/component/home/Stats";
+import HowItWorks from "@/component/home/HowItWorks";
+import LatestProject from "@/component/home/LatestProject";
 import Founders from "@/component/home/Founders";
 import Footer from "@/component/home/Footer";
 import SiteContent from "@/app/section.json";
@@ -28,11 +31,13 @@ const sectionIcons = {
 
 const Home = () => {
   return (
-    <>
-      <Navbar />
+    <AppShell>
       <Hero />
+      <Stats />
+      <HowItWorks />
+      <LatestProject />
       <main className="bg-[rgb(var(--background-rgb))] text-[rgb(var(--foreground-rgb))]">
-        {Object.entries(SiteContent).map(([key, section]) => {
+        {Object.entries(SiteContent).map(([key, section], index) => {
           const icon = sectionIcons[key as keyof typeof sectionIcons];
 
           return (
@@ -42,13 +47,14 @@ const Home = () => {
               sectionTitle={section.title}
               cards={section.cards}
               id={key}
+              accentIndex={index}
             />
           );
         })}
       </main>
       <Founders />
       <Footer />
-    </>
+    </AppShell>
   );
 };
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   FiInstagram,
   FiFacebook,
@@ -34,30 +35,78 @@ const socials = [
   },
 ];
 
+const columns = [
+  {
+    heading: "Program",
+    links: [
+      { label: "How it works", href: "/#how-it-works" },
+      { label: "About", href: "/#about" },
+      { label: "Projects", href: "/projects" },
+      { label: "Founders", href: "/#founders" },
+    ],
+  },
+  {
+    heading: "Get started",
+    links: [
+      { label: "Join the community", href: "/register" },
+      { label: "Sign in", href: "/login" },
+      { label: "Reset password", href: "/reset-password" },
+    ],
+  },
+];
+
 const Footer = () => {
   return (
-    <div className="px-4 md:px-8 py-10 border-t border-[rgb(var(--border-rgb))]">
-      <div className="mx-auto max-w-6xl flex flex-col gap-6 items-center sm:flex-row sm:justify-between">
-        <span className="gdm-body text-[0.8rem]">
-          © {new Date().getFullYear()} IshvaraX · Proprietary
-        </span>
+    <footer className="border-t border-[rgb(var(--border-rgb))]">
+      <div className="mx-auto max-w-6xl px-4 py-14 md:px-8">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+          <div>
+            <h2 className="g-heading-sm mb-2">IshvaraX</h2>
+            <p className="g-body max-w-xs">
+              Uplifting people who love to code — powered by PINAKA.
+            </p>
+            <div className="mt-5 flex gap-1">
+              {socials.map(({ name, href, icon: Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[rgb(var(--muted-rgb))] transition-colors hover:bg-[rgb(var(--surface-rgb))] hover:text-[rgb(var(--foreground-rgb))]"
+                  aria-label={name}
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
+            </div>
+          </div>
 
-        <div className="flex gap-1">
-          {socials.map(({ name, href, icon: Icon }) => (
-            <a
-              key={name}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full text-[rgb(var(--muted-rgb))] hover:text-[rgb(var(--foreground-rgb))] hover:bg-[rgb(var(--surface-rgb))] transition-colors"
-              aria-label={name}
-            >
-              <Icon size={16} />
-            </a>
+          {columns.map((column) => (
+            <div key={column.heading}>
+              <h3 className="g-eyebrow mb-4">{column.heading}</h3>
+              <ul className="flex flex-col gap-3">
+                {column.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-[0.9rem] text-[rgb(var(--muted-rgb))] transition-colors hover:text-[rgb(var(--foreground-rgb))]"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
+
+        <div className="mt-12 border-t border-[rgb(var(--border-rgb))] pt-6">
+          <span className="g-body text-[0.8rem]">
+            © {new Date().getFullYear()} IshvaraX · Proprietary
+          </span>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

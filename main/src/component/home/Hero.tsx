@@ -1,76 +1,76 @@
-const HeroColumn = ({
-  title,
-  description,
-  tag,
-}: {
-  title: string;
-  description: string;
-  tag: string;
-}) => {
-  return (
-    <div className="gdm-card">
-      {/* <div className="gdm-card-media flex items-center justify-center">
-        <span className="gdm-eyebrow">{tag}</span>
-      </div> */}
-      <div className="gdm-card-body">
-        <h2 className="gdm-heading-md mb-2">{title}</h2>
-        <p className="gdm-body mb-4">{description}</p>
-        <a href="#" className="gdm-link">
-          Learn more <span className="arrow">→</span>
-        </a>
-      </div>
-    </div>
-  );
-};
+import Link from "next/link";
+
+const HeroArt = () => (
+  <svg
+    viewBox="0 0 400 360"
+    className="w-full h-auto max-w-md mx-auto"
+    role="img"
+    aria-label="IshvaraX illustration"
+  >
+    <circle cx="300" cy="70" r="55" fill="rgb(var(--g-yellow))" opacity="0.9" />
+    <circle cx="90" cy="250" r="70" fill="rgb(var(--g-blue))" opacity="0.9" />
+    <rect
+      x="150"
+      y="130"
+      width="150"
+      height="150"
+      rx="6"
+      fill="rgb(var(--g-red))"
+      opacity="0.9"
+    />
+    <path
+      d="M60 90 h120 a6 6 0 0 1 6 6 v60 a6 6 0 0 1 -6 6 h-120 a6 6 0 0 1 -6 -6 v-60 a6 6 0 0 1 6 -6 z"
+      fill="rgb(var(--background-rgb))"
+      stroke="rgb(var(--foreground-rgb))"
+      strokeWidth="3"
+    />
+    <text
+      x="120"
+      y="160"
+      textAnchor="middle"
+      fontSize="34"
+      fontFamily="monospace"
+      fill="rgb(var(--foreground-rgb))"
+    >
+      &lt;/&gt;
+    </text>
+    <circle cx="300" cy="300" r="26" fill="rgb(var(--g-green))" />
+  </svg>
+);
 
 const Hero = () => {
-  const columns = [
-    {
-      title: "Research",
-      description:
-        "Advanced neuroscience and AI research focused on brain-computer interfaces and neural pattern analysis.",
-      tag: "Neural Synthesis AI",
-    },
-    {
-      title: "Technology",
-      description:
-        "Developing PINAKA platform for brainwave prediction and neural activity analysis using AI models.",
-      tag: "PINAKA Platform",
-    },
-    {
-      title: "Impact",
-      description:
-        "Ethical AI development and public service initiatives through Jan-Seva for accessible technology.",
-      tag: "Jan-Seva AI",
-    },
-  ];
-
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 pt-24 pb-16"
+      className="px-4 sm:px-6 pt-28 pb-16 md:pt-32 md:pb-24"
     >
-      <div className="w-full max-w-5xl mx-auto">
-        <div className="text-center mb-14">
-          <span className="gdm-eyebrow block mb-4">
-            Building the future of neural AI
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-2">
+        <div>
+          <span className="g-eyebrow g-eyebrow-blue block mb-4">
+            A community for people who love to code
           </span>
-          <h1 className="gdm-heading-xl mb-5">IshvaraX</h1>
-          <p className="gdm-body text-base md:text-lg max-w-2xl mx-auto">
-            Decoding human consciousness through Brain-Computer Interfaces and
-            Predictive AI.
+          <h1 className="g-heading-xl mb-5">
+            IshvaraX
+            <span className="block text-[rgb(var(--g-blue))]">
+              Uplifting coders
+            </span>
+          </h1>
+          <p className="g-body text-base md:text-lg max-w-xl mb-8">
+            IshvaraX is a community built to uplift people who love to code — a
+            place to learn, collaborate, and grow together.
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/register" className="g-btn g-btn-primary">
+              Join the community
+            </Link>
+            <Link href="/projects" className="g-btn">
+              Browse projects
+            </Link>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {columns.map((column, index) => (
-            <HeroColumn
-              key={index}
-              title={column.title}
-              description={column.description}
-              tag={column.tag}
-            />
-          ))}
+        <div className="order-first md:order-last">
+          <HeroArt />
         </div>
       </div>
     </section>
