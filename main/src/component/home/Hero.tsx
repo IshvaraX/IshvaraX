@@ -1,76 +1,114 @@
-import Link from "next/link";
+"use client";
 
-const HeroArt = () => (
-  <svg
-    viewBox="0 0 400 360"
-    className="w-full h-auto max-w-md mx-auto"
-    role="img"
-    aria-label="IshvaraX illustration"
-  >
-    <circle cx="300" cy="70" r="55" fill="rgb(var(--g-yellow))" opacity="0.9" />
-    <circle cx="90" cy="250" r="70" fill="rgb(var(--g-blue))" opacity="0.9" />
-    <rect
-      x="150"
-      y="130"
-      width="150"
-      height="150"
-      rx="6"
-      fill="rgb(var(--g-red))"
-      opacity="0.9"
-    />
-    <path
-      d="M60 90 h120 a6 6 0 0 1 6 6 v60 a6 6 0 0 1 -6 6 h-120 a6 6 0 0 1 -6 -6 v-60 a6 6 0 0 1 6 -6 z"
-      fill="rgb(var(--background-rgb))"
-      stroke="rgb(var(--foreground-rgb))"
-      strokeWidth="3"
-    />
-    <text
-      x="120"
-      y="160"
-      textAnchor="middle"
-      fontSize="34"
-      fontFamily="monospace"
-      fill="rgb(var(--foreground-rgb))"
-    >
-      &lt;/&gt;
-    </text>
-    <circle cx="300" cy="300" r="26" fill="rgb(var(--g-green))" />
-  </svg>
-);
+import { useMemo } from "react";
+import Link from "next/link";
+import { useProjects } from "@/context/ProjectsContext";
+import content from "@/app/site-content.json";
+
+const { hero } = content;
+
+// Pick a random card colour within a hue range (white text stays readable).
+const HUE_MIN = 205; // blue
+const HUE_MAX = 340; // through indigo/purple to pink
+const randomCardColor = () => {
+  const hue = Math.floor(HUE_MIN + Math.random() * (HUE_MAX - HUE_MIN));
+  return { bg: `hsl(${hue} 52% 42%)`, fg: "#ffffff" };
+};
 
 const Hero = () => {
+  const { projects } = useProjects();
+  const open = projects.filter((p) => p.status === "open");
+
+  // One random colour per project, stable across re-renders (matches marquee copies).
+  const ids = open.map((p) => p.id).join(",");
+  const colorMap = useMemo(() => {
+    const map: Record<string, { bg: string; fg: string }> = {};
+    for (const p of open) map[p.id] = randomCardColor();
+    return map;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ids]);
+
+  // Each row shows all open projects, rotated so the three rows differ.
+  const rotate = <T,>(arr: T[], n: number) =>
+    arr.length ? arr.slice(n % arr.length).concat(arr.slice(0, n % arr.length)) : arr;
+  const rows = [0, 1, 2].map((r) => rotate(open, r));
+
   return (
     <section
       id="hero"
-      className="px-4 sm:px-6 pt-28 pb-16 md:pt-32 md:pb-24"
+      className="flex min-h-[calc(100dvh-4rem)] items-center border-b border-[var(--border)] px-4 py-8 sm:px-6 md:px-8"
     >
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-2">
-        <div>
-          <span className="g-eyebrow g-eyebrow-blue block mb-4">
-            A community for people who love to code
-          </span>
-          <h1 className="g-heading-xl mb-5">
-            IshvaraX
-            <span className="block text-[rgb(var(--g-blue))]">
-              Uplifting coders
-            </span>
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="mb-6 text-center">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+            {hero.headingLead}
           </h1>
-          <p className="g-body text-base md:text-lg max-w-xl mb-8">
-            IshvaraX is a community built to uplift people who love to code — a
-            place to learn, collaborate, and grow together.
+          <p className="mx-auto mt-3 max-w-xl text-base text-[var(--muted)] md:text-lg">
+            {hero.subtitle}
           </p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/register" className="g-btn g-btn-primary">
-              Join the community
-            </Link>
-            <Link href="/projects" className="g-btn">
-              Browse projects
-            </Link>
-          </div>
         </div>
 
-        <div className="order-first md:order-last">
-          <HeroArt />
+        {open.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            {rows.map((row, r) =>
+              row.length === 0 ? null : (
+                <div
+                  key={r}
+                  className="g-marquee-wrap flex justify-center overflow-hidden"
+                >
+                  <div
+                    className={`g-marquee ${r === 1 ? "g-marquee--reverse" : ""}`}
+                  >
+                    {[...row, ...row].map((p, i) => {
+                      const c = colorMap[p.id];
+                      return (
+                        <a
+                          key={`${p.id}-${r}-${i}`}
+                          href="#projects"
+                          aria-hidden={i >= row.length}
+                          className="block shrink-0"
+                        >
+                          <div
+                            className="flex min-h-[104px] w-[220px] flex-col justify-between rounded-2xl p-4"
+                            style={{ background: c.bg, color: c.fg }}
+                          >
+                            <span className="text-[0.7rem] font-semibold uppercase tracking-widest opacity-80">
+                              {p.skills[0] ?? "Open"}
+                            </span>
+                            <div>
+                              <span className="block text-base font-semibold leading-snug">
+                                {p.title}
+                              </span>
+                              {p.duration && (
+                                <span className="mt-1 block text-xs opacity-80">
+                                  {p.duration}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
+            <p className="text-[var(--muted)]">
+              No open projects right now — check back soon.
+            </p>
+          </div>
+        )}
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <Link href={hero.cta.href} className="g-btn g-btn-primary px-7 py-3">
+            {hero.cta.label}
+          </Link>
+          <Link href={hero.ctaSecondary.href} className="g-btn px-7 py-3">
+            {hero.ctaSecondary.label}
+          </Link>
         </div>
       </div>
     </section>

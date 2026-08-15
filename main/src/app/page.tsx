@@ -1,58 +1,22 @@
 import AppShell from "@/component/nav/AppShell";
-import SectionGrid from "@/component/home/Grid";
 import Hero from "@/component/home/Hero";
-import Stats from "@/component/home/Stats";
-import HowItWorks from "@/component/home/HowItWorks";
-import LatestProject from "@/component/home/LatestProject";
-import Founders from "@/component/home/Founders";
+import FreelanceProjects from "@/component/home/FreelanceProjects";
+import GetStarted from "@/component/home/GetStarted";
+import Explore from "@/component/home/Explore";
+import Pinaka from "@/component/home/Pinaka";
 import Footer from "@/component/home/Footer";
-import SiteContent from "@/app/section.json";
-
-import { GiBrain, GiProcessor } from "react-icons/gi";
-import {
-  FaHandshake,
-  FaShieldAlt,
-  FaRocket,
-  FaHeart,
-  FaBullseye,
-  FaFlask,
-} from "react-icons/fa";
-
-const sectionIcons = {
-  pinaka: <GiBrain className="w-8 h-8" />,
-  core_mission: <FaBullseye className="w-8 h-8" />,
-  social_mission: <FaHandshake className="w-8 h-8" />,
-  technology: <GiProcessor className="w-8 h-8" />,
-  janseva: <FaHeart className="w-8 h-8" />,
-  research: <FaFlask className="w-8 h-8" />,
-  ethics: <FaShieldAlt className="w-8 h-8" />,
-  future: <FaRocket className="w-8 h-8" />,
-};
+import { HomeSearchProvider } from "@/context/HomeSearchContext";
 
 const Home = () => {
   return (
     <AppShell>
-      <Hero />
-      <Stats />
-      <HowItWorks />
-      <LatestProject />
-      <main className="bg-[rgb(var(--background-rgb))] text-[rgb(var(--foreground-rgb))]">
-        {Object.entries(SiteContent).map(([key, section], index) => {
-          const icon = sectionIcons[key as keyof typeof sectionIcons];
-
-          return (
-            <SectionGrid
-              key={key}
-              icon={icon}
-              sectionTitle={section.title}
-              cards={section.cards}
-              id={key}
-              accentIndex={index}
-            />
-          );
-        })}
-      </main>
-      <Founders />
+      <HomeSearchProvider>
+        <Hero />
+        <FreelanceProjects />
+      </HomeSearchProvider>
+      <GetStarted />
+      <Explore />
+      <Pinaka />
       <Footer />
     </AppShell>
   );

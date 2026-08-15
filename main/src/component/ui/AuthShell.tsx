@@ -10,7 +10,7 @@ type AuthShellProps = {
 
 /** Centered card layout shared by the login and register pages. */
 const AuthShell = ({ title, subtitle, children, footer }: AuthShellProps) => (
-  <main className="min-h-screen flex items-center justify-center px-4 py-16 bg-[rgb(var(--background-rgb))]">
+  <main className="grid min-h-[100dvh] w-full place-items-center px-4 py-16 bg-[var(--background)]">
     <div className="w-full max-w-md">
       <div className="mb-8 text-center">
         <Link href="/" className="gdm-eyebrow inline-block mb-4">
@@ -20,7 +20,7 @@ const AuthShell = ({ title, subtitle, children, footer }: AuthShellProps) => (
         <p className="gdm-body">{subtitle}</p>
       </div>
 
-      <div className="rounded-3xl border border-[rgb(var(--border-rgb))] bg-[rgb(var(--surface-rgb))] p-6 md:p-8">
+      <div className="rounded-3xl border border-[var(--border)] bg-[var(--background)] p-6 md:p-8">
         {children}
       </div>
 

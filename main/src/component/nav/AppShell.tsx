@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
-import Sidebar from "@/component/nav/Sidebar";
+import Header from "@/component/nav/Header";
 
-/** App layout with a fixed left sidebar and offset content. */
+/** App layout: minimal sticky header above the page content. */
 const AppShell = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen">
-    <Sidebar />
-    <div className="pt-14 md:pt-0 md:pl-64">{children}</div>
+    <Header />
+    {children}
   </div>
 );
 

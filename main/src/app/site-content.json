@@ -1,0 +1,121 @@
+{
+  "site": {
+    "name": "IshvaraX",
+    "tagline": "A community for people who love to code."
+  },
+  "nav": [
+    { "label": "Projects", "href": "/#projects" },
+    { "label": "Get started", "href": "/#get-started" },
+    { "label": "Explore", "href": "/#explore" }
+  ],
+  "auth": {
+    "logIn": "Log in",
+    "signUp": "Sign up",
+    "signOut": "Sign out"
+  },
+  "hero": {
+    "headingLead": "Explore open projects",
+    "subtitle": "Pick a project that matches your skills and start building with the community.",
+    "cta": { "label": "Join now", "href": "/register" },
+    "ctaSecondary": { "label": "Browse projects", "href": "/projects" }
+  },
+  "projects": {
+    "label": "Projects",
+    "heading": "Find work to build",
+    "viewAll": "View all",
+    "emptyFiltered": "No projects match your search. Try a different keyword or filter.",
+    "emptyRest": "More projects coming soon.",
+    "filters": [
+      { "key": "all", "label": "All" },
+      { "key": "open", "label": "Open" },
+      { "key": "closed", "label": "Closed" }
+    ]
+  },
+  "getStarted": {
+    "label": "Get started",
+    "heading": "Start building with the community",
+    "cards": [
+      {
+        "title": "Create your account",
+        "description": "Set up your profile and tell us the skills you love to build with.",
+        "cta": "Create account",
+        "href": "/register",
+        "image": "https://picsum.photos/seed/ishvarax-start-1/800/500"
+      },
+      {
+        "title": "Browse open projects",
+        "description": "Find real projects that match your skills and interests.",
+        "cta": "Browse projects",
+        "href": "/projects",
+        "image": "https://picsum.photos/seed/ishvarax-start-2/800/500"
+      },
+      {
+        "title": "Apply with your work",
+        "description": "Share your links and apply to the projects that excite you.",
+        "cta": "Apply now",
+        "href": "#projects",
+        "image": "https://picsum.photos/seed/ishvarax-start-3/800/500"
+      }
+    ]
+  },
+  "explore": {
+    "label": "Explore what's possible",
+    "heading": "A place to learn and grow",
+    "cards": [
+      {
+        "eyebrow": "For beginners",
+        "title": "Learn by building",
+        "description": "Grow your skills on real projects alongside people who love to code.",
+        "href": "/register",
+        "image": "https://picsum.photos/seed/ishvarax-explore-1/900/560"
+      },
+      {
+        "eyebrow": "For builders",
+        "title": "Ship real work",
+        "description": "Contribute, collaborate, and gain experience you can point to.",
+        "href": "/projects",
+        "image": "https://picsum.photos/seed/ishvarax-explore-2/900/560"
+      },
+      {
+        "eyebrow": "For collaborators",
+        "title": "Find your people",
+        "description": "Join a supportive community and build things together.",
+        "href": "/register",
+        "image": "https://picsum.photos/seed/ishvarax-explore-3/900/560"
+      },
+      {
+        "eyebrow": "For open source",
+        "title": "Give back",
+        "description": "Help maintain and improve the tools the whole community uses.",
+        "href": "/projects",
+        "image": "https://picsum.photos/seed/ishvarax-explore-4/900/560"
+      }
+    ]
+  },
+  "pinaka": {
+    "label": "Side project",
+    "heading": "PINAKA",
+    "body": "PINAKA is a separate, independent research side project of ours. It is unrelated to the IshvaraX community and carries no promises to members — we mention it only for transparency."
+  },
+  "footer": {
+    "tagline": "A community for people who love to code.",
+    "columns": [
+      {
+        "heading": "Program",
+        "links": [
+          { "label": "Get started", "href": "/#get-started" },
+          { "label": "Explore", "href": "/#explore" },
+          { "label": "Projects", "href": "/projects" }
+        ]
+      },
+      {
+        "heading": "Get started",
+        "links": [
+          { "label": "Join the community", "href": "/register" },
+          { "label": "Sign in", "href": "/login" },
+          { "label": "Reset password", "href": "/reset-password" }
+        ]
+      }
+    ]
+  }
+}

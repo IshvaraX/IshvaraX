@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import AppShell from "@/component/nav/AppShell";
 import { useAuth } from "@/context/AuthContext";
 import { useProjects, type NewProject } from "@/context/ProjectsContext";
-import { ApiError } from "@/lib/api";
+import { ApiError, authApi } from "@/lib/api";
 
 const ADMIN_USERNAME = "admin";
+const ADMIN_PW_KEY = "ishvarax.adminpw";
 
 const emptyForm = {
   title: "",
@@ -25,12 +26,29 @@ const AdminPage = () => {
     addProject,
     deleteProject,
     applicationsFor,
+    refreshApplications,
   } = useProjects();
   const [form, setForm] = useState(emptyForm);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [adminPassword, setAdminPassword] = useState("");
+  const [adminPw, setAdminPw] = useState("");
   const [authError, setAuthError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
+  const [cleanupMsg, setCleanupMsg] = useState<string | null>(null);
+  const [cleanupLoading, setCleanupLoading] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const isAdmin = user?.username === ADMIN_USERNAME;
+
+  // Restore the admin password (kept only for this tab) and load applications.
+  useEffect(() => {
+    if (!isAdmin) return;
+    const stored = adminPw || sessionStorage.getItem(ADMIN_PW_KEY) || "";
+    if (!stored) return;
+    if (!adminPw) setAdminPw(stored);
+    refreshApplications(stored).catch(() => {});
+  }, [isAdmin, adminPw, refreshApplications]);
 
   const onChange = (
     e: React.ChangeEvent<
@@ -38,8 +56,9 @@ const AdminPage = () => {
     >
   ) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError(null);
     const project: NewProject = {
       title: form.title.trim(),
       description: form.description.trim(),
@@ -51,11 +70,41 @@ const AdminPage = () => {
       duration: form.duration.trim() || undefined,
       status: form.status,
     };
-    addProject(project);
-    setForm(emptyForm);
+    setSaving(true);
+    try {
+      await addProject(project, adminPw);
+      setForm(emptyForm);
+    } catch (err) {
+      setFormError(
+        err instanceof ApiError ? err.message : "Could not publish the project."
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const isAdmin = user?.username === ADMIN_USERNAME;
+  const onDelete = async (id: string) => {
+    try {
+      await deleteProject(id, adminPw);
+    } catch {
+      // ignore — the list stays as-is if the delete fails
+    }
+  };
+
+  const onCleanup = async () => {
+    setCleanupMsg(null);
+    setCleanupLoading(true);
+    try {
+      const res = await authApi.cleanupTokens();
+      setCleanupMsg(res.message ?? "Cleanup complete.");
+    } catch (err) {
+      setCleanupMsg(
+        err instanceof ApiError ? err.message : "Cleanup failed."
+      );
+    } finally {
+      setCleanupLoading(false);
+    }
+  };
 
   const onAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +112,9 @@ const AdminPage = () => {
     setAuthLoading(true);
     try {
       await login({ username: ADMIN_USERNAME, password: adminPassword });
+      setAdminPw(adminPassword);
+      sessionStorage.setItem(ADMIN_PW_KEY, adminPassword);
+      refreshApplications(adminPassword).catch(() => {});
       setAdminPassword("");
     } catch (err) {
       setAuthError(
@@ -134,6 +186,23 @@ const AdminPage = () => {
         </p>
       </div>
 
+      {/* Maintenance — uses the backend /auth/cleanup-tokens endpoint */}
+      <div className="mb-10 flex flex-wrap items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
+        <span className="g-body flex-1 text-sm">
+          Maintenance · remove expired and used password-reset tokens.
+        </span>
+        <button
+          onClick={onCleanup}
+          disabled={cleanupLoading}
+          className="g-btn disabled:opacity-60"
+        >
+          {cleanupLoading ? "Cleaning…" : "Clean up reset tokens"}
+        </button>
+        {cleanupMsg && (
+          <span className="g-body w-full text-sm">{cleanupMsg}</span>
+        )}
+      </div>
+
       <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
         {/* Add project form */}
         <section className="g-card h-fit">
@@ -151,7 +220,7 @@ const AdminPage = () => {
               name="description"
               required
               rows={4}
-              placeholder="Short description of the work"
+              placeholder="Description of the work — Markdown supported (**bold**, lists, `code`, links)"
               value={form.description}
               onChange={onChange}
               className="g-input resize-none"
@@ -188,8 +257,17 @@ const AdminPage = () => {
               <option value="open">Open for applications</option>
               <option value="closed">Closed</option>
             </select>
-            <button type="submit" className="g-btn g-btn-primary self-start mt-1">
-              Publish project
+            {formError && (
+              <p className="text-[0.85rem] text-red-500" role="alert">
+                {formError}
+              </p>
+            )}
+            <button
+              type="submit"
+              disabled={saving}
+              className="g-btn g-btn-primary self-start mt-1 disabled:opacity-60"
+            >
+              {saving ? "Publishing…" : "Publish project"}
             </button>
           </form>
         </section>
@@ -212,7 +290,7 @@ const AdminPage = () => {
                     <h3 className="g-heading-sm">{project.title}</h3>
                     <button
                       type="button"
-                      onClick={() => deleteProject(project.id)}
+                      onClick={() => onDelete(project.id)}
                       className="g-btn g-btn-danger"
                     >
                       Delete
@@ -231,28 +309,51 @@ const AdminPage = () => {
                   </button>
 
                   {isExpanded && (
-                    <div className="mt-4 flex flex-col gap-3 border-t border-[rgb(var(--border-rgb))] pt-4">
+                    <div className="mt-4 flex flex-col gap-3 border-t border-[var(--border)] pt-4">
                       {apps.length === 0 && (
                         <p className="g-body">No applications yet.</p>
                       )}
                       {apps.map((app) => (
                         <div
                           key={app.id}
-                          className="rounded-xl bg-[rgb(var(--surface-rgb))] p-3"
+                          className="rounded-xl border border-[var(--border)] bg-[var(--background)] p-3"
                         >
-                          <div className="flex items-center justify-between">
-                            <span className="font-medium text-[0.9rem]">
-                              {app.name}
-                            </span>
-                            <a
-                              href={`mailto:${app.email}`}
-                              className="g-link text-[0.8rem]"
-                            >
-                              {app.email}
-                            </a>
+                          <div className="flex items-center gap-3">
+                            {app.photo ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={app.photo}
+                                alt={app.username}
+                                className="h-9 w-9 shrink-0 rounded-lg border border-[var(--border)] object-cover"
+                              />
+                            ) : null}
+                            <div className="min-w-0">
+                              <span className="font-semibold text-[0.9rem]">
+                                @{app.username}
+                              </span>
+                              {app.email && (
+                                <span className="ml-2 text-[0.8rem] text-[var(--muted)]">
+                                  {app.email}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                          <p className="g-body text-[0.85rem] mt-1">
-                            {app.message}
+                          {app.skills && app.skills.length > 0 && (
+                            <div className="mt-2 flex flex-wrap gap-1.5">
+                              {app.skills.map((s) => (
+                                <span key={s} className="g-chip">
+                                  {s}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {app.language && (
+                            <p className="mt-2 text-[0.8rem] text-[var(--muted)]">
+                              Languages: {app.language}
+                            </p>
+                          )}
+                          <p className="g-body mt-2 whitespace-pre-wrap break-words text-[0.85rem]">
+                            {app.links}
                           </p>
                         </div>
                       ))}

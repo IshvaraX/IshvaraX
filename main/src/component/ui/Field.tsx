@@ -10,7 +10,7 @@ const Field = ({ label, id, ...props }: FieldProps) => (
     <span className="gdm-eyebrow">{label}</span>
     <input
       id={id}
-      className="w-full rounded-xl border border-[rgb(var(--border-rgb))] bg-[rgb(var(--surface-rgb))] px-4 py-2.5 text-[0.95rem] text-[rgb(var(--foreground-rgb))] outline-none transition-colors focus:border-[rgb(var(--muted-rgb))]"
+      className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-2.5 text-[0.95rem] text-[var(--foreground)] outline-none transition-colors focus:border-[var(--accent)]"
       {...props}
     />
   </label>

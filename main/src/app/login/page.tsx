@@ -41,7 +41,7 @@ const LoginPage = () => {
       footer={
         <>
           New here?{" "}
-          <Link href="/register" className="text-[rgb(var(--foreground-rgb))] font-medium">
+          <Link href="/register" className="text-[var(--foreground)] font-medium">
             Join as a freelancer
           </Link>
         </>
@@ -51,8 +51,8 @@ const LoginPage = () => {
         <Field
           id="username"
           name="username"
-          label="Username"
-          placeholder="your_username"
+          label="Username or email"
+          placeholder="your_username or you@example.com"
           autoComplete="username"
           required
           value={form.username}
@@ -72,7 +72,7 @@ const LoginPage = () => {
 
         <Link
           href="/reset-password"
-          className="self-end text-[0.8rem] text-[rgb(var(--muted-rgb))] hover:text-[rgb(var(--foreground-rgb))] transition-colors"
+          className="self-end text-[0.8rem] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
         >
           Forgot password?
         </Link>

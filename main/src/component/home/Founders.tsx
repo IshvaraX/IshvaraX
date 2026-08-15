@@ -43,7 +43,7 @@ const FounderCard = ({
   github,
 }: (typeof founders)[0]) => (
   <div className="group text-center">
-    <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden bg-[rgb(var(--surface-rgb))]">
+    <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden bg-[var(--surface)]">
       <Image
         src={image}
         alt={name}
@@ -53,7 +53,7 @@ const FounderCard = ({
       />
     </div>
 
-    <h3 className="text-[0.95rem] font-medium mb-1 text-[rgb(var(--foreground-rgb))]">
+    <h3 className="text-[0.95rem] font-medium mb-1 text-[var(--foreground)]">
       {name}
     </h3>
     <p className="gdm-body text-[0.8rem] mb-3">
@@ -64,7 +64,7 @@ const FounderCard = ({
       href={github}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center justify-center w-8 h-8 rounded-full text-[rgb(var(--muted-rgb))] hover:text-[rgb(var(--foreground-rgb))] hover:bg-[rgb(var(--surface-rgb))] transition-colors"
+      className="inline-flex items-center justify-center w-8 h-8 rounded-full text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface)] transition-colors"
       aria-label={`${name} on GitHub`}
     >
       <SiGithub size={16} />
@@ -76,7 +76,7 @@ export default function Founders() {
   return (
     <section
       id="founders"
-      className="w-full py-16 md:py-24 px-4 border-t border-[rgb(var(--border-rgb))]"
+      className="w-full py-16 md:py-24 px-4 border-t border-[var(--border)]"
     >
       <div className="max-w-6xl mx-auto mb-12 text-center">
         <span className="gdm-eyebrow block mb-3">Our team</span>

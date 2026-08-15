@@ -8,6 +8,11 @@ import {
   useMemo,
   useState,
 } from "react";
+import {
+  projectsApi,
+  type ApplicationDTO,
+  type ProjectDTO,
+} from "@/lib/api";
 
 export type Project = {
   id: string;
@@ -23,52 +28,43 @@ export type Project = {
 export type Application = {
   id: string;
   projectId: string;
-  name: string;
-  email: string;
-  message: string;
+  username: string;
+  links: string;
   createdAt: number;
+  email?: string;
+  skills?: string[];
+  language?: string;
+  photo?: string;
 };
 
 export type NewProject = Omit<Project, "id" | "createdAt">;
 export type NewApplication = Omit<Application, "id" | "projectId" | "createdAt">;
 
-const PROJECTS_KEY = "ishvarax.projects";
-const APPS_KEY = "ishvarax.applications";
-
-// Seed content so the home page has something before an admin adds projects.
-const seedProjects: Project[] = [
-  {
-    id: "seed-pinaka-eeg",
-    title: "EEG Signal Visualizer",
-    description:
-      "Build an interactive dashboard that renders EEG/brainwave streams with React and WebGL. A fun project to learn data visualization with the community.",
-    skills: ["React", "TypeScript", "WebGL", "Data Viz"],
-    duration: "Flexible",
-    status: "open",
-    createdAt: Date.now(),
-  },
-];
-
-function readStore<T>(key: string, fallback: T): T {
-  if (typeof window === "undefined") return fallback;
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
-  } catch {
-    return fallback;
-  }
+function normalizeProject(dto: ProjectDTO): Project {
+  return {
+    id: dto.id,
+    title: dto.title,
+    description: dto.description,
+    skills: dto.skills ?? [],
+    stipend: dto.stipend ?? undefined,
+    duration: dto.duration ?? undefined,
+    status: dto.status,
+    createdAt: dto.createdAt,
+  };
 }
 
-function writeStore<T>(key: string, value: T) {
-  if (typeof window !== "undefined") {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-}
-
-function makeId() {
-  return typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+function normalizeApplication(dto: ApplicationDTO): Application {
+  return {
+    id: dto.id,
+    projectId: dto.projectId,
+    username: dto.username,
+    links: dto.links,
+    createdAt: dto.createdAt,
+    email: dto.email ?? undefined,
+    skills: dto.skills ?? [],
+    language: dto.language ?? undefined,
+    photo: dto.photo ?? undefined,
+  };
 }
 
 type ProjectsContextValue = {
@@ -76,9 +72,11 @@ type ProjectsContextValue = {
   applications: Application[];
   isReady: boolean;
   latestProject: Project | null;
-  addProject: (data: NewProject) => Project;
-  deleteProject: (id: string) => void;
-  applyToProject: (projectId: string, data: NewApplication) => void;
+  refresh: () => Promise<void>;
+  refreshApplications: (adminPassword: string) => Promise<void>;
+  addProject: (data: NewProject, adminPassword: string) => Promise<Project>;
+  deleteProject: (id: string, adminPassword: string) => Promise<void>;
+  applyToProject: (projectId: string, data: NewApplication) => Promise<Application>;
   applicationsFor: (projectId: string) => Application[];
 };
 
@@ -91,54 +89,66 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
   const [applications, setApplications] = useState<Application[]>([]);
   const [isReady, setIsReady] = useState(false);
 
+  const refresh = useCallback(async () => {
+    try {
+      const list = await projectsApi.list();
+      setProjects(list.map(normalizeProject));
+    } catch {
+      // Leave the current list in place if the backend is unreachable.
+    } finally {
+      setIsReady(true);
+    }
+  }, []);
+
   useEffect(() => {
-    setProjects(readStore<Project[]>(PROJECTS_KEY, seedProjects));
-    setApplications(readStore<Application[]>(APPS_KEY, []));
-    setIsReady(true);
-  }, []);
+    refresh();
+  }, [refresh]);
 
-  const persistProjects = useCallback((next: Project[]) => {
-    setProjects(next);
-    writeStore(PROJECTS_KEY, next);
-  }, []);
-
-  const persistApplications = useCallback((next: Application[]) => {
-    setApplications(next);
-    writeStore(APPS_KEY, next);
+  const refreshApplications = useCallback(async (adminPassword: string) => {
+    const list = await projectsApi.listApplications(adminPassword);
+    setApplications(list.map(normalizeApplication));
   }, []);
 
   const addProject = useCallback(
-    (data: NewProject) => {
-      const project: Project = {
-        ...data,
-        id: makeId(),
-        createdAt: Date.now(),
-      };
-      persistProjects([project, ...projects]);
+    async (data: NewProject, adminPassword: string) => {
+      const created = await projectsApi.create(
+        {
+          title: data.title,
+          description: data.description,
+          skills: data.skills,
+          stipend: data.stipend,
+          duration: data.duration,
+          status: data.status,
+        },
+        adminPassword
+      );
+      const project = normalizeProject(created);
+      setProjects((prev) => [project, ...prev]);
       return project;
     },
-    [projects, persistProjects]
+    []
   );
 
   const deleteProject = useCallback(
-    (id: string) => {
-      persistProjects(projects.filter((p) => p.id !== id));
-      persistApplications(applications.filter((a) => a.projectId !== id));
+    async (id: string, adminPassword: string) => {
+      await projectsApi.remove(id, adminPassword);
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+      setApplications((prev) => prev.filter((a) => a.projectId !== id));
     },
-    [projects, applications, persistProjects, persistApplications]
+    []
   );
 
   const applyToProject = useCallback(
-    (projectId: string, data: NewApplication) => {
-      const application: Application = {
-        ...data,
-        id: makeId(),
-        projectId,
-        createdAt: Date.now(),
-      };
-      persistApplications([application, ...applications]);
+    async (projectId: string, data: NewApplication) => {
+      const created = await projectsApi.apply(projectId, {
+        username: data.username,
+        links: data.links,
+      });
+      const application = normalizeApplication(created);
+      setApplications((prev) => [application, ...prev]);
+      return application;
     },
-    [applications, persistApplications]
+    []
   );
 
   const applicationsFor = useCallback(
@@ -157,6 +167,8 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
       applications,
       isReady,
       latestProject,
+      refresh,
+      refreshApplications,
       addProject,
       deleteProject,
       applyToProject,
@@ -167,6 +179,8 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
       applications,
       isReady,
       latestProject,
+      refresh,
+      refreshApplications,
       addProject,
       deleteProject,
       applyToProject,

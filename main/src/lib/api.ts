@@ -14,6 +14,9 @@ export const ENDPOINTS = {
   forgotPassword: "/auth/forgot-password",
   verifyResetToken: "/auth/reset-password/verify",
   resetPassword: "/auth/reset-password",
+  cleanupTokens: "/auth/cleanup-tokens",
+  projects: "/projects",
+  applications: "/applications",
 } as const;
 
 export type AuthUser = {
@@ -32,6 +35,12 @@ export type RegisterPayload = {
   username: string;
   email: string;
   password: string;
+  pan?: string;
+  aadhaar?: string;
+  upi_id?: string;
+  photo?: string;
+  skills?: string[];
+  language?: string;
 };
 
 export type LoginPayload = {
@@ -51,6 +60,43 @@ export type TokenValidation = {
   expires_at: string;
 };
 
+export type ProjectDTO = {
+  id: string;
+  title: string;
+  description: string;
+  skills: string[];
+  stipend?: string | null;
+  duration?: string | null;
+  status: "open" | "closed";
+  createdAt: number;
+};
+
+export type ProjectCreatePayload = {
+  title: string;
+  description: string;
+  skills: string[];
+  stipend?: string;
+  duration?: string;
+  status: "open" | "closed";
+};
+
+export type ApplicationDTO = {
+  id: string;
+  projectId: string;
+  username: string;
+  links: string;
+  createdAt: number;
+  email?: string | null;
+  skills?: string[];
+  language?: string | null;
+  photo?: string | null;
+};
+
+export type ApplicationCreatePayload = {
+  username: string;
+  links: string;
+};
+
 class ApiError extends Error {
   status: number;
   constructor(message: string, status: number) {
@@ -61,13 +107,30 @@ class ApiError extends Error {
 }
 
 async function request<T>(path: string, body: unknown): Promise<T> {
+  return apiFetch<T>(path, { method: "POST", body });
+}
+
+type ApiFetchOptions = {
+  method?: "GET" | "POST" | "DELETE";
+  body?: unknown;
+  adminPassword?: string;
+};
+
+async function apiFetch<T>(
+  path: string,
+  { method = "GET", body, adminPassword }: ApiFetchOptions = {}
+): Promise<T> {
+  const headers: Record<string, string> = {};
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+  if (adminPassword) headers["X-Admin-Password"] = adminPassword;
+
   let res: Response;
   try {
     res = await fetch(`${API_BASE_URL}${path}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method,
+      headers,
       credentials: "include",
-      body: JSON.stringify(body),
+      body: body !== undefined ? JSON.stringify(body) : undefined,
     });
   } catch {
     throw new ApiError(
@@ -101,6 +164,30 @@ export const authApi = {
     request<TokenValidation>(ENDPOINTS.verifyResetToken, { token }),
   resetPassword: (payload: ResetPasswordPayload) =>
     request<AuthResponse>(ENDPOINTS.resetPassword, payload),
+  cleanupTokens: () =>
+    request<{ message?: string }>(ENDPOINTS.cleanupTokens, {}),
+};
+
+export const projectsApi = {
+  list: () => apiFetch<ProjectDTO[]>(ENDPOINTS.projects),
+  create: (payload: ProjectCreatePayload, adminPassword: string) =>
+    apiFetch<ProjectDTO>(ENDPOINTS.projects, {
+      method: "POST",
+      body: payload,
+      adminPassword,
+    }),
+  remove: (id: string, adminPassword: string) =>
+    apiFetch<{ message?: string }>(`${ENDPOINTS.projects}/${id}`, {
+      method: "DELETE",
+      adminPassword,
+    }),
+  apply: (projectId: string, payload: ApplicationCreatePayload) =>
+    apiFetch<ApplicationDTO>(
+      `${ENDPOINTS.projects}/${projectId}/applications`,
+      { method: "POST", body: payload }
+    ),
+  listApplications: (adminPassword: string) =>
+    apiFetch<ApplicationDTO[]>(ENDPOINTS.applications, { adminPassword }),
 };
 
 export { ApiError };

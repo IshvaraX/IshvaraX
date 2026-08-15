@@ -189,7 +189,7 @@ const ResetPasswordInner = () => {
       title="Reset password"
       subtitle="Request a reset token, then set a new password."
       footer={
-        <Link href="/login" className="text-[rgb(var(--foreground-rgb))] font-medium">
+        <Link href="/login" className="text-[var(--foreground)] font-medium">
           Back to sign in
         </Link>
       }

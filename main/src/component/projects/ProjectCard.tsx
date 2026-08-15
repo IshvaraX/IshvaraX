@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useProjects, type Project } from "@/context/ProjectsContext";
+import { useAuth } from "@/context/AuthContext";
+import Markdown from "@/component/ui/Markdown";
 
 type ProjectCardProps = {
   project: Project;
@@ -10,20 +13,28 @@ type ProjectCardProps = {
 };
 
 const ProjectCard = ({ project, featured, onDelete }: ProjectCardProps) => {
+  const { user } = useAuth();
   const { applyToProject } = useProjects();
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [links, setLinks] = useState("");
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    applyToProject(project.id, form);
-    setSubmitted(true);
-    setForm({ name: "", email: "", message: "" });
+    if (!user) return;
+    setError(null);
+    setSending(true);
+    try {
+      await applyToProject(project.id, { username: user.username, links });
+      setSubmitted(true);
+      setLinks("");
+    } catch {
+      setError("Could not submit your application. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const isOpen = project.status === "open";
@@ -41,7 +52,7 @@ const ProjectCard = ({ project, featured, onDelete }: ProjectCardProps) => {
         </span>
       </div>
 
-      <p className="g-body mt-2 flex-1">{project.description}</p>
+      <Markdown className="g-body mt-2 flex-1">{project.description}</Markdown>
 
       {project.skills.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
@@ -53,7 +64,7 @@ const ProjectCard = ({ project, featured, onDelete }: ProjectCardProps) => {
         </div>
       )}
 
-      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[0.8rem] text-[rgb(var(--muted-rgb))]">
+      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[0.8rem] text-[var(--muted)]">
         {project.stipend && <span>Stipend · {project.stipend}</span>}
         {project.duration && <span>Duration · {project.duration}</span>}
       </div>
@@ -83,43 +94,48 @@ const ProjectCard = ({ project, featured, onDelete }: ProjectCardProps) => {
       </div>
 
       {open && isOpen && (
-        <div className="mt-5 border-t border-[rgb(var(--border-rgb))] pt-5">
+        <div className="mt-5 border-t border-[var(--border)] pt-5">
           {submitted ? (
-            <p className="g-body text-[rgb(var(--g-green))]" role="status">
+            <p className="g-body text-[var(--status-open)]" role="status">
               Application received — we&apos;ll be in touch. Thank you!
             </p>
+          ) : !user ? (
+            <div className="flex flex-col gap-3">
+              <p className="g-body text-sm">
+                Please log in to apply for this project.
+              </p>
+              <Link href="/login" className="g-btn g-btn-primary self-start">
+                Log in
+              </Link>
+            </div>
           ) : (
             <form onSubmit={onSubmit} className="flex flex-col gap-3">
-              <input
-                name="name"
-                required
-                placeholder="Your name"
-                autoComplete="name"
-                value={form.name}
-                onChange={onChange}
-                className="g-input"
-              />
-              <input
-                name="email"
-                type="email"
-                required
-                placeholder="Your email"
-                autoComplete="email"
-                value={form.email}
-                onChange={onChange}
-                className="g-input"
-              />
+              <p className="g-body text-sm">
+                Applying as{" "}
+                <strong className="text-[var(--foreground)]">
+                  @{user.username}
+                </strong>
+              </p>
               <textarea
-                name="message"
+                name="links"
                 required
                 rows={3}
-                placeholder="Why are you a great fit? Share links to your work."
-                value={form.message}
-                onChange={onChange}
+                placeholder="Paste your work links — portfolio, GitHub, live demos…"
+                value={links}
+                onChange={(e) => setLinks(e.target.value)}
                 className="g-input resize-none"
               />
-              <button type="submit" className="g-btn g-btn-primary self-start">
-                Submit application
+              {error && (
+                <p className="text-[0.85rem] text-red-500" role="alert">
+                  {error}
+                </p>
+              )}
+              <button
+                type="submit"
+                disabled={sending}
+                className="g-btn g-btn-primary self-start disabled:opacity-60"
+              >
+                {sending ? "Submitting…" : "Submit application"}
               </button>
             </form>
           )}

@@ -25,7 +25,7 @@ const LatestProject = () => {
 
           <div className="grid gap-6 lg:grid-cols-2">
             <ProjectCard project={latestProject} featured />
-            <div className="flex flex-col justify-center rounded-lg bg-[rgb(var(--background-rgb))] border border-[rgb(var(--border-rgb))] p-8">
+            <div className="flex flex-col justify-center rounded-lg bg-[var(--background)] border border-[var(--border)] p-8">
               <h3 className="g-heading-md mb-2">New here?</h3>
               <p className="g-body mb-5">
                 Explore projects and get involved with a community that loves to
