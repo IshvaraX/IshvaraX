@@ -12,6 +12,7 @@ import {
   authApi,
   type AuthUser,
   type LoginPayload,
+  type ProfileUpdatePayload,
   type RegisterPayload,
 } from "@/lib/api";
 
@@ -26,6 +27,7 @@ type AuthContextValue = {
   isReady: boolean;
   login: (payload: LoginPayload) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
+  updateProfile: (payload: ProfileUpdatePayload) => Promise<void>;
   logout: () => void;
 };
 
@@ -55,17 +57,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = useCallback(async (payload: LoginPayload) => {
-    await authApi.login(payload);
-    const current: AuthUser = { username: payload.username };
-    persist(current);
-    setUser(current);
+    const res = await authApi.login(payload);
+    const profile = (res.user as AuthUser | undefined) ?? {
+      username: payload.username,
+    };
+    persist(profile);
+    setUser(profile);
   }, []);
 
   const register = useCallback(async (payload: RegisterPayload) => {
     await authApi.register(payload);
-    const current: AuthUser = { username: payload.username, email: payload.email };
+    const current: AuthUser = {
+      username: payload.username,
+      email: payload.email,
+      photo: payload.photo,
+      skills: payload.skills,
+      language: payload.language,
+    };
     persist(current);
     setUser(current);
+  }, []);
+
+  const updateProfile = useCallback(async (payload: ProfileUpdatePayload) => {
+    const res = await authApi.updateProfile(payload);
+    const profile = res.user as AuthUser | undefined;
+    if (profile) {
+      persist(profile);
+      setUser(profile);
+    }
   }, []);
 
   const logout = useCallback(() => {
@@ -74,8 +93,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ user, isReady, login, register, logout }),
-    [user, isReady, login, register, logout]
+    () => ({ user, isReady, login, register, updateProfile, logout }),
+    [user, isReady, login, register, updateProfile, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

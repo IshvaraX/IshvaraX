@@ -48,8 +48,6 @@ const FreelanceProjects = () => {
     return matchesQuery && matchesFilter;
   });
 
-  const [featured, ...rest] = filtered;
-
   const openApply = (p: Project) => {
     setActive(p);
     setSubmitted(false);
@@ -73,13 +71,13 @@ const FreelanceProjects = () => {
   };
 
   return (
-    <section id="projects" className="border-t border-[var(--border)] px-4 py-20 md:px-8 md:py-28">
+    <section id="projects" className="border-t border-[var(--border)] px-4 py-20 md:px-8 md:py-32">
       <div className="mx-auto w-full max-w-7xl">
         {/* Header */}
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="text-sm font-semibold text-[var(--accent)]">
-              {projectsContent.label}
+            <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
+              // {projectsContent.label}
             </span>
             <h2 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
               {projectsContent.heading}
@@ -106,12 +104,10 @@ const FreelanceProjects = () => {
                 key={chip.key}
                 type="button"
                 onClick={() => setFilter(chip.key)}
-                className="rounded-full border px-4 py-1.5 text-sm font-medium transition-colors"
+                className="rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors"
                 style={{
-                  background: activeChip
-                    ? "color-mix(in srgb, var(--accent) 14%, var(--background))"
-                    : "var(--background)",
-                  color: activeChip ? "var(--accent)" : "var(--foreground)",
+                  background: activeChip ? "var(--accent)" : "var(--surface)",
+                  color: activeChip ? "var(--on-accent)" : "var(--foreground)",
                   borderColor: activeChip ? "var(--accent)" : "var(--border)",
                 }}
               >
@@ -124,109 +120,48 @@ const FreelanceProjects = () => {
         {isReady && filtered.length === 0 ? (
           <p className="g-body">{projectsContent.emptyFiltered}</p>
         ) : (
-          <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-            {/* Featured project */}
-            {featured &&
-              (() => {
-                const isOpen = featured.status === "open";
-                return (
-                  <article
-                    onClick={() => isOpen && openApply(featured)}
-                    className="flex flex-col"
-                    style={{ cursor: isOpen ? "pointer" : "default" }}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((project) => {
+              const isOpen = project.status === "open";
+              return (
+                <article
+                  key={project.id}
+                  onClick={() => isOpen && openApply(project)}
+                  className="flex h-full flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 transition-transform hover:-translate-y-1"
+                  style={{ cursor: isOpen ? "pointer" : "default" }}
+                >
+                  <span
+                    className="inline-flex w-fit items-center rounded-full px-3 py-1 text-[0.68rem] font-bold uppercase tracking-widest"
+                    style={{
+                      background: isOpen ? "var(--status-open)" : "var(--border)",
+                      color: isOpen ? "#202124" : "var(--muted)",
+                    }}
                   >
-                    <h3 className="g-heading-lg !text-2xl md:!text-4xl">
-                      {featured.title}
-                    </h3>
-                    <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.8rem] text-[var(--muted)]">
-                      <span
-                        style={{
-                          color: isOpen
-                            ? "var(--status-open)"
-                            : "var(--status-closed)",
-                          fontWeight: 600,
-                        }}
-                      >
-                        {isOpen ? "Open" : "Closed"}
-                      </span>
-                      {featured.skills[0] && (
-                        <>
-                          <span className="opacity-40">·</span>
-                          <span>{featured.skills[0]}</span>
-                        </>
-                      )}
-                      {featured.duration && (
-                        <>
-                          <span className="opacity-40">·</span>
-                          <span>{featured.duration}</span>
-                        </>
-                      )}
-                      {isOpen && (
-                        <>
-                          <span className="opacity-40">·</span>
-                          <span className="g-link">
-                            Apply <span className="arrow">→</span>
-                          </span>
-                        </>
-                      )}
-                    </div>
-                    <Markdown className="g-body mt-4 max-w-xl">
-                      {featured.description}
-                    </Markdown>
-                  </article>
-                );
-              })()}
-
-            {/* Remaining projects — list with thumbnails */}
-            <div className="flex flex-col border-t border-[var(--border)]">
-              {rest.length === 0 && (
-                <p className="g-body py-6">{projectsContent.emptyRest}</p>
-              )}
-              {rest.map((project) => {
-                const isOpen = project.status === "open";
-                return (
-                  <article
-                    key={project.id}
-                    onClick={() => isOpen && openApply(project)}
-                    className="flex items-center justify-between gap-5 border-b border-[var(--border)] py-5"
-                    style={{ cursor: isOpen ? "pointer" : "default" }}
-                  >
-                    <div className="min-w-0">
-                      <h3 className="g-heading-sm">{project.title}</h3>
-                      <p className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.8rem] text-[var(--muted)]">
-                        <span
-                          style={{
-                            color: isOpen
-                              ? "var(--status-open)"
-                              : "var(--status-closed)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {isOpen ? "Open" : "Closed"}
-                        </span>
-                        {project.skills[0] && (
-                          <>
-                            <span className="opacity-40">·</span>
-                            <span>{project.skills[0]}</span>
-                          </>
-                        )}
-                        {project.duration && (
-                          <>
-                            <span className="opacity-40">·</span>
-                            <span>{project.duration}</span>
-                          </>
-                        )}
-                      </p>
-                    </div>
-                    {isOpen && (
-                      <span className="g-link shrink-0">
-                        Apply <span className="arrow">→</span>
-                      </span>
+                    {isOpen ? "Open" : "Closed"}
+                  </span>
+                  <h3 className="g-heading-sm mt-4 text-xl">{project.title}</h3>
+                  <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.8rem] text-[var(--muted)]">
+                    {project.skills[0] && <span>{project.skills[0]}</span>}
+                    {project.duration && (
+                      <>
+                        <span className="opacity-40">·</span>
+                        <span>{project.duration}</span>
+                      </>
                     )}
-                  </article>
-                );
-              })}
-            </div>
+                  </p>
+                  <div className="mt-3 line-clamp-4 text-[var(--muted)]">
+                    <Markdown className="g-body !text-[0.9rem]">
+                      {project.description}
+                    </Markdown>
+                  </div>
+                  {isOpen && (
+                    <span className="g-link mt-5 font-semibold text-[var(--accent-2)]">
+                      Apply <span className="arrow">→</span>
+                    </span>
+                  )}
+                </article>
+              );
+            })}
           </div>
         )}
       </div>

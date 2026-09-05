@@ -4,9 +4,10 @@
     "tagline": "A community for people who love to code."
   },
   "nav": [
+    { "label": "How it works", "href": "/#roadmap" },
     { "label": "Projects", "href": "/#projects" },
-    { "label": "Get started", "href": "/#get-started" },
-    { "label": "Explore", "href": "/#explore" }
+    { "label": "Learnings", "href": "/learnings" },
+    { "label": "Blog", "href": "/blog" }
   ],
   "auth": {
     "logIn": "Log in",
@@ -98,22 +99,38 @@
     "body": "PINAKA is a separate, independent research side project of ours. It is unrelated to the IshvaraX community and carries no promises to members — we mention it only for transparency."
   },
   "footer": {
-    "tagline": "A community for people who love to code.",
+    "tagline": "A community for the upliftment of people who love to code — learn, collaborate, and build real projects together.",
     "columns": [
       {
-        "heading": "Program",
+        "heading": "Explore",
         "links": [
-          { "label": "Get started", "href": "/#get-started" },
-          { "label": "Explore", "href": "/#explore" },
-          { "label": "Projects", "href": "/projects" }
+          { "label": "How it works", "href": "/#roadmap" },
+          { "label": "Open projects", "href": "/#projects" },
+          { "label": "Learnings", "href": "/learnings" },
+          { "label": "Blog", "href": "/blog" }
         ]
       },
       {
-        "heading": "Get started",
+        "heading": "Account",
         "links": [
           { "label": "Join the community", "href": "/register" },
           { "label": "Sign in", "href": "/login" },
           { "label": "Reset password", "href": "/reset-password" }
+        ]
+      },
+      {
+        "heading": "Community",
+        "links": [
+          { "label": "Browse all projects", "href": "/projects" },
+          { "label": "Study materials", "href": "/learnings" },
+          { "label": "Read the blog", "href": "/blog" }
+        ]
+      },
+      {
+        "heading": "About",
+        "links": [
+          { "label": "Our journey", "href": "/#roadmap" },
+          { "label": "PINAKA project", "href": "/#pinaka" }
         ]
       }
     ]

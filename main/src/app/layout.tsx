@@ -1,15 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProjectsProvider } from "@/context/ProjectsContext";
 import { siteConfig } from "@/lib/site";
 
-// Global site font.
+// Global site fonts: Poppins for text, Roboto Mono for labels & code.
 const fontSans = Poppins({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+const fontMono = Roboto_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -106,7 +111,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} antialiased`}
+        className={`${fontSans.variable} ${fontMono.variable} antialiased`}
         suppressHydrationWarning
       >
         <script

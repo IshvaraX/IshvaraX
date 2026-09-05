@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
-import Header from "@/component/nav/Header";
+import LearnNav from "@/component/nav/LearnNav";
 
-/** App layout: minimal sticky header above the page content. */
+/** App layout: minimal top nav above the page content. */
 const AppShell = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen">
-    <Header />
+    <LearnNav />
     {children}
   </div>
 );

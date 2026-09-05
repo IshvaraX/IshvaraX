@@ -1,75 +1,84 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   IshvaraX — Google / GSoC-inspired design system
-   Clean surfaces, Material elevation, Google brand accents, pill buttons.
+   IshvaraX — LearnIT-inspired design system
+   Playful flat palette: warm yellow + deep navy ink + mint surfaces,
+   chunky rounded navy borders, bold Poppins headings.
    ========================================================================== */
 
 body {
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
-  max-width: 1400px !important;
+  /* max-width: 1400px !important; */
   margin: 0 auto;
 }
 
 code, pre, kbd, samp {
-  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+  font-family: var(--font-mono), ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+}
+
+/* Roboto Mono for the small uppercase labels, chips and badges */
+.g-eyebrow,
+.gdm-eyebrow,
+.g-label,
+.g-chip,
+.g-badge {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Lighten the heavy weight utilities for an overall thinner feel */
+.font-extrabold {
+  font-weight: 700;
+}
+.font-bold {
+  font-weight: 600;
+}
+.font-semibold {
+  font-weight: 600;
 }
 
 :root {
-  --foreground: #141516;
-  --muted: #5f6368;
-  --background: #ffffff;
-  --surface: #f8f9fa;
-  --border: #dadce0;
-  --border-soft: #e8eaed;
+  --foreground: #492c2e; /* dark warm brown text */
+  --muted: #9b8f83;
+  --background: #ffffff; /* white */
+  --surface: #f8f6f4; /* warm off-white for cards */
+  --border: #e7e2dc;
+  --border-soft: #f1ede8;
 
-  /* Accent + status tokens */
-  --accent: #1a73e8; /* Google blue */
-  --accent-strong: #1669c9;
-  --accent-2: #2c2e30;
-  --status-open: #202124;
-  --status-closed: #9aa0a6;
-  --danger: #d93025;
+  /* Ink = subtle borders/lines; on-accent = text over accent fills */
+  --ink: #ddd6cd;
+  --on-accent: #ffffff;
 
-  --radius-card: 18px;
+  /* Accent + status tokens (warm rust palette) */
+  --accent: #c35627; /* rust orange */
+  --accent-strong: #a8481f;
+  --accent-2: #a8481f; /* deep rust for links */
+  --status-open: #d6794d; /* terracotta */
+  --status-closed: #bfb9b5; /* warm gray */
+  --danger: #b23b2e;
+
+  --radius-card: 16px;
   --radius-input: 12px;
   --radius-pill: 999px;
-  --radius-btn: 12px;
+  --radius-btn: 10px;
 
   --shadow-1: none;
   --shadow-2: none;
   --shadow-color: none;
 }
 
-/* Adapts to the device / system theme */
+/* Locked to the light theme regardless of OS setting */
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: #e8eaed;
-    --muted: #9aa0a6;
-    --background: #0a0a0b;
-    --surface: #191a1c;
-    --border: #252728;
-    --border-soft: #303134;
-
-    --accent: #8ab4f8;
-    --accent-strong: #aecbfa;
-    --accent-2: #9aa0a6;
-    --status-open: #e8eaed;
-    --status-closed: #9aa0a6;
-    --danger: #f28b82;
-
-    --shadow-1: none;
-    --shadow-2: none;
-    --shadow-color: none;
+    color-scheme: light;
   }
 }
 
 html {
   color: var(--foreground);
   background: var(--background) !important;
-  color-scheme: light dark;
+  color-scheme: light;
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
@@ -79,10 +88,6 @@ html {
 section[id] {
   scroll-margin-top: 5rem;
 }
-.min-h-screen{
-  max-width: 1400px !important;
-  margin: 0 auto;
-}
 
 /* ==========================================================================
    Typography
@@ -90,18 +95,18 @@ section[id] {
 .g-heading-xl,
 .gdm-heading-xl {
   font-family: var(--font-sans), sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.08;
   font-size: clamp(2rem, 4vw, 3.25rem);
   color: var(--foreground);
 }
 
 .g-heading-lg {
   font-family: var(--font-sans), sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: -0.015em;
-  line-height: 1.14;
+  line-height: 1.12;
   font-size: clamp(1.6rem, 3vw, 2.35rem);
   color: var(--foreground);
 }
@@ -111,7 +116,7 @@ section[id] {
   font-family: var(--font-sans), sans-serif;
   font-weight: 500;
   letter-spacing: -0.01em;
-  line-height: 1.24;
+  line-height: 1.22;
   font-size: 1.3rem;
   color: var(--foreground);
 }
@@ -179,19 +184,20 @@ section[id] {
    Cards — white surface, hairline border, Material elevation on hover
    ========================================================================== */
 .g-card {
-  background: var(--background);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   padding: 1.5rem;
-  transition: border-color 160ms ease;
+  transition: border-color 160ms ease, transform 160ms ease;
 }
 
 .g-card:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  border-color: var(--ink);
+  transform: translateY(-2px);
 }
 
 .g-card-featured {
-  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-color: var(--ink);
 }
 
 .gdm-card {
@@ -220,32 +226,32 @@ section[id] {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.6rem 1.5rem;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.875rem;
   letter-spacing: 0.01em;
   text-transform: none;
   line-height: 1.25;
   border-radius: var(--radius-pill);
   border: 1px solid var(--border);
-  background: var(--accent);
-  color: var(--background);
+  background: var(--surface);
+  color: var(--foreground);
   cursor: pointer;
   text-decoration: none;
   transition: background-color 150ms ease, border-color 150ms ease,
-    color 150ms ease, box-shadow 150ms ease;
+    color 150ms ease, transform 150ms ease;
 }
 
-/* Outlined button — subtle tinted state layer on hover */
+/* Outlined button — fills with accent on hover */
 .g-btn:hover,
 .gdm-btn:hover {
-  background: color-mix(in srgb, var(--accent) 8%, var(--background));
+  background: var(--accent);
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--on-accent);
 }
 
 .g-btn:active,
 .gdm-btn:active {
-  background: color-mix(in srgb, var(--accent) 14%, var(--background));
+  transform: translateY(1px);
 }
 
 .g-btn:disabled,
@@ -264,36 +270,36 @@ section[id] {
   transform: translateX(3px);
 }
 
-/* Filled (primary) button — blue accent, readable in both themes */
+/* Filled (primary) button — yellow fill, navy border + ink text */
 .g-btn-primary,
 .gdm-btn-primary {
   background: var(--accent);
-  color: var(--background);
-  border-color: transparent;
+  color: var(--on-accent);
+  border-color: var(--accent);
 }
 
 .g-btn-primary:hover,
 .gdm-btn-primary:hover {
   background: var(--accent-strong);
-  color: var(--background);
-  border-color: transparent;
+  color: var(--on-accent);
+  border-color: var(--accent-strong);
 }
 
 .g-btn-primary:active,
 .gdm-btn-primary:active {
-  background: var(--accent-strong);
+  transform: translateY(1px);
 }
 
 .g-btn-danger {
   background: var(--background);
   color: var(--danger);
-  border-color: var(--border);
+  border-color: var(--danger);
   padding: 0.5rem 1.1rem;
 }
 
 .g-btn-danger:hover {
-  background: color-mix(in srgb, var(--danger) 10%, var(--background));
-  color: var(--danger);
+  background: var(--danger);
+  color: #fffffe;
   border-color: var(--danger);
 }
 
@@ -305,11 +311,11 @@ section[id] {
   align-items: center;
   padding: 0.25rem 0.7rem;
   border-radius: var(--radius-pill);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  background: var(--surface);
+  border: 1px solid var(--border);
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--accent-strong);
+  color: var(--foreground);
 }
 
 .g-badge {
@@ -342,7 +348,7 @@ section[id] {
   padding: 0.65rem 0.9rem;
   font-size: 0.95rem;
   color: var(--foreground);
-  background: var(--background);
+  background: var(--surface);
   outline: none;
   transition: border-color 160ms ease;
 }
@@ -353,28 +359,30 @@ section[id] {
 }
 
 .g-input:focus {
-  border-color: var(--accent);
+  border-color: var(--ink);
 }
 
 /* ==========================================================================
-   Colorful icon accents (Google four-color rotation)
+   Colorful icon accents (playful flat palette)
    ========================================================================== */
 .g-icon {
   display: inline-flex;
   width: fit-content;
   padding: 0.7rem;
   border-radius: 14px;
+  border: 2px solid var(--ink);
   color: #ffffff;
 }
 
 .g-icon-blue {
-  background: var(--accent);
+  background: var(--accent-2);
 }
 .g-icon-red {
-  background: var(--status-closed);
+  background: var(--danger);
 }
 .g-icon-yellow {
-  background: var(--accent-2);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 .g-icon-green {
   background: var(--status-open);

@@ -6,6 +6,9 @@ import AppShell from "@/component/nav/AppShell";
 import { useAuth } from "@/context/AuthContext";
 import { useProjects, type NewProject } from "@/context/ProjectsContext";
 import { ApiError, authApi } from "@/lib/api";
+import LearningsAdmin from "@/component/admin/LearningsAdmin";
+import BlogAdmin from "@/component/admin/BlogAdmin";
+import MembersAdmin from "@/component/admin/MembersAdmin";
 
 const ADMIN_USERNAME = "admin";
 const ADMIN_PW_KEY = "ishvarax.adminpw";
@@ -365,6 +368,10 @@ const AdminPage = () => {
           </div>
         </section>
       </div>
+
+      <LearningsAdmin adminPw={adminPw} />
+      <BlogAdmin adminPw={adminPw} />
+      <MembersAdmin adminPw={adminPw} />
     </main>
     </AppShell>
   );

@@ -15,8 +15,12 @@ export const ENDPOINTS = {
   verifyResetToken: "/auth/reset-password/verify",
   resetPassword: "/auth/reset-password",
   cleanupTokens: "/auth/cleanup-tokens",
+  updateProfile: "/auth/profile",
   projects: "/projects",
   applications: "/applications",
+  learnings: "/learnings",
+  blogs: "/blogs",
+  members: "/members",
 } as const;
 
 export type AuthUser = {
@@ -46,6 +50,17 @@ export type RegisterPayload = {
 export type LoginPayload = {
   username: string;
   password: string;
+};
+
+export type ProfileUpdatePayload = {
+  username: string;
+  password: string; // current password, to authorize
+  email?: string;
+  photo?: string | null;
+  skills?: string[];
+  language?: string;
+  upi_id?: string;
+  new_password?: string;
 };
 
 export type ResetPasswordPayload = {
@@ -97,6 +112,15 @@ export type ApplicationCreatePayload = {
   links: string;
 };
 
+export type UserApplicationDTO = {
+  id: string;
+  projectId: string;
+  projectTitle: string;
+  projectStatus: "open" | "closed";
+  links: string;
+  createdAt: number;
+};
+
 class ApiError extends Error {
   status: number;
   constructor(message: string, status: number) {
@@ -111,7 +135,7 @@ async function request<T>(path: string, body: unknown): Promise<T> {
 }
 
 type ApiFetchOptions = {
-  method?: "GET" | "POST" | "DELETE";
+  method?: "GET" | "POST" | "PUT" | "DELETE";
   body?: unknown;
   adminPassword?: string;
 };
@@ -166,6 +190,11 @@ export const authApi = {
     request<AuthResponse>(ENDPOINTS.resetPassword, payload),
   cleanupTokens: () =>
     request<{ message?: string }>(ENDPOINTS.cleanupTokens, {}),
+  updateProfile: (payload: ProfileUpdatePayload) =>
+    apiFetch<AuthResponse>(ENDPOINTS.updateProfile, {
+      method: "PUT",
+      body: payload,
+    }),
 };
 
 export const projectsApi = {
@@ -188,6 +217,113 @@ export const projectsApi = {
     ),
   listApplications: (adminPassword: string) =>
     apiFetch<ApplicationDTO[]>(ENDPOINTS.applications, { adminPassword }),
+  myApplications: (username: string) =>
+    apiFetch<UserApplicationDTO[]>(
+      `${ENDPOINTS.applications}/user/${encodeURIComponent(username)}`
+    ),
+};
+
+export type LearningDTO = {
+  id: string;
+  section: string;
+  category: string;
+  title: string;
+  link: string;
+  createdAt: number;
+};
+export type LearningPayload = {
+  section: string;
+  category: string;
+  title: string;
+  link: string;
+};
+
+export const learningsApi = {
+  list: () => apiFetch<LearningDTO[]>(ENDPOINTS.learnings),
+  create: (payload: LearningPayload, adminPassword: string) =>
+    apiFetch<LearningDTO>(ENDPOINTS.learnings, {
+      method: "POST",
+      body: payload,
+      adminPassword,
+    }),
+  update: (id: string, payload: LearningPayload, adminPassword: string) =>
+    apiFetch<LearningDTO>(`${ENDPOINTS.learnings}/${id}`, {
+      method: "PUT",
+      body: payload,
+      adminPassword,
+    }),
+  remove: (id: string, adminPassword: string) =>
+    apiFetch<{ message?: string }>(`${ENDPOINTS.learnings}/${id}`, {
+      method: "DELETE",
+      adminPassword,
+    }),
+};
+
+export type BlogDTO = {
+  id: string;
+  title: string;
+  content: string;
+  tags: string[];
+  links: string[];
+  createdAt: number;
+};
+export type BlogPayload = {
+  title: string;
+  content: string;
+  tags: string[];
+  links: string[];
+};
+
+export const blogsApi = {
+  list: () => apiFetch<BlogDTO[]>(ENDPOINTS.blogs),
+  get: (id: string) => apiFetch<BlogDTO>(`${ENDPOINTS.blogs}/${id}`),
+  create: (payload: BlogPayload, adminPassword: string) =>
+    apiFetch<BlogDTO>(ENDPOINTS.blogs, {
+      method: "POST",
+      body: payload,
+      adminPassword,
+    }),
+  update: (id: string, payload: BlogPayload, adminPassword: string) =>
+    apiFetch<BlogDTO>(`${ENDPOINTS.blogs}/${id}`, {
+      method: "PUT",
+      body: payload,
+      adminPassword,
+    }),
+  remove: (id: string, adminPassword: string) =>
+    apiFetch<{ message?: string }>(`${ENDPOINTS.blogs}/${id}`, {
+      method: "DELETE",
+      adminPassword,
+    }),
+};
+
+export type MemberDTO = {
+  id: string;
+  name: string;
+  role: string;
+  photo?: string | null;
+  createdAt: number;
+};
+export type MemberPayload = { name: string; role: string; photo?: string | null };
+
+export const membersApi = {
+  list: () => apiFetch<MemberDTO[]>(ENDPOINTS.members),
+  create: (payload: MemberPayload, adminPassword: string) =>
+    apiFetch<MemberDTO>(ENDPOINTS.members, {
+      method: "POST",
+      body: payload,
+      adminPassword,
+    }),
+  update: (id: string, payload: MemberPayload, adminPassword: string) =>
+    apiFetch<MemberDTO>(`${ENDPOINTS.members}/${id}`, {
+      method: "PUT",
+      body: payload,
+      adminPassword,
+    }),
+  remove: (id: string, adminPassword: string) =>
+    apiFetch<{ message?: string }>(`${ENDPOINTS.members}/${id}`, {
+      method: "DELETE",
+      adminPassword,
+    }),
 };
 
 export { ApiError };

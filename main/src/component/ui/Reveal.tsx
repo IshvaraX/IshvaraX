@@ -1,6 +1,6 @@
 "use client";
 
-import { createElement, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type RevealProps = {
   children: React.ReactNode;
@@ -27,18 +27,16 @@ const Reveal = ({ children, className, delay = 0, as = "div" }: RevealProps) => 
     return () => io.disconnect();
   }, []);
 
-  const setRef = (node: HTMLElement | null) => {
-    ref.current = node;
-  };
+  const Tag = as as keyof React.JSX.IntrinsicElements;
 
-  return createElement(
-    as,
-    {
-      ref: setRef,
-      className: `reveal ${shown ? "reveal-in" : ""} ${className ?? ""}`,
-      style: { transitionDelay: `${delay}ms` },
-    },
-    children
+  return (
+    <Tag
+      ref={ref as React.Ref<never>}
+      className={`reveal ${shown ? "reveal-in" : ""} ${className ?? ""}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </Tag>
   );
 };
 
