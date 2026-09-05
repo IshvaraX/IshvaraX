@@ -77,7 +77,7 @@ const FreelanceProjects = () => {
         <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-              // {projectsContent.label}
+              {`// ${projectsContent.label}`}
             </span>
             <h2 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
               {projectsContent.heading}

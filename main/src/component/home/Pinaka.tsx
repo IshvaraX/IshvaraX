@@ -12,7 +12,7 @@ const Pinaka = () => (
     <div className="mx-auto w-full max-w-3xl text-center">
       <Reveal>
         <span className="text-sm font-bold uppercase tracking-wider text-[var(--status-open)]">
-          // {pinaka.label}
+          {`// ${pinaka.label}`}
         </span>
         <h2 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
           {pinaka.heading}

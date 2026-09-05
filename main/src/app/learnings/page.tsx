@@ -65,7 +65,7 @@ const LearningsPage = () => {
     <AppShell>
       <main className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-          // learnings
+          {"// learnings"}
         </span>
         <h1 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
           Study materials

@@ -49,7 +49,7 @@ const LatestContent = () => {
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
               <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-                // latest courses
+                {"// latest courses"}
               </span>
               <h2 className="g-heading-lg mt-2 !text-2xl md:!text-3xl">
                 Fresh study material
@@ -86,7 +86,7 @@ const LatestContent = () => {
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
               <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-                // latest posts
+                {"// latest posts"}
               </span>
               <h2 className="g-heading-lg mt-2 !text-2xl md:!text-3xl">
                 From the blog

@@ -55,7 +55,7 @@ const Roadmap = () => {
       <div className="mx-auto w-full max-w-5xl">
         <Reveal className="text-center">
           <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-            // how it works
+            {"// how it works"}
           </span>
           <h2 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
             Your journey, step by step
