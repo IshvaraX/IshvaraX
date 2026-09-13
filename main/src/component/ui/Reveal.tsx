@@ -29,10 +29,13 @@ const Reveal = ({ children, className, delay = 0, as = "div", style }: RevealPro
   }, []);
 
   const Tag: React.ElementType = as;
+  const setRef: React.RefCallback<HTMLElement> = (node) => {
+    ref.current = node;
+  };
 
   return (
     <Tag
-      ref={ref}
+      ref={setRef}
       className={`reveal ${shown ? "reveal-in" : ""} ${className ?? ""}`}
       style={{ ...style, transitionDelay: `${delay}ms` }}
     >
