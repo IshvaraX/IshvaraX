@@ -28,11 +28,11 @@ const Reveal = ({ children, className, delay = 0, as = "div", style }: RevealPro
     return () => io.disconnect();
   }, []);
 
-  const Tag = as as keyof React.JSX.IntrinsicElements;
+  const Tag: React.ElementType = as;
 
   return (
     <Tag
-      ref={ref as React.Ref<never>}
+      ref={ref}
       className={`reveal ${shown ? "reveal-in" : ""} ${className ?? ""}`}
       style={{ ...style, transitionDelay: `${delay}ms` }}
     >
