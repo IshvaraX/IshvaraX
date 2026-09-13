@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import AppShell from "@/component/nav/AppShell";
 import { useAuth } from "@/context/AuthContext";
 import { useProjects, type NewProject } from "@/context/ProjectsContext";
 import { ApiError, authApi } from "@/lib/api";
+import Markdown from "@/component/ui/Markdown";
 import LearningsAdmin from "@/component/admin/LearningsAdmin";
 import BlogAdmin from "@/component/admin/BlogAdmin";
 import MembersAdmin from "@/component/admin/MembersAdmin";
+import StorageAdmin from "@/component/admin/StorageAdmin";
 
 const ADMIN_USERNAME = "admin";
 const ADMIN_PW_KEY = "ishvarax.adminpw";
@@ -28,11 +30,17 @@ const AdminPage = () => {
     projects,
     addProject,
     deleteProject,
+    setProjectStatus,
     applicationsFor,
     refreshApplications,
   } = useProjects();
   const [form, setForm] = useState(emptyForm);
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
+    null
+  );
+  const [activeSection, setActiveSection] = useState<
+    "projects" | "learnings" | "blog" | "members" | "storage"
+  >("projects");
   const [adminPassword, setAdminPassword] = useState("");
   const [adminPw, setAdminPw] = useState("");
   const [authError, setAuthError] = useState<string | null>(null);
@@ -43,6 +51,18 @@ const AdminPage = () => {
   const [saving, setSaving] = useState(false);
 
   const isAdmin = user?.username === ADMIN_USERNAME;
+
+  const selectedProject = useMemo(
+    () => projects.find((p) => p.id === selectedProjectId) ?? null,
+    [projects, selectedProjectId]
+  );
+
+  // Default to the first project once the list has loaded.
+  useEffect(() => {
+    if (!selectedProjectId && projects.length > 0) {
+      setSelectedProjectId(projects[0].id);
+    }
+  }, [projects, selectedProjectId]);
 
   // Restore the admin password (kept only for this tab) and load applications.
   useEffect(() => {
@@ -91,6 +111,14 @@ const AdminPage = () => {
       await deleteProject(id, adminPw);
     } catch {
       // ignore — the list stays as-is if the delete fails
+    }
+  };
+
+  const onToggleStatus = async (id: string, current: "open" | "closed") => {
+    try {
+      await setProjectStatus(id, current === "open" ? "closed" : "open", adminPw);
+    } catch {
+      // ignore — the list stays as-is if the update fails
     }
   };
 
@@ -178,35 +206,76 @@ const AdminPage = () => {
 
   return (
     <AppShell>
-      <main className="mx-auto max-w-5xl px-4 py-12 md:py-16">
-      <div className="mb-10">
-        <Link href="/" className="g-eyebrow inline-block mb-3">
-          ← Home
+      <main className="mx-auto max-w-7xl px-4 py-6 md:py-8">
+      {/* Compact header */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-baseline gap-3">
+          <h1 className="text-2xl font-medium tracking-tight">Admin panel</h1>
+          <span className="text-sm text-[var(--muted)]">
+            Projects, content, members &amp; storage
+          </span>
+        </div>
+        <Link href="/" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]">
+          ← Back to site
         </Link>
-        <h1 className="g-heading-lg">Admin panel</h1>
-        <p className="g-body mt-2">
-          Add projects and review applications from applicants.
-        </p>
       </div>
 
-      {/* Maintenance — uses the backend /auth/cleanup-tokens endpoint */}
-      <div className="mb-10 flex flex-wrap items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
-        <span className="g-body flex-1 text-sm">
-          Maintenance · remove expired and used password-reset tokens.
-        </span>
-        <button
-          onClick={onCleanup}
-          disabled={cleanupLoading}
-          className="g-btn disabled:opacity-60"
-        >
-          {cleanupLoading ? "Cleaning…" : "Clean up reset tokens"}
-        </button>
-        {cleanupMsg && (
-          <span className="g-body w-full text-sm">{cleanupMsg}</span>
-        )}
-      </div>
+      <div className="flex flex-col gap-6 lg:flex-row">
+        {/* Section sidebar */}
+        <aside className="w-full shrink-0 lg:sticky lg:top-20 lg:h-fit lg:w-44">
+          <nav className="flex flex-wrap gap-1 lg:flex-col">
+            {(
+              [
+                { key: "projects", label: "Projects" },
+                { key: "learnings", label: "Learnings" },
+                { key: "blog", label: "Blog" },
+                { key: "members", label: "Members" },
+                { key: "storage", label: "Storage" },
+              ] as const
+            ).map((item) => {
+              const isActive = activeSection === item.key;
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => setActiveSection(item.key)}
+                  className="rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors"
+                  style={{
+                    background: isActive
+                      ? "color-mix(in srgb, var(--accent) 12%, transparent)"
+                      : "transparent",
+                    color: isActive ? "var(--accent-2)" : "var(--foreground)",
+                  }}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+          </nav>
 
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
+          {/* Maintenance, tucked under the nav */}
+          <div className="mt-4 border-t border-[var(--border)] pt-3 lg:mt-6">
+            <p className="mb-2 text-[0.68rem] font-semibold uppercase tracking-wider text-[var(--muted)]">
+              Maintenance
+            </p>
+            <button
+              onClick={onCleanup}
+              disabled={cleanupLoading}
+              className="g-btn w-full justify-center px-3 py-2 text-xs disabled:opacity-60"
+              title="Remove expired and used password-reset tokens"
+            >
+              {cleanupLoading ? "Cleaning…" : "Clean up reset tokens"}
+            </button>
+            {cleanupMsg && (
+              <p className="mt-1 text-xs text-[var(--muted)]">{cleanupMsg}</p>
+            )}
+          </div>
+        </aside>
+
+        {/* Active section content */}
+        <div className="min-w-0 flex-1">
+          {activeSection === "projects" && (
+            <div className="grid gap-6 xl:grid-cols-3 lg:grid-cols-2">
         {/* Add project form */}
         <section className="g-card h-fit">
           <h2 className="g-heading-sm mb-4">Add a project</h2>
@@ -275,103 +344,193 @@ const AdminPage = () => {
           </form>
         </section>
 
-        {/* Existing projects + applications */}
-        <section>
-          <h2 className="g-heading-sm mb-4">
-            Projects ({projects.length})
-          </h2>
-          <div className="flex flex-col gap-4">
-            {projects.length === 0 && (
-              <p className="g-body">No projects yet. Add your first one.</p>
-            )}
-            {projects.map((project) => {
-              const apps = applicationsFor(project.id);
-              const isExpanded = expanded === project.id;
-              return (
-                <div key={project.id} className="g-card">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="g-heading-sm">{project.title}</h3>
+        {/* Projects list — short previews */}
+        <section className="min-w-0">
+          <h2 className="g-heading-sm mb-4">Projects ({projects.length})</h2>
+          {projects.length === 0 ? (
+            <p className="g-body">No projects yet. Add your first one.</p>
+          ) : (
+            <ul className="flex flex-col gap-2">
+              {projects.map((project) => {
+                const isActive = project.id === selectedProjectId;
+                const isOpen = project.status === "open";
+                return (
+                  <li key={project.id}>
                     <button
                       type="button"
-                      onClick={() => onDelete(project.id)}
-                      className="g-btn g-btn-danger"
+                      onClick={() => setSelectedProjectId(project.id)}
+                      className="w-full rounded-xl border p-4 text-left transition-colors"
+                      style={{
+                        borderColor: isActive
+                          ? "var(--accent)"
+                          : "var(--border)",
+                        background: isActive
+                          ? "color-mix(in srgb, var(--accent) 8%, var(--background))"
+                          : "var(--surface)",
+                      }}
                     >
-                      Delete
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-semibold text-[0.95rem]">
+                          {project.title}
+                        </span>
+                        <span
+                          className={`g-badge ${
+                            isOpen ? "g-badge-open" : "g-badge-closed"
+                          }`}
+                        >
+                          {project.status}
+                        </span>
+                      </div>
+                      <p className="mt-1 line-clamp-2 text-[0.8rem] text-[var(--muted)]">
+                        {project.description}
+                      </p>
+                      <span className="mt-1 block text-[0.72rem] text-[var(--muted)]">
+                        {applicationsFor(project.id).length} application
+                        {applicationsFor(project.id).length === 1 ? "" : "s"}
+                      </span>
                     </button>
-                  </div>
-                  <p className="g-body mt-2">{project.description}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
 
+        {/* Full preview of the selected project + applications */}
+        <section className="min-w-0 lg:sticky lg:top-20 lg:h-fit">
+          {selectedProject ? (
+            <div className="g-card flex flex-col lg:max-h-[calc(100vh-6rem)]">
+              <div className="flex shrink-0 flex-wrap items-start justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-2">
+                  <h3 className="g-heading-md">{selectedProject.title}</h3>
+                  <span
+                    className={`g-badge ${
+                      selectedProject.status === "open"
+                        ? "g-badge-open"
+                        : "g-badge-closed"
+                    }`}
+                  >
+                    {selectedProject.status}
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
                     onClick={() =>
-                      setExpanded(isExpanded ? null : project.id)
+                      onToggleStatus(selectedProject.id, selectedProject.status)
                     }
-                    className="g-link mt-4"
+                    className="g-btn"
                   >
-                    {isExpanded ? "Hide" : "View"} applications ({apps.length})
+                    {selectedProject.status === "open"
+                      ? "Mark closed"
+                      : "Mark open"}
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => onDelete(selectedProject.id)}
+                    className="g-btn g-btn-danger"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
 
-                  {isExpanded && (
-                    <div className="mt-4 flex flex-col gap-3 border-t border-[var(--border)] pt-4">
-                      {apps.length === 0 && (
-                        <p className="g-body">No applications yet.</p>
-                      )}
-                      {apps.map((app) => (
-                        <div
-                          key={app.id}
-                          className="rounded-xl border border-[var(--border)] bg-[var(--background)] p-3"
-                        >
-                          <div className="flex items-center gap-3">
-                            {app.photo ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={app.photo}
-                                alt={app.username}
-                                className="h-9 w-9 shrink-0 rounded-lg border border-[var(--border)] object-cover"
-                              />
-                            ) : null}
-                            <div className="min-w-0">
-                              <span className="font-semibold text-[0.9rem]">
-                                @{app.username}
-                              </span>
-                              {app.email && (
-                                <span className="ml-2 text-[0.8rem] text-[var(--muted)]">
-                                  {app.email}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          {app.skills && app.skills.length > 0 && (
-                            <div className="mt-2 flex flex-wrap gap-1.5">
-                              {app.skills.map((s) => (
-                                <span key={s} className="g-chip">
-                                  {s}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                          {app.language && (
-                            <p className="mt-2 text-[0.8rem] text-[var(--muted)]">
-                              Languages: {app.language}
-                            </p>
-                          )}
-                          <p className="g-body mt-2 whitespace-pre-wrap break-words text-[0.85rem]">
-                            {app.links}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
+              <div className="mt-3 min-h-0 flex-1 overflow-y-auto lg:pr-2">
+              <Markdown className="text-[0.85rem] text-[var(--muted)]">
+                {selectedProject.description}
+              </Markdown>
+
+              {selectedProject.skills.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {selectedProject.skills.map((skill) => (
+                    <span key={skill} className="g-chip">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {(selectedProject.stipend || selectedProject.duration) && (
+                <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[0.8rem] text-[var(--muted)]">
+                  {selectedProject.stipend && (
+                    <span>Stipend · {selectedProject.stipend}</span>
+                  )}
+                  {selectedProject.duration && (
+                    <span>Duration · {selectedProject.duration}</span>
                   )}
                 </div>
-              );
-            })}
-          </div>
-        </section>
-      </div>
+              )}
 
-      <LearningsAdmin adminPw={adminPw} />
-      <BlogAdmin adminPw={adminPw} />
-      <MembersAdmin adminPw={adminPw} />
+              {/* Applications */}
+              <div className="mt-6 border-t border-[var(--border)] pt-4">
+                <h4 className="g-heading-sm mb-3 text-sm">
+                  Applications ({applicationsFor(selectedProject.id).length})
+                </h4>
+                <div className="flex flex-col gap-3">
+                  {applicationsFor(selectedProject.id).length === 0 && (
+                    <p className="g-body text-sm">No applications yet.</p>
+                  )}
+                  {applicationsFor(selectedProject.id).map((app) => (
+                    <div
+                      key={app.id}
+                      className="rounded-xl border border-[var(--border)] bg-[var(--background)] p-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        {app.photo ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={app.photo}
+                            alt={app.username}
+                            className="h-9 w-9 shrink-0 rounded-lg border border-[var(--border)] object-cover"
+                          />
+                        ) : null}
+                        <div className="min-w-0">
+                          <span className="block font-semibold text-[0.9rem]">
+                            @{app.username}
+                          </span>
+                          {app.email && (
+                            <span className="block truncate text-[0.8rem] text-[var(--muted)]">
+                              {app.email}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {app.skills && app.skills.length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {app.skills.map((s) => (
+                            <span key={s} className="g-chip">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {app.language && (
+                        <p className="mt-2 text-[0.8rem] text-[var(--muted)]">
+                          Languages: {app.language}
+                        </p>
+                      )}
+                      <p className="g-body mt-2 whitespace-pre-wrap break-words text-[0.85rem]">
+                        {app.links}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              </div>
+            </div>
+          ) : (
+            <p className="g-body">Select a project to see the full preview.</p>
+          )}
+        </section>
+            </div>
+          )}
+
+          {activeSection === "learnings" && <LearningsAdmin adminPw={adminPw} />}
+          {activeSection === "blog" && <BlogAdmin adminPw={adminPw} />}
+          {activeSection === "members" && <MembersAdmin adminPw={adminPw} />}
+          {activeSection === "storage" && <StorageAdmin adminPw={adminPw} />}
+        </div>
+      </div>
     </main>
     </AppShell>
   );

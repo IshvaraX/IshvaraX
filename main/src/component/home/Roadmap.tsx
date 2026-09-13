@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Reveal from "@/component/ui/Reveal";
+import { useAuth } from "@/context/AuthContext";
 
 type Step = {
   title: string;
@@ -36,50 +37,55 @@ const STEPS: Step[] = [
   },
 ];
 
-// One brand colour per node.
-// One brand colour + readable text colour per node.
-const NODES = [
-  { dot: "#c35627", fg: "#ffffff" },
-  { dot: "#d6794d", fg: "#ffffff" },
-  { dot: "#dcaa89", fg: "#492c2e" },
-  { dot: "#a8481f", fg: "#ffffff" },
+// Step markers cycle through the brand colours.
+const MARKERS = [
+  "var(--brand-blue)",
+  "var(--brand-orange)",
+  "var(--brand-amber-deep)",
+  "var(--brand-cyan-deep)",
+  "var(--brand-blue)",
 ];
 
 /** Vertical zig-zag roadmap with fade-up-on-scroll animations. */
 const Roadmap = () => {
+  const { user } = useAuth();
+
+  // The "how it works" onboarding is only relevant to logged-out visitors.
+  if (user) return null;
+
   return (
     <section
       id="roadmap"
-      className="border-t border-[var(--border)] px-4 py-20 md:px-8 md:py-32"
+      className="bg-[var(--background)] px-4 py-20 md:px-8 md:py-32"
     >
-      <div className="mx-auto w-full max-w-5xl">
+      <div className="mx-auto w-full max-w-7xl">
         <Reveal className="text-center">
-          <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-            {"// how it works"}
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-[var(--muted)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+            How it works
           </span>
-          <h2 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
+          <h2 className="mt-4 text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.05] tracking-[-0.03em] text-[var(--foreground)]">
             Your journey, step by step
           </h2>
         </Reveal>
 
         {/* Timeline */}
-        <div className="relative mt-24">
+        <div className="relative mt-20">
           {/* Vertical line: left on mobile, centred on desktop */}
           <span
             aria-hidden
-            className="absolute top-3 bottom-3 w-1 rounded bg-[var(--muted)] left-[21px] md:left-1/2 md:-translate-x-1/2"
+            className="absolute top-3 bottom-3 w-0.5 rounded-full bg-gradient-to-b from-[var(--accent)] via-[var(--ink)] to-transparent left-[21px] md:left-1/2 md:-translate-x-1/2"
           />
 
-          <ol className="flex flex-col gap-16 md:gap-24">
+          <ol className="flex flex-col gap-14 md:gap-20">
             {STEPS.map((step, i) => {
               const isLeft = i % 2 === 0;
-              const node = NODES[i % NODES.length];
               return (
                 <li key={step.title} className="relative">
                   {/* Numbered marker sitting on the line */}
                   <span
-                    className="absolute top-1 z-10 flex h-12 w-12 items-center justify-center rounded-full text-lg font-extrabold left-0 md:left-1/2 md:-translate-x-1/2"
-                    style={{ background: node.dot, color: node.fg }}
+                    className="absolute top-1 z-10 flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold text-[var(--on-accent)] ring-8 ring-[var(--background)] left-0 md:left-1/2 md:-translate-x-1/2"
+                    style={{ background: MARKERS[i % MARKERS.length] }}
                   >
                     {i + 1}
                   </span>
@@ -92,18 +98,18 @@ const Roadmap = () => {
                     <Reveal
                       as="article"
                       delay={i * 60}
-                      className="group rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 transition-colors hover:bg-[var(--accent)]"
+                      className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-8 transition-colors hover:border-[var(--accent)]"
                     >
-                      <h3 className="text-2xl font-extrabold group-hover:text-[var(--on-accent)]">
+                      <h3 className="text-xl font-medium tracking-[-0.01em] text-[var(--foreground)] md:text-2xl">
                         {step.title}
                       </h3>
-                      <p className="mt-3 text-lg text-[var(--muted)] group-hover:text-[var(--on-accent)]">
+                      <p className="mt-3 text-base text-[var(--muted)] md:text-lg">
                         {step.body}
                       </p>
                       {step.cta && (
                         <Link
                           href={step.cta.href}
-                          className="mt-5 inline-flex items-center gap-1.5 text-lg font-semibold text-[var(--accent-2)] group-hover:text-[var(--on-accent)]"
+                          className="g-pill g-pill-primary mt-6"
                         >
                           {step.cta.label}
                           <span aria-hidden>→</span>

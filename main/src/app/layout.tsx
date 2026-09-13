@@ -3,6 +3,7 @@ import { Poppins, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProjectsProvider } from "@/context/ProjectsContext";
+import NavigationProgress from "@/component/ui/NavigationProgress";
 import { siteConfig } from "@/lib/site";
 
 // Global site fonts: Poppins for text, Roboto Mono for labels & code.
@@ -34,9 +35,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   icons: {
-    icon: "/icon.jpg",
-    shortcut: "/icon.jpg",
-    apple: "/icon.jpg",
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
   openGraph: {
     type: "website",
@@ -77,7 +78,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#141518" },
+    { media: "(prefers-color-scheme: dark)", color: "#ffffff" },
   ],
 };
 
@@ -119,7 +120,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <AuthProvider>
-          <ProjectsProvider>{children}</ProjectsProvider>
+          <ProjectsProvider>
+            <NavigationProgress />
+            {children}
+          </ProjectsProvider>
         </AuthProvider>
       </body>
     </html>

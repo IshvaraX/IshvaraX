@@ -76,6 +76,11 @@ type ProjectsContextValue = {
   refreshApplications: (adminPassword: string) => Promise<void>;
   addProject: (data: NewProject, adminPassword: string) => Promise<Project>;
   deleteProject: (id: string, adminPassword: string) => Promise<void>;
+  setProjectStatus: (
+    id: string,
+    status: "open" | "closed",
+    adminPassword: string
+  ) => Promise<void>;
   applyToProject: (projectId: string, data: NewApplication) => Promise<Application>;
   applicationsFor: (projectId: string) => Application[];
 };
@@ -138,6 +143,15 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
+  const setProjectStatus = useCallback(
+    async (id: string, status: "open" | "closed", adminPassword: string) => {
+      const updated = await projectsApi.setStatus(id, status, adminPassword);
+      const project = normalizeProject(updated);
+      setProjects((prev) => prev.map((p) => (p.id === id ? project : p)));
+    },
+    []
+  );
+
   const applyToProject = useCallback(
     async (projectId: string, data: NewApplication) => {
       const created = await projectsApi.apply(projectId, {
@@ -171,6 +185,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
       refreshApplications,
       addProject,
       deleteProject,
+      setProjectStatus,
       applyToProject,
       applicationsFor,
     }),
@@ -183,6 +198,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
       refreshApplications,
       addProject,
       deleteProject,
+      setProjectStatus,
       applyToProject,
       applicationsFor,
     ]

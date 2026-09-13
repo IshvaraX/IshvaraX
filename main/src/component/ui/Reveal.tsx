@@ -8,10 +8,11 @@ type RevealProps = {
   /** Delay in ms for staggered reveals. */
   delay?: number;
   as?: "div" | "section" | "article" | "li";
+  style?: React.CSSProperties;
 };
 
 /** Reveals its children with a fade/slide-up every time they enter the viewport. */
-const Reveal = ({ children, className, delay = 0, as = "div" }: RevealProps) => {
+const Reveal = ({ children, className, delay = 0, as = "div", style }: RevealProps) => {
   const ref = useRef<HTMLElement | null>(null);
   const [shown, setShown] = useState(false);
 
@@ -27,13 +28,13 @@ const Reveal = ({ children, className, delay = 0, as = "div" }: RevealProps) => 
     return () => io.disconnect();
   }, []);
 
-  const Tag = as as React.ElementType;
+  const Tag = as as keyof React.JSX.IntrinsicElements;
 
   return (
     <Tag
-      ref={ref}
+      ref={ref as React.Ref<never>}
       className={`reveal ${shown ? "reveal-in" : ""} ${className ?? ""}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ ...style, transitionDelay: `${delay}ms` }}
     >
       {children}
     </Tag>

@@ -76,7 +76,7 @@ export default function Founders() {
   return (
     <section
       id="founders"
-      className="w-full py-16 md:py-24 px-4 border-t border-[var(--border)]"
+      className="w-full py-16 md:py-24 px-4"
     >
       <div className="max-w-6xl mx-auto mb-12 text-center">
         <span className="gdm-eyebrow block mb-3">Our team</span>

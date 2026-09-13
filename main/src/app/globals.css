@@ -39,24 +39,51 @@ code, pre, kbd, samp {
 }
 
 :root {
-  --foreground: #492c2e; /* dark warm brown text */
-  --muted: #9b8f83;
-  --background: #ffffff; /* white */
-  --surface: #f8f6f4; /* warm off-white for cards */
-  --border: #e7e2dc;
-  --border-soft: #f1ede8;
+  /* Light surfaces */
+  --foreground: #14161c; /* near-black text */
+  --muted: #5f6673; /* secondary text */
+  --background: #ffffff;
+  --surface: #f6f7fb; /* cards sit softly above the page */
+  --border: #e4e7ef;
+  --border-soft: #eef0f5;
 
-  /* Ink = subtle borders/lines; on-accent = text over accent fills */
-  --ink: #ddd6cd;
+  /* Ink = subtle borders/lines; on-accent = text over accent fills;
+     on-foreground = text over foreground-filled (dark) pills */
+  --ink: #c9cfdd;
   --on-accent: #ffffff;
+  --on-foreground: #ffffff;
 
-  /* Accent + status tokens (warm rust palette) */
-  --accent: #c35627; /* rust orange */
-  --accent-strong: #a8481f;
-  --accent-2: #a8481f; /* deep rust for links */
-  --status-open: #d6794d; /* terracotta */
-  --status-closed: #bfb9b5; /* warm gray */
-  --danger: #b23b2e;
+  /* Brand palette */
+  --brand-amber: #ffb343;
+  --brand-cyan: #42eaff;
+  --brand-blue: #4272ff;
+  --brand-orange: #ff7e42;
+  --brand-purple: #a78bfa; /* logo inner stroke (light purple) */
+  /* Deeper variants for fills that carry white text */
+  --brand-amber-deep: #e5940e;
+  --brand-cyan-deep: #0aa9c4;
+
+  /* Accent + status tokens */
+  --accent: var(--brand-blue); /* primary */
+  --accent-strong: #2f5ce6; /* hover */
+  --accent-2: #2f5ce6; /* links */
+  --status-open: var(--brand-blue);
+  --status-closed: var(--brand-orange);
+  --danger: #e0472f;
+
+  /* Aliases used by older components / decorative bits */
+  --brand-red: var(--brand-orange);
+  --brand-yellow: var(--brand-amber);
+  --brand-green: var(--brand-cyan);
+  --brand-teal: var(--brand-cyan);
+  --brand-pink: var(--brand-orange);
+  --accent-blue: var(--brand-blue);
+  --accent-magenta: var(--brand-orange);
+  --accent-purple: var(--brand-blue);
+  --accent-orange: var(--brand-orange);
+  --accent-cyan: var(--brand-cyan);
+  --accent-teal: var(--brand-cyan);
+  --accent-orange-2: var(--brand-amber);
 
   --radius-card: 16px;
   --radius-input: 12px;
@@ -87,6 +114,21 @@ html {
 /* Keep anchored sections clear of the fixed mobile top bar */
 section[id] {
   scroll-margin-top: 5rem;
+}
+
+/* Signed-in dashboard: centred in the column beside the rail, tighter rhythm */
+.dash .max-w-7xl {
+  max-width: 80rem;
+}
+.dash section {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+@media (min-width: 768px) {
+  .dash section {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
 }
 
 /* ==========================================================================
@@ -304,6 +346,48 @@ section[id] {
 }
 
 /* ==========================================================================
+   Pill buttons (hero-style CTAs)
+   ========================================================================== */
+.g-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-pill);
+  padding: 0.65rem 1.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 150ms ease, border-color 150ms ease,
+    color 150ms ease, opacity 150ms ease;
+}
+.g-pill-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.g-pill-primary:hover {
+  background: var(--accent-strong);
+}
+.g-pill-soft {
+  background: var(--surface);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.g-pill-soft:hover {
+  border-color: var(--ink);
+  background: var(--border-soft);
+}
+.g-pill-contrast {
+  background: var(--foreground);
+  color: var(--on-foreground);
+}
+.g-pill-contrast:hover {
+  opacity: 0.88;
+}
+
+/* ==========================================================================
    Chips & badges
    ========================================================================== */
 .g-chip {
@@ -329,13 +413,13 @@ section[id] {
 }
 
 .g-badge-open {
-  background: color-mix(in srgb, var(--status-open) 18%, transparent);
-  color: var(--status-open);
+  background: var(--status-open);
+  color: #ffffff;
 }
 
 .g-badge-closed {
-  background: color-mix(in srgb, var(--status-closed) 18%, transparent);
-  color: var(--status-closed);
+  background: var(--status-closed);
+  color: #ffffff;
 }
 
 /* ==========================================================================
@@ -497,6 +581,10 @@ section[id] {
 /* ==========================================================================
    Markdown (job / project descriptions)
    ========================================================================== */
+.g-markdown {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .g-markdown p {
   margin: 0 0 0.75em;
 }

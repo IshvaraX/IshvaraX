@@ -101,7 +101,7 @@ const ProfilePage = () => {
     <AppShell>
       <main className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-              {"// profile"}
+          // profile
         </span>
         <h1 className="g-heading-lg mt-2 !text-3xl">Edit your profile</h1>
         <p className="g-body mt-2">Signed in as @{user?.username}</p>
@@ -265,14 +265,12 @@ const ProfilePage = () => {
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="font-semibold">{a.projectTitle}</span>
                     <span
-                      className="rounded-full px-3 py-0.5 text-[0.68rem] font-bold uppercase tracking-widest"
+                      className="rounded-full px-3 py-0.5 text-[0.68rem] font-bold uppercase tracking-widest text-white"
                       style={{
                         background:
                           a.projectStatus === "open"
                             ? "var(--status-open)"
-                            : "var(--border)",
-                        color:
-                          a.projectStatus === "open" ? "#ffffff" : "var(--muted)",
+                            : "var(--status-closed)",
                       }}
                     >
                       {a.projectStatus}

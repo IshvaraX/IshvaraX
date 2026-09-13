@@ -52,7 +52,9 @@ const ProjectCard = ({ project, featured, onDelete }: ProjectCardProps) => {
         </span>
       </div>
 
-      <Markdown className="g-body mt-2 flex-1">{project.description}</Markdown>
+      <Markdown className="mt-2 flex-1 text-[0.9rem] leading-relaxed text-[var(--muted)]">
+        {project.description}
+      </Markdown>
 
       {project.skills.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">

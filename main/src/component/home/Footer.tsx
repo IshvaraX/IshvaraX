@@ -1,11 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import content from "@/app/site-content.json";
+import { useAuth } from "@/context/AuthContext";
 
 const { footer, site } = content;
 
 const Footer = () => {
+  const { user } = useAuth();
   return (
-    <footer className="border-t border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
+    <footer className="bg-[var(--background)] text-[var(--foreground)]">
       <div className="mx-auto max-w-7xl px-4 py-20 md:px-8 md:py-24">
         <div className="grid gap-14 md:grid-cols-[1.6fr_1fr_1fr_1fr_1fr] md:gap-10">
           {/* Brand */}
@@ -18,9 +22,11 @@ const Footer = () => {
               {footer.tagline}
             </p>
             <div className="mt-6 flex gap-3">
-              <Link href="/register" className="g-btn g-btn-primary px-5 py-2 text-xs">
-                Join now
-              </Link>
+              {!user && (
+                <Link href="/register" className="g-btn g-btn-primary px-5 py-2 text-xs">
+                  Join now
+                </Link>
+              )}
               <Link href="/login" className="g-btn px-5 py-2 text-xs">
                 Sign in
               </Link>

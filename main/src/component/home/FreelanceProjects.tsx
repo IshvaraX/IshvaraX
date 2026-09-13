@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useProjects, type Project } from "@/context/ProjectsContext";
 import { useAuth } from "@/context/AuthContext";
 import { useHomeSearch } from "@/context/HomeSearchContext";
 import Markdown from "@/component/ui/Markdown";
+import PastelProjectCard from "@/component/projects/PastelProjectCard";
 import content from "@/app/site-content.json";
 
 const projectsContent = content.projects;
@@ -13,13 +14,20 @@ const projectsContent = content.projects;
 const FreelanceProjects = () => {
   const { user } = useAuth();
   const { projects, isReady, applyToProject } = useProjects();
-  const { query } = useHomeSearch();
+  const { query, setQuery } = useHomeSearch();
   const [filter, setFilter] = useState<string>("all");
   const [active, setActive] = useState<Project | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [links, setLinks] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  const scrollRow = (dir: 1 | -1) => {
+    const el = rowRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
+  };
 
   // Filter chips: status plus the most common skills across projects.
   const skillChips = (() => {
@@ -71,97 +79,143 @@ const FreelanceProjects = () => {
   };
 
   return (
-    <section id="projects" className="border-t border-[var(--border)] px-4 py-20 md:px-8 md:py-32">
+    <section id="projects" className="bg-[var(--background)] px-4 py-20 md:px-8 md:py-32">
       <div className="mx-auto w-full max-w-7xl">
         {/* Header */}
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-              {`// ${projectsContent.label}`}
+            <span className="inline-flex items-center gap-2 text-sm font-medium text-[var(--muted)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+              {projectsContent.label}
             </span>
-            <h2 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
+            <h2 className="mt-4 text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.05] tracking-[-0.03em] text-[var(--foreground)]">
               {projectsContent.heading}
             </h2>
-            <p className="mt-2 text-[var(--muted)]">
+            <p className="mt-3 text-[var(--muted)]">
               {filtered.length} {filtered.length === 1 ? "result" : "results"}
               {query.trim() && <> for “{query.trim()}”</>}
             </p>
           </div>
-          <Link href="/projects" className="g-btn">
+          <Link href="/projects" className="g-pill g-pill-primary">
             {projectsContent.viewAll}
+            <span aria-hidden>→</span>
           </Link>
         </div>
 
-        {/* Filter chips */}
-        <div className="mb-8 flex flex-wrap gap-2">
-          {[
-            ...projectsContent.filters,
-            ...skillChips.map((s) => ({ key: s, label: s })),
-          ].map((chip) => {
-            const activeChip = filter === chip.key;
-            return (
-              <button
-                key={chip.key}
-                type="button"
-                onClick={() => setFilter(chip.key)}
-                className="rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors"
-                style={{
-                  background: activeChip ? "var(--accent)" : "var(--surface)",
-                  color: activeChip ? "var(--on-accent)" : "var(--foreground)",
-                  borderColor: activeChip ? "var(--accent)" : "var(--border)",
-                }}
-              >
-                {chip.label}
-              </button>
-            );
-          })}
+        {/* Filters */}
+        <div className="mb-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          {/* Status — segmented control */}
+          <div className="inline-flex rounded-full border border-[var(--border)] bg-[var(--surface)] p-1">
+            {projectsContent.filters.map((chip) => {
+              const activeChip = filter === chip.key;
+              return (
+                <button
+                  key={chip.key}
+                  type="button"
+                  onClick={() => setFilter(chip.key)}
+                  className="rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
+                  style={{
+                    background: activeChip ? "var(--accent)" : "transparent",
+                    color: activeChip ? "var(--on-accent)" : "var(--muted)",
+                  }}
+                >
+                  {chip.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Skills */}
+          {skillChips.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+                Skills
+              </span>
+              {skillChips.map((s) => {
+                const activeChip = filter === s;
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setFilter(activeChip ? "all" : s)}
+                    className="rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors"
+                    style={{
+                      background: activeChip ? "var(--accent)" : "transparent",
+                      color: activeChip ? "#ffffff" : "var(--foreground)",
+                      borderColor: activeChip ? "var(--accent)" : "var(--border)",
+                    }}
+                  >
+                    {s}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Clear — only when something is active */}
+          {(filter !== "all" || query.trim()) && (
+            <button
+              type="button"
+              onClick={() => {
+                setFilter("all");
+                setQuery("");
+              }}
+              className="ml-auto inline-flex items-center gap-1.5 text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
+            >
+              Clear filters <span aria-hidden>×</span>
+            </button>
+          )}
         </div>
 
         {isReady && filtered.length === 0 ? (
           <p className="g-body">{projectsContent.emptyFiltered}</p>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((project) => {
-              const isOpen = project.status === "open";
-              return (
-                <article
-                  key={project.id}
-                  onClick={() => isOpen && openApply(project)}
-                  className="flex h-full flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 transition-transform hover:-translate-y-1"
-                  style={{ cursor: isOpen ? "pointer" : "default" }}
-                >
-                  <span
-                    className="inline-flex w-fit items-center rounded-full px-3 py-1 text-[0.68rem] font-bold uppercase tracking-widest"
-                    style={{
-                      background: isOpen ? "var(--status-open)" : "var(--border)",
-                      color: isOpen ? "#202124" : "var(--muted)",
-                    }}
+          <div className="relative">
+            {/* Horizontal row of pastel tiles */}
+            <div
+              ref={rowRef}
+              className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {filtered.map((project) => {
+                const isOpen = project.status === "open";
+                return (
+                  <div
+                    key={project.id}
+                    className="w-[min(80vw,19rem)] shrink-0 snap-start"
                   >
-                    {isOpen ? "Open" : "Closed"}
-                  </span>
-                  <h3 className="g-heading-sm mt-4 text-xl">{project.title}</h3>
-                  <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.8rem] text-[var(--muted)]">
-                    {project.skills[0] && <span>{project.skills[0]}</span>}
-                    {project.duration && (
-                      <>
-                        <span className="opacity-40">·</span>
-                        <span>{project.duration}</span>
-                      </>
-                    )}
-                  </p>
-                  <div className="mt-3 line-clamp-4 text-[var(--muted)]">
-                    <Markdown className="g-body !text-[0.9rem]">
-                      {project.description}
-                    </Markdown>
+                    <PastelProjectCard
+                      project={project}
+                      showStatus
+                      className="h-full min-h-[22rem]"
+                      label={isOpen ? "Apply now" : "Learn more"}
+                      onAction={isOpen ? () => openApply(project) : undefined}
+                    />
                   </div>
-                  {isOpen && (
-                    <span className="g-link mt-5 font-semibold text-[var(--accent-2)]">
-                      Apply <span className="arrow">→</span>
-                    </span>
-                  )}
-                </article>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            {/* Prev / next chevrons */}
+            {filtered.length > 3 && (
+              <>
+                <button
+                  type="button"
+                  aria-label="Scroll projects left"
+                  onClick={() => scrollRow(-1)}
+                  className="absolute -left-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--background)] text-xl text-[var(--foreground)] transition-colors hover:bg-[var(--surface)] lg:flex"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  aria-label="Scroll projects right"
+                  onClick={() => scrollRow(1)}
+                  className="absolute -right-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--background)] text-xl text-[var(--foreground)] transition-colors hover:bg-[var(--surface)] lg:flex"
+                >
+                  ›
+                </button>
+              </>
+            )}
           </div>
         )}
       </div>

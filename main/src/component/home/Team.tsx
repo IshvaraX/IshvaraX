@@ -28,12 +28,12 @@ const Team = () => {
   return (
     <section
       id="team"
-      className="border-t border-[var(--border)] px-4 py-20 md:px-8 md:py-32"
+      className="px-4 py-20 md:px-8 md:py-32"
     >
-      <div className="mx-auto w-full max-w-5xl">
+      <div className="mx-auto w-full max-w-7xl">
         <Reveal className="text-center">
           <span className="text-sm font-bold uppercase tracking-wider text-[var(--accent-2)]">
-            {"// our team"}
+            // our team
           </span>
           <h2 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
             The people behind IshvaraX

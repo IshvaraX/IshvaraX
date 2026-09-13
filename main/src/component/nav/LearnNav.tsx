@@ -82,8 +82,38 @@ const LearnNav = () => {
       </>
     );
 
+  // Signed-in: compact bar — brand mark aligned with the side rail, no links.
+  if (user) {
+    return (
+      <header className="sticky top-0 z-40 bg-[var(--background)]">
+        <div className="flex h-16 items-center justify-between pr-4 md:pr-6">
+          <Link href="/" className="flex items-center gap-2 text-lg font-extrabold tracking-tight">
+            <span className="flex w-20 items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M3 20L12 3l9 17" stroke="var(--brand-blue)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M8 20l4-8 4 8" stroke="var(--brand-purple)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span className="-ml-2">
+              {site.name.replace(/X$/, "")}
+              <span className="text-[var(--accent-2)]">X</span>
+            </span>
+          </Link>
+
+          {/* Mobile-only sign out (desktop lives in the side rail) */}
+          <button
+            onClick={logout}
+            className="text-sm font-medium text-[var(--muted)] hover:text-[var(--accent-2)] lg:hidden"
+          >
+            {auth.signOut}
+          </button>
+        </div>
+      </header>
+    );
+  }
+
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--background)]">
+    <header className="sticky top-0 z-40 bg-[var(--background)]">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
         <Link href="/" className="text-lg font-extrabold tracking-tight">
           {site.name.replace(/X$/, "")}

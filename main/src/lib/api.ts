@@ -21,6 +21,7 @@ export const ENDPOINTS = {
   learnings: "/learnings",
   blogs: "/blogs",
   members: "/members",
+  adminStorage: "/admin/storage",
 } as const;
 
 export type AuthUser = {
@@ -135,7 +136,7 @@ async function request<T>(path: string, body: unknown): Promise<T> {
 }
 
 type ApiFetchOptions = {
-  method?: "GET" | "POST" | "PUT" | "DELETE";
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: unknown;
   adminPassword?: string;
 };
@@ -208,6 +209,16 @@ export const projectsApi = {
   remove: (id: string, adminPassword: string) =>
     apiFetch<{ message?: string }>(`${ENDPOINTS.projects}/${id}`, {
       method: "DELETE",
+      adminPassword,
+    }),
+  setStatus: (
+    id: string,
+    status: "open" | "closed",
+    adminPassword: string
+  ) =>
+    apiFetch<ProjectDTO>(`${ENDPOINTS.projects}/${id}/status`, {
+      method: "PATCH",
+      body: { status },
       adminPassword,
     }),
   apply: (projectId: string, payload: ApplicationCreatePayload) =>
@@ -324,6 +335,38 @@ export const membersApi = {
       method: "DELETE",
       adminPassword,
     }),
+};
+
+export type StorageTableDTO = {
+  table: string;
+  totalBytes: number;
+  dataBytes: number;
+  indexBytes: number;
+  toastBytes: number;
+  rows: number;
+  known: boolean;
+};
+export type StorageBlobDTO = {
+  label: string;
+  table: string;
+  column: string;
+  bytes: number;
+  count: number;
+};
+export type StorageReportDTO = {
+  totalBytes: number;
+  limitBytes: number;
+  remainingBytes: number;
+  usedPercent: number | null;
+  tablesTotalBytes: number;
+  overheadBytes: number;
+  tables: StorageTableDTO[];
+  blobs: StorageBlobDTO[];
+};
+
+export const adminApi = {
+  storage: (adminPassword: string) =>
+    apiFetch<StorageReportDTO>(ENDPOINTS.adminStorage, { adminPassword }),
 };
 
 export { ApiError };

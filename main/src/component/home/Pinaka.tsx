@@ -7,12 +7,12 @@ const { pinaka } = content;
 const Pinaka = () => (
   <section
     id="pinaka"
-    className="border-t border-[var(--border)] px-4 py-20 md:px-8 md:py-32"
+    className="px-4 py-20 md:px-8 md:py-32"
   >
     <div className="mx-auto w-full max-w-3xl text-center">
       <Reveal>
         <span className="text-sm font-bold uppercase tracking-wider text-[var(--status-open)]">
-          {`// ${pinaka.label}`}
+          // {pinaka.label}
         </span>
         <h2 className="g-heading-lg mt-2 !text-3xl md:!text-5xl">
           {pinaka.heading}
