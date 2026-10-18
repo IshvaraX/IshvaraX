@@ -16,7 +16,6 @@ import ProductsAdmin from "@/component/admin/ProductsAdmin";
 import StorageAdmin from "@/component/admin/StorageAdmin";
 
 const ADMIN_USERNAME = "admin";
-const ADMIN_PW_KEY = "ishvarax.adminpw";
 
 const emptyForm = {
   title: "",
@@ -28,7 +27,7 @@ const emptyForm = {
 };
 
 const AdminPage = () => {
-  const { user, isReady, login } = useAuth();
+  const { user, token, isReady, login } = useAuth();
   const {
     projects,
     addProject,
@@ -45,7 +44,6 @@ const AdminPage = () => {
     "projects" | "products" | "learnings" | "blog" | "members" | "storage"
   >("projects");
   const [adminPassword, setAdminPassword] = useState("");
-  const [adminPw, setAdminPw] = useState("");
   const [authError, setAuthError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
   const [cleanupMsg, setCleanupMsg] = useState<string | null>(null);
@@ -53,7 +51,7 @@ const AdminPage = () => {
   const [formError, setFormError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const isAdmin = user?.username === ADMIN_USERNAME;
+  const isAdmin = user?.username === ADMIN_USERNAME && Boolean(token);
 
   const selectedProject = useMemo(
     () => projects.find((p) => p.id === selectedProjectId) ?? null,
@@ -67,14 +65,11 @@ const AdminPage = () => {
     }
   }, [projects, selectedProjectId]);
 
-  // Restore the admin password (kept only for this tab) and load applications.
+  // Load applications once signed in as admin.
   useEffect(() => {
     if (!isAdmin) return;
-    const stored = adminPw || sessionStorage.getItem(ADMIN_PW_KEY) || "";
-    if (!stored) return;
-    if (!adminPw) setAdminPw(stored);
-    refreshApplications(stored).catch(() => {});
-  }, [isAdmin, adminPw, refreshApplications]);
+    refreshApplications(token).catch(() => {});
+  }, [isAdmin, token, refreshApplications]);
 
   const onChange = (
     e: React.ChangeEvent<
@@ -98,7 +93,7 @@ const AdminPage = () => {
     };
     setSaving(true);
     try {
-      await addProject(project, adminPw);
+      await addProject(project, token);
       setForm(emptyForm);
     } catch (err) {
       setFormError(
@@ -111,7 +106,7 @@ const AdminPage = () => {
 
   const onDelete = async (id: string) => {
     try {
-      await deleteProject(id, adminPw);
+      await deleteProject(id, token);
     } catch {
       // ignore — the list stays as-is if the delete fails
     }
@@ -119,7 +114,7 @@ const AdminPage = () => {
 
   const onToggleStatus = async (id: string, current: "open" | "closed") => {
     try {
-      await setProjectStatus(id, current === "open" ? "closed" : "open", adminPw);
+      await setProjectStatus(id, current === "open" ? "closed" : "open", token);
     } catch {
       // ignore — the list stays as-is if the update fails
     }
@@ -129,7 +124,7 @@ const AdminPage = () => {
     setCleanupMsg(null);
     setCleanupLoading(true);
     try {
-      const res = await authApi.cleanupTokens();
+      const res = await authApi.cleanupTokens(token);
       setCleanupMsg(res.message ?? "Cleanup complete.");
     } catch (err) {
       setCleanupMsg(
@@ -146,9 +141,6 @@ const AdminPage = () => {
     setAuthLoading(true);
     try {
       await login({ username: ADMIN_USERNAME, password: adminPassword });
-      setAdminPw(adminPassword);
-      sessionStorage.setItem(ADMIN_PW_KEY, adminPassword);
-      refreshApplications(adminPassword).catch(() => {});
       setAdminPassword("");
     } catch (err) {
       setAuthError(
@@ -520,11 +512,11 @@ const AdminPage = () => {
             </div>
           )}
 
-          {activeSection === "products" && <ProductsAdmin adminPw={adminPw} />}
-          {activeSection === "learnings" && <LearningsAdmin adminPw={adminPw} />}
-          {activeSection === "blog" && <BlogAdmin adminPw={adminPw} />}
-          {activeSection === "members" && <MembersAdmin adminPw={adminPw} />}
-          {activeSection === "storage" && <StorageAdmin adminPw={adminPw} />}
+          {activeSection === "products" && <ProductsAdmin token={token} />}
+          {activeSection === "learnings" && <LearningsAdmin token={token} />}
+          {activeSection === "blog" && <BlogAdmin token={token} />}
+          {activeSection === "members" && <MembersAdmin token={token} />}
+          {activeSection === "storage" && <StorageAdmin token={token} />}
         </div>
       </div>
       </PagePanel>

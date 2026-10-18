@@ -63,7 +63,7 @@ const FreelanceProjects = () => {
     setError(null);
     setSending(true);
     try {
-      await applyToProject(active.id, { username: user.username, links });
+      await applyToProject(active.id, { links });
       setSubmitted(true);
     } catch {
       setError("Could not submit your application. Please try again.");

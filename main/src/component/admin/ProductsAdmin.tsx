@@ -30,7 +30,7 @@ const empty: ProductPayload = {
 const MAX_ICON_BYTES = 300_000;
 
 /** Admin CRUD for the products showcased in the home-page hero. */
-const ProductsAdmin = ({ adminPw }: { adminPw: string }) => {
+const ProductsAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<ProductDTO[]>([]);
   const [form, setForm] = useState<ProductPayload>(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -80,9 +80,9 @@ const ProductsAdmin = ({ adminPw }: { adminPw: string }) => {
     setSaving(true);
     try {
       if (editingId) {
-        await productsApi.update(editingId, payload, adminPw);
+        await productsApi.update(editingId, payload, token);
       } else {
-        await productsApi.create(payload, adminPw);
+        await productsApi.create(payload, token);
       }
       reset();
       load();
@@ -107,7 +107,7 @@ const ProductsAdmin = ({ adminPw }: { adminPw: string }) => {
 
   const onDelete = async (id: string) => {
     try {
-      await productsApi.remove(id, adminPw);
+      await productsApi.remove(id, token);
       if (editingId === id) reset();
       load();
     } catch {
@@ -117,7 +117,7 @@ const ProductsAdmin = ({ adminPw }: { adminPw: string }) => {
 
   const onToggleFeatured = async (p: ProductDTO) => {
     try {
-      await productsApi.update(p.id, { ...p, featured: !p.featured }, adminPw);
+      await productsApi.update(p.id, { ...p, featured: !p.featured }, token);
       load();
     } catch {
       // ignore

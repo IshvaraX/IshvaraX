@@ -29,17 +29,17 @@ const BAR_COLORS = [
 ];
 
 /** Admin: database storage usage, remaining quota, and where the bytes go. */
-const StorageAdmin = ({ adminPw }: { adminPw: string }) => {
+const StorageAdmin = ({ token }: { token: string }) => {
   const [report, setReport] = useState<StorageReportDTO | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const load = useCallback(async () => {
-    if (!adminPw) return;
+    if (!token) return;
     setLoading(true);
     setError(null);
     try {
-      setReport(await adminApi.storage(adminPw));
+      setReport(await adminApi.storage(token));
     } catch (err) {
       setError(
         err instanceof ApiError ? err.message : "Could not load storage stats."
@@ -47,7 +47,7 @@ const StorageAdmin = ({ adminPw }: { adminPw: string }) => {
     } finally {
       setLoading(false);
     }
-  }, [adminPw]);
+  }, [token]);
 
   useEffect(() => {
     load();

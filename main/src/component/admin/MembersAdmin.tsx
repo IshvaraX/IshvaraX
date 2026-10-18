@@ -6,7 +6,7 @@ import { ApiError, membersApi, type MemberDTO, type MemberPayload } from "@/lib/
 const empty: MemberPayload = { name: "", role: "", photo: "" };
 
 /** Admin CRUD for organisation members and their roles. */
-const MembersAdmin = ({ adminPw }: { adminPw: string }) => {
+const MembersAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<MemberDTO[]>([]);
   const [form, setForm] = useState<MemberPayload>(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -49,9 +49,9 @@ const MembersAdmin = ({ adminPw }: { adminPw: string }) => {
     setSaving(true);
     try {
       if (editingId) {
-        await membersApi.update(editingId, payload, adminPw);
+        await membersApi.update(editingId, payload, token);
       } else {
-        await membersApi.create(payload, adminPw);
+        await membersApi.create(payload, token);
       }
       reset();
       load();
@@ -69,7 +69,7 @@ const MembersAdmin = ({ adminPw }: { adminPw: string }) => {
 
   const onDelete = async (id: string) => {
     try {
-      await membersApi.remove(id, adminPw);
+      await membersApi.remove(id, token);
       if (editingId === id) reset();
       load();
     } catch {

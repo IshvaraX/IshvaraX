@@ -13,6 +13,7 @@ import {
   type ApplicationDTO,
   type ProjectDTO,
 } from "@/lib/api";
+import { useAuth } from "@/context/AuthContext";
 
 export type Project = {
   id: string;
@@ -38,7 +39,7 @@ export type Application = {
 };
 
 export type NewProject = Omit<Project, "id" | "createdAt">;
-export type NewApplication = Omit<Application, "id" | "projectId" | "createdAt">;
+export type NewApplication = { links: string };
 
 function normalizeProject(dto: ProjectDTO): Project {
   return {
@@ -73,13 +74,13 @@ type ProjectsContextValue = {
   isReady: boolean;
   latestProject: Project | null;
   refresh: () => Promise<void>;
-  refreshApplications: (adminPassword: string) => Promise<void>;
-  addProject: (data: NewProject, adminPassword: string) => Promise<Project>;
-  deleteProject: (id: string, adminPassword: string) => Promise<void>;
+  refreshApplications: (adminToken: string) => Promise<void>;
+  addProject: (data: NewProject, adminToken: string) => Promise<Project>;
+  deleteProject: (id: string, adminToken: string) => Promise<void>;
   setProjectStatus: (
     id: string,
     status: "open" | "closed",
-    adminPassword: string
+    adminToken: string
   ) => Promise<void>;
   applyToProject: (projectId: string, data: NewApplication) => Promise<Application>;
   applicationsFor: (projectId: string) => Application[];
@@ -90,6 +91,7 @@ const ProjectsContext = createContext<ProjectsContextValue | undefined>(
 );
 
 export function ProjectsProvider({ children }: { children: React.ReactNode }) {
+  const { token } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
   const [applications, setApplications] = useState<Application[]>([]);
   const [isReady, setIsReady] = useState(false);
@@ -109,13 +111,13 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     refresh();
   }, [refresh]);
 
-  const refreshApplications = useCallback(async (adminPassword: string) => {
-    const list = await projectsApi.listApplications(adminPassword);
+  const refreshApplications = useCallback(async (adminToken: string) => {
+    const list = await projectsApi.listApplications(adminToken);
     setApplications(list.map(normalizeApplication));
   }, []);
 
   const addProject = useCallback(
-    async (data: NewProject, adminPassword: string) => {
+    async (data: NewProject, adminToken: string) => {
       const created = await projectsApi.create(
         {
           title: data.title,
@@ -125,7 +127,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
           duration: data.duration,
           status: data.status,
         },
-        adminPassword
+        adminToken
       );
       const project = normalizeProject(created);
       setProjects((prev) => [project, ...prev]);
@@ -135,8 +137,8 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
   );
 
   const deleteProject = useCallback(
-    async (id: string, adminPassword: string) => {
-      await projectsApi.remove(id, adminPassword);
+    async (id: string, adminToken: string) => {
+      await projectsApi.remove(id, adminToken);
       setProjects((prev) => prev.filter((p) => p.id !== id));
       setApplications((prev) => prev.filter((a) => a.projectId !== id));
     },
@@ -144,8 +146,8 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
   );
 
   const setProjectStatus = useCallback(
-    async (id: string, status: "open" | "closed", adminPassword: string) => {
-      const updated = await projectsApi.setStatus(id, status, adminPassword);
+    async (id: string, status: "open" | "closed", adminToken: string) => {
+      const updated = await projectsApi.setStatus(id, status, adminToken);
       const project = normalizeProject(updated);
       setProjects((prev) => prev.map((p) => (p.id === id ? project : p)));
     },
@@ -154,15 +156,12 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
 
   const applyToProject = useCallback(
     async (projectId: string, data: NewApplication) => {
-      const created = await projectsApi.apply(projectId, {
-        username: data.username,
-        links: data.links,
-      });
+      const created = await projectsApi.apply(projectId, { links: data.links }, token);
       const application = normalizeApplication(created);
       setApplications((prev) => [application, ...prev]);
       return application;
     },
-    []
+    [token]
   );
 
   const applicationsFor = useCallback(

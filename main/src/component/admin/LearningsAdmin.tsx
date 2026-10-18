@@ -18,7 +18,7 @@ const DEFAULT_SECTIONS = [
 ];
 
 /** Admin CRUD for learning resources (course, category, link). */
-const LearningsAdmin = ({ adminPw }: { adminPw: string }) => {
+const LearningsAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<LearningDTO[]>([]);
   const [form, setForm] = useState<LearningPayload>(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -54,9 +54,9 @@ const LearningsAdmin = ({ adminPw }: { adminPw: string }) => {
     setSaving(true);
     try {
       if (editingId) {
-        await learningsApi.update(editingId, payload, adminPw);
+        await learningsApi.update(editingId, payload, token);
       } else {
-        await learningsApi.create(payload, adminPw);
+        await learningsApi.create(payload, token);
       }
       reset();
       load();
@@ -79,7 +79,7 @@ const LearningsAdmin = ({ adminPw }: { adminPw: string }) => {
 
   const onDelete = async (id: string) => {
     try {
-      await learningsApi.remove(id, adminPw);
+      await learningsApi.remove(id, token);
       if (editingId === id) reset();
       load();
     } catch {

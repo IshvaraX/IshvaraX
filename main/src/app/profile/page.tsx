@@ -11,7 +11,7 @@ const str = (v: unknown) => (typeof v === "string" ? v : "");
 
 /** Edit the signed-in user's profile and profile picture. */
 const ProfilePage = () => {
-  const { user, isReady, updateProfile } = useAuth();
+  const { user, token, isReady, updateProfile } = useAuth();
 
   const [photo, setPhoto] = useState("");
   const [email, setEmail] = useState("");
@@ -27,12 +27,12 @@ const ProfilePage = () => {
 
   // Load the user's applied projects.
   useEffect(() => {
-    if (!user) return;
+    if (!user || !token) return;
     projectsApi
-      .myApplications(user.username)
+      .myApplications(user.username, token)
       .then(setApplied)
       .catch(() => {});
-  }, [user]);
+  }, [user, token]);
 
   // Prefill once the stored user is available.
   useEffect(() => {

@@ -27,7 +27,7 @@ const ProjectCard = ({ project, featured, onDelete }: ProjectCardProps) => {
     setError(null);
     setSending(true);
     try {
-      await applyToProject(project.id, { username: user.username, links });
+      await applyToProject(project.id, { links });
       setSubmitted(true);
       setLinks("");
     } catch {

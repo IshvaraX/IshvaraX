@@ -20,12 +20,15 @@ const STORAGE_KEY = "ishvarax.auth";
 
 type StoredAuth = {
   user?: AuthUser;
+  token?: string;
 };
 
 type AuthContextValue = {
   user: AuthUser | null;
+  /** Session token for authenticated API calls (empty until logged in). */
+  token: string;
   isReady: boolean;
-  login: (payload: LoginPayload) => Promise<void>;
+  login: (payload: LoginPayload) => Promise<string>;
   register: (payload: RegisterPayload) => Promise<void>;
   updateProfile: (payload: ProfileUpdatePayload) => Promise<void>;
   logout: () => void;
@@ -33,14 +36,15 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-function persist(user: AuthUser) {
+function persist(user: AuthUser, token: string) {
   if (typeof window !== "undefined") {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user } satisfies StoredAuth));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user, token } satisfies StoredAuth));
   }
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [token, setToken] = useState("");
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -48,7 +52,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as StoredAuth;
-        setUser(parsed.user ?? null);
+        // Sessions saved before tokens existed can't call protected endpoints; ask for a fresh login.
+        if (parsed.user && parsed.token) {
+          setUser(parsed.user);
+          setToken(parsed.token);
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
       }
     } catch {
       // ignore malformed storage
@@ -61,40 +71,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const profile = (res.user as AuthUser | undefined) ?? {
       username: payload.username,
     };
-    persist(profile);
+    const sessionToken = res.token ?? "";
+    persist(profile, sessionToken);
     setUser(profile);
+    setToken(sessionToken);
+    return sessionToken;
   }, []);
 
-  const register = useCallback(async (payload: RegisterPayload) => {
-    await authApi.register(payload);
-    const current: AuthUser = {
-      username: payload.username,
-      email: payload.email,
-      photo: payload.photo,
-      skills: payload.skills,
-      language: payload.language,
-    };
-    persist(current);
-    setUser(current);
-  }, []);
+  const register = useCallback(
+    async (payload: RegisterPayload) => {
+      await authApi.register(payload);
+      await login({ username: payload.username, password: payload.password });
+    },
+    [login]
+  );
 
-  const updateProfile = useCallback(async (payload: ProfileUpdatePayload) => {
-    const res = await authApi.updateProfile(payload);
-    const profile = res.user as AuthUser | undefined;
-    if (profile) {
-      persist(profile);
-      setUser(profile);
-    }
-  }, []);
+  const updateProfile = useCallback(
+    async (payload: ProfileUpdatePayload) => {
+      const res = await authApi.updateProfile(payload);
+      const profile = res.user as AuthUser | undefined;
+      if (profile) {
+        persist(profile, token);
+        setUser(profile);
+      }
+    },
+    [token]
+  );
 
   const logout = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     setUser(null);
+    setToken("");
   }, []);
 
   const value = useMemo(
-    () => ({ user, isReady, login, register, updateProfile, logout }),
-    [user, isReady, login, register, updateProfile, logout]
+    () => ({ user, token, isReady, login, register, updateProfile, logout }),
+    [user, token, isReady, login, register, updateProfile, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

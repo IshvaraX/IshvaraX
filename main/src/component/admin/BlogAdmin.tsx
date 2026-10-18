@@ -19,7 +19,7 @@ const splitList = (raw: string) =>
     .filter(Boolean);
 
 /** Admin CRUD for blog posts. */
-const BlogAdmin = ({ adminPw }: { adminPw: string }) => {
+const BlogAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<BlogDTO[]>([]);
   const [form, setForm] = useState<FormState>(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -55,9 +55,9 @@ const BlogAdmin = ({ adminPw }: { adminPw: string }) => {
     setSaving(true);
     try {
       if (editingId) {
-        await blogsApi.update(editingId, payload, adminPw);
+        await blogsApi.update(editingId, payload, token);
       } else {
-        await blogsApi.create(payload, adminPw);
+        await blogsApi.create(payload, token);
       }
       reset();
       load();
@@ -80,7 +80,7 @@ const BlogAdmin = ({ adminPw }: { adminPw: string }) => {
 
   const onDelete = async (id: string) => {
     try {
-      await blogsApi.remove(id, adminPw);
+      await blogsApi.remove(id, token);
       if (editingId === id) reset();
       load();
     } catch {
