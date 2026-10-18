@@ -1,0 +1,713 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   IshvaraX — LearnIT-inspired design system
+   Playful flat palette: warm yellow + deep navy ink + mint surfaces,
+   chunky rounded navy borders, bold Poppins headings.
+   ========================================================================== */
+
+body {
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  /* max-width: 1400px !important; */
+  margin: 0 auto;
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono), ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+}
+
+/* Roboto Mono for the small uppercase labels, chips and badges */
+.g-eyebrow,
+.gdm-eyebrow,
+.g-label,
+.g-chip,
+.g-badge {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Lighten the heavy weight utilities for an overall thinner feel */
+.font-extrabold {
+  font-weight: 700;
+}
+.font-bold {
+  font-weight: 600;
+}
+.font-semibold {
+  font-weight: 600;
+}
+
+/* Flatten native control rendering so buttons never show a UA gradient */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+:root {
+  /* Light surfaces */
+  --foreground: #14161c; /* near-black text */
+  --muted: #5f6673; /* secondary text */
+  --background: #ffffff;
+  --surface: #f6f7fb; /* cards sit softly above the page */
+  --border: #e4e7ef;
+  --border-soft: #eef0f5;
+
+  /* Ink = subtle borders/lines; on-accent = text over accent fills;
+     on-foreground = text over foreground-filled (dark) pills */
+  --ink: #c9cfdd;
+  --on-accent: #ffffff;
+  --on-foreground: #ffffff;
+
+  /* Brand palette */
+  --brand-amber: #ffb343;
+  --brand-cyan: #42eaff;
+  --brand-blue: #4272ff;
+  --brand-orange: #ff7e42;
+  --brand-purple: #a78bfa; /* logo inner stroke (light purple) */
+  /* Deeper variants for fills that carry white text */
+  --brand-amber-deep: #e5940e;
+  --brand-cyan-deep: #0aa9c4;
+
+  /* Accent + status tokens */
+  --accent: var(--brand-blue); /* primary — matches timeline beats */
+  --accent-strong: #2f5ce6; /* hover */
+  --accent-2: #5480f5; /* links */
+  --status-open: #6b93ff;
+  --status-closed: var(--brand-orange);
+  --danger: #e0472f;
+
+  /* Aliases used by older components / decorative bits */
+  --brand-red: var(--brand-orange);
+  --brand-yellow: var(--brand-amber);
+  --brand-green: var(--brand-cyan);
+  --brand-teal: var(--brand-cyan);
+  --brand-pink: var(--brand-orange);
+  --accent-blue: var(--brand-blue);
+  --accent-magenta: var(--brand-orange);
+  --accent-purple: var(--brand-blue);
+  --accent-orange: var(--brand-orange);
+  --accent-cyan: var(--brand-cyan);
+  --accent-teal: var(--brand-cyan);
+  --accent-orange-2: var(--brand-amber);
+
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --radius-pill: 999px;
+  --radius-btn: 10px;
+
+  /* Lavender project-card tints (light mode) + card text + accent ink */
+  --pc-text: #14161c;
+  --pc-red: #e6ebf7;
+  --pc-blue: #ddfaff;
+  --pc-green: #e8e8fd;
+  --pc-yellow: #ece5f7;
+  --pc-red-ink: #4a6aa8;
+  --pc-blue-ink: #0f91a8;
+  --pc-green-ink: #5a5bd6;
+  --pc-yellow-ink: #6f54b8;
+
+  --shadow-1: none;
+  --shadow-2: none;
+  --shadow-color: none;
+}
+
+/* Follows the OS setting: dark surfaces when the system is in dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    /* Dark surfaces */
+    --foreground: #ededee; /* near-white text */
+    --muted: #9a9a9f; /* secondary text */
+    --background: #141414;
+    --surface: #1e1e1f; /* cards sit softly above the page */
+    --border: #2e2e30;
+    --border-soft: #242425;
+
+    --ink: #3b3b3d;
+    --on-accent: #ffffff;
+    --on-foreground: #141414;
+
+    /* Home cards: Lavender palette with dark text in dark mode */
+    --pc-text: #14161c;
+    --pc-red: #b5c7eb;
+    --pc-blue: #9ef0ff;
+    --pc-green: #a4a5f5;
+    --pc-yellow: #8e70cf;
+    --pc-red-ink: #3f5d9e;
+    --pc-blue-ink: #0b7e92;
+    --pc-green-ink: #4a4bcc;
+    --pc-yellow-ink: #4a3192;
+  }
+}
+
+html {
+  color: var(--foreground);
+  background: var(--background) !important;
+  color-scheme: light dark;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  font-size: 15px; /* scales the whole rem-based type + spacing down a touch */
+}
+
+/* Keep anchored sections clear of the fixed mobile top bar */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Signed-in dashboard: centred in the column beside the rail, tighter rhythm */
+.dash .max-w-7xl {
+  max-width: 80rem;
+}
+.dash section {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+@media (min-width: 768px) {
+  .dash section {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+.g-heading-xl,
+.gdm-heading-xl {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  color: var(--foreground);
+}
+
+.g-heading-lg {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  font-size: clamp(1.6rem, 3vw, 2.35rem);
+  color: var(--foreground);
+}
+
+.g-heading-md,
+.gdm-heading-md {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.22;
+  font-size: 1.3rem;
+  color: var(--foreground);
+}
+
+.g-heading-sm {
+  font-weight: 500;
+  line-height: 1.3;
+  font-size: 1.1rem;
+  color: var(--foreground);
+}
+
+.g-eyebrow,
+.gdm-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.g-eyebrow-blue {
+  color: var(--muted);
+}
+
+.g-body,
+.gdm-body {
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 1.05rem;
+}
+
+/* ==========================================================================
+   Arrow links
+   ========================================================================== */
+.g-link,
+.gdm-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--foreground);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.g-link:hover,
+.gdm-link:hover {
+  text-decoration: underline;
+}
+
+.g-link .arrow,
+.gdm-link .arrow {
+  transition: transform 200ms ease;
+}
+
+.g-link:hover .arrow,
+.gdm-link:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   Cards — white surface, hairline border, Material elevation on hover
+   ========================================================================== */
+.g-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.g-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.g-card-featured {
+  border-color: var(--ink);
+}
+
+.gdm-card {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: border-color 160ms ease;
+}
+
+.gdm-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.gdm-card-body {
+  padding: 1.5rem;
+}
+
+/* ==========================================================================
+   Buttons — Google Material style (pill, subtle state layers)
+   ========================================================================== */
+.g-btn,
+.gdm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  line-height: 1.25;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--foreground);
+  cursor: pointer;
+  text-decoration: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: none;
+  transition: background-color 150ms ease, border-color 150ms ease,
+    color 150ms ease, transform 150ms ease;
+}
+
+/* Outlined button — fills with accent on hover */
+.g-btn:hover,
+.gdm-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.g-btn:active,
+.gdm-btn:active {
+  transform: translateY(1px);
+}
+
+.g-btn:disabled,
+.gdm-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Arrows / icons nudge forward on hover */
+.g-btn .arrow,
+.gdm-btn .arrow {
+  transition: transform 160ms ease;
+}
+.g-btn:hover .arrow,
+.gdm-btn:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* Filled (primary) button — yellow fill, navy border + ink text */
+.g-btn-primary,
+.gdm-btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+
+.g-btn-primary:hover,
+.gdm-btn-primary:hover {
+  background: var(--accent-strong);
+  color: var(--on-accent);
+  border-color: var(--accent-strong);
+}
+
+.g-btn-primary:active,
+.gdm-btn-primary:active {
+  transform: translateY(1px);
+}
+
+.g-btn-danger {
+  background: var(--background);
+  color: var(--danger);
+  border-color: var(--danger);
+  padding: 0.5rem 1.1rem;
+}
+
+.g-btn-danger:hover {
+  background: var(--danger);
+  color: #fffffe;
+  border-color: var(--danger);
+}
+
+/* ==========================================================================
+   Pill buttons (hero-style CTAs)
+   ========================================================================== */
+.g-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-btn);
+  padding: 0.65rem 1.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: none;
+  transition: background-color 150ms ease, border-color 150ms ease,
+    color 150ms ease, opacity 150ms ease;
+}
+.g-pill-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.g-pill-primary:hover {
+  background: var(--accent-strong);
+}
+.g-pill-soft {
+  background: var(--surface);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.g-pill-soft:hover {
+  border-color: var(--ink);
+  background: var(--border-soft);
+}
+.g-pill-contrast {
+  background: var(--foreground);
+  color: var(--on-foreground);
+}
+.g-pill-contrast:hover {
+  opacity: 0.88;
+}
+
+/* ==========================================================================
+   Chips & badges
+   ========================================================================== */
+.g-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.g-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.g-badge-open {
+  background: var(--status-open);
+  color: #ffffff;
+}
+
+.g-badge-closed {
+  background: var(--status-closed);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Inputs
+   ========================================================================== */
+.g-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.95rem;
+  color: var(--foreground);
+  background: var(--surface);
+  outline: none;
+  transition: border-color 160ms ease;
+}
+
+.g-input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.g-input:focus {
+  border-color: var(--ink);
+}
+
+/* ==========================================================================
+   Colorful icon accents (playful flat palette)
+   ========================================================================== */
+.g-icon {
+  display: inline-flex;
+  width: fit-content;
+  padding: 0.7rem;
+  border-radius: 14px;
+  border: 2px solid var(--ink);
+  color: #ffffff;
+}
+
+.g-icon-blue {
+  background: var(--accent-2);
+}
+.g-icon-red {
+  background: var(--danger);
+}
+.g-icon-yellow {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.g-icon-green {
+  background: var(--status-open);
+}
+
+/* ==========================================================================
+   Divider
+   ========================================================================== */
+.g-divider,
+.gdm-divider {
+  height: 1px;
+  background: var(--border);
+  border: none;
+}
+
+/* ==========================================================================
+   Colored section bands (Google pale tints)
+   ========================================================================== */
+.g-band-blue { background: color-mix(in srgb, var(--accent) 8%, var(--background)); }
+.g-band-red { background: color-mix(in srgb, var(--status-closed) 9%, var(--background)); }
+.g-band-yellow { background: color-mix(in srgb, var(--accent-2) 9%, var(--background)); }
+.g-band-green { background: color-mix(in srgb, var(--status-open) 9%, var(--background)); }
+
+/* ==========================================================================
+   Contained colored rows (Android Studio landing-row style)
+   ========================================================================== */
+.g-contained {
+  border-radius: 28px;
+  border: 1px solid var(--border);
+}
+.g-contained-blue {
+  background: color-mix(in srgb, var(--accent) 9%, var(--background));
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+.g-contained-red {
+  background: color-mix(in srgb, var(--status-closed) 10%, var(--background));
+  border-color: color-mix(in srgb, var(--status-closed) 28%, var(--border));
+}
+.g-contained-yellow {
+  background: color-mix(in srgb, var(--accent-2) 10%, var(--background));
+  border-color: color-mix(in srgb, var(--accent-2) 28%, var(--border));
+}
+.g-contained-green {
+  background: color-mix(in srgb, var(--status-open) 10%, var(--background));
+  border-color: color-mix(in srgb, var(--status-open) 28%, var(--border));
+}
+
+.g-label {
+  display: inline-flex;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Radius helpers kept for existing utility usage */
+.rounded, .rounded-sm, .rounded-md { border-radius: 12px; }
+.rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl { border-radius: var(--radius-card); }
+.rounded-full { border-radius: var(--radius-pill); }
+
+/* ==========================================================================
+   Scroll reveal
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 0.6s cubic-bezier(0.2, 0.6, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   Auto-scrolling marquee (hero project cards)
+   ========================================================================== */
+@keyframes g-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.g-marquee {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: g-marquee 45s linear infinite;
+}
+.g-marquee-wrap:hover .g-marquee {
+  animation-play-state: paused;
+}
+.g-marquee--reverse {
+  animation-direction: reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .g-marquee {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Markdown (job / project descriptions)
+   ========================================================================== */
+.g-markdown {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.g-markdown p {
+  margin: 0 0 0.75em;
+}
+.g-markdown p:last-child {
+  margin-bottom: 0;
+}
+.g-markdown a {
+  color: var(--accent);
+  text-decoration: underline;
+  word-break: break-word;
+}
+.g-markdown strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+.g-markdown em {
+  font-style: italic;
+}
+.g-markdown ul,
+.g-markdown ol {
+  margin: 0 0 0.75em;
+  padding-left: 1.25em;
+}
+.g-markdown ul {
+  list-style: disc;
+}
+.g-markdown ol {
+  list-style: decimal;
+}
+.g-markdown li {
+  margin: 0.2em 0;
+}
+.g-markdown code {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.9em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+.g-markdown pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9em;
+  overflow-x: auto;
+  margin: 0 0 0.75em;
+}
+.g-markdown pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.g-markdown h1,
+.g-markdown h2,
+.g-markdown h3 {
+  font-weight: 600;
+  margin: 0.6em 0 0.4em;
+  line-height: 1.25;
+  color: var(--foreground);
+}
+.g-markdown h1 {
+  font-size: 1.3em;
+}
+.g-markdown h2 {
+  font-size: 1.15em;
+}
+.g-markdown h3 {
+  font-size: 1.05em;
+}
+.g-markdown blockquote {
+  border-left: 3px solid var(--border);
+  padding-left: 1em;
+  color: var(--muted);
+  margin: 0 0 0.75em;
+}
