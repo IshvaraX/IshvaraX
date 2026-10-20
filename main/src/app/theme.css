@@ -1,0 +1,78 @@
+/* ==========================================================================
+   IshvaraX — colour scheme
+   Light mode: Tony Stark — arc-reactor blue primary, steel secondary, cyan
+   tertiary, gold extended colour, cool titanium neutrals.
+   Dark mode: Doctor Doom — emerald primary, gunmetal secondary, cold-steel
+   tertiary, antique gold, grey-green armour neutrals.
+   Every colour used by the site lives here as an M3 role token. Values are
+   light-dark(stark, doom) pairs resolved by `color-scheme`; the OS preference
+   is the default and `data-theme="light|dark"` on <html> forces one.
+   ========================================================================== */
+:root {
+  color-scheme: light dark;
+
+  /* Primary — arc-reactor blue / emerald cloak */
+  --md-sys-color-primary: light-dark(#2932db, #7edb9a);
+  --md-sys-color-on-primary: light-dark(#ffffff, #00391a);
+  --md-sys-color-primary-container: light-dark(#d8e2ff, #005228);
+  --md-sys-color-on-primary-container: light-dark(#001a42, #a6f2b8);
+
+  /* Secondary — steel / gunmetal */
+  --md-sys-color-secondary: light-dark(#565e71, #b7ccc0);
+  --md-sys-color-on-secondary: light-dark(#ffffff, #22352d);
+  --md-sys-color-secondary-container: light-dark(#dae2f9, #394b43);
+  --md-sys-color-on-secondary-container: light-dark(#131b2c, #d3e8dc);
+
+  /* Tertiary — reactor cyan / cold steel */
+  --md-sys-color-tertiary: light-dark(#006876, #a6cbe2);
+  --md-sys-color-on-tertiary: light-dark(#ffffff, #0a3447);
+  --md-sys-color-tertiary-container: light-dark(#a1efff, #26485b);
+  --md-sys-color-on-tertiary-container: light-dark(#001f26, #c2e8ff);
+
+  /* Extended — Iron Man gold / antique gold */
+  --md-extended-color-amber: light-dark(#7a5900, #e6c54c);
+  --md-extended-color-on-amber: light-dark(#ffffff, #3c2f00);
+  --md-extended-color-amber-container: light-dark(#ffdf9b, #564600);
+  --md-extended-color-on-amber-container: light-dark(#261a00, #ffe17f);
+
+  /* Error */
+  --md-sys-color-error: light-dark(#ba1a1a, #ffb4ab);
+  --md-sys-color-on-error: light-dark(#ffffff, #690005);
+  --md-sys-color-on-error-container: light-dark(#93000a, #ffdad6);
+  --md-sys-color-error-container: light-dark(#ffdad6, #93000a);
+
+  /* Surfaces — titanium neutrals / grey-green armour */
+  --md-sys-color-surface: light-dark(#faf9fd, #111412);
+  --md-sys-color-surface-dim: light-dark(#dad9de, #111412);
+  --md-sys-color-surface-bright: light-dark(#faf9fd, #373a37);
+  --md-sys-color-surface-container-lowest: light-dark(#ffffff, #0c0f0d);
+  --md-sys-color-surface-container-low: light-dark(#f4f3f8, #1a1c1a);
+  --md-sys-color-surface-container: light-dark(#eeedf2, #1e201e);
+  --md-sys-color-surface-container-high: light-dark(#e8e8ed, #282b28);
+  --md-sys-color-surface-container-highest: light-dark(#e3e2e7, #333633);
+  --md-sys-color-on-surface: light-dark(#1b1b1f, #e2e3df);
+  --md-sys-color-on-surface-variant: light-dark(#44474f, #c0c9c1);
+  --md-sys-color-surface-variant: light-dark(#e1e2ec, #414943);
+  --md-sys-color-surface-tint: light-dark(#0057c2, #7edb9a);
+
+  /* Outline, inverse, misc */
+  --md-sys-color-outline: light-dark(#74777f, #8a938b);
+  --md-sys-color-outline-variant: light-dark(#c4c6d0, #414943);
+  --md-sys-color-inverse-surface: light-dark(#303034, #e2e3df);
+  --md-sys-color-inverse-on-surface: light-dark(#f2f0f4, #2f312f);
+  --md-sys-color-inverse-primary: light-dark(#adc6ff, #1b6b3a);
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-shadow: #000000;
+
+  /* Page canvas + the rounded panels that sit on it */
+  --m3-canvas: light-dark(#eeedf2, #1e201e);
+  --m3-panel: light-dark(#f4f3f8, #1a1c1a);
+}
+
+/* Manual theme override (set by the rail's theme toggle, persisted in localStorage) */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
