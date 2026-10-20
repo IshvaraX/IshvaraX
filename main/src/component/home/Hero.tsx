@@ -185,13 +185,13 @@ const Hero = () => {
       id="hero"
       className="grid gap-3 p-2 lg:grid-cols-[minmax(0,34rem)_1fr] lg:p-3 lg:pl-1"
     >
-      <div className="m3-panel flex flex-col justify-center p-8 md:p-12 lg:min-h-[30rem]">
+      <div className="m3-panel flex min-w-0 flex-col justify-center p-8 md:p-12 lg:min-h-[30rem]">
         <span className="m3-title-medium inline-flex items-center gap-2 text-on-surface-variant">
           <BrandMark size={22} />
           {site.name}
         </span>
 
-        <h1 className="m3-hero-title mt-6">
+        <h1 className="m3-hero-title mt-6 min-w-0 [overflow-wrap:anywhere]">
           {user ? (
             <>
               Welcome back,
