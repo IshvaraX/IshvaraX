@@ -1,72 +1,19 @@
 @import "tailwindcss";
+@import "./theme.css";
 
 /* ==========================================================================
    IshvaraX — Material Design 3, styled after m3.material.io
-   Colour scheme sampled from m3.material.io (violet primary, lavender-grey
-   secondary, lilac tertiary, pink-tinted neutrals) plus an amber extended
-   colour; Poppins type scale, M3 shape, elevation, motion and state-layer
-   tokens. Legacy `--foreground` style variables are aliased to M3 roles so
-   every component picks them up.
+   Colours live in ./theme.css (M3 role tokens, light/dark pairs). This file
+   holds the Poppins type scale, M3 shape, elevation, motion and state-layer
+   tokens, Tailwind utility mappings and component classes. Legacy
+   `--foreground` style variables are aliased to M3 roles so every component
+   picks them up.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   System tokens — light / dark pairs resolved by `color-scheme`.
-   Default follows the OS; `data-theme="light|dark"` on <html> forces one.
+   System tokens (non-colour)
    -------------------------------------------------------------------------- */
 :root {
-  color-scheme: light dark;
-
-  /* Primary — violet (m3.material.io buttons + links) */
-  --md-sys-color-primary: light-dark(#6442d6, #9f86ff);
-  --md-sys-color-on-primary: light-dark(#ffffff, #1a0056);
-  --md-sys-color-primary-container: light-dark(#e7deff, #4b27bd);
-  --md-sys-color-on-primary-container: light-dark(#4b27bd, #e7deff);
-  /* Secondary — lavender grey (m3.material.io active nav indicator) */
-  --md-sys-color-secondary: light-dark(#5e5d7b, #c5c3e0);
-  --md-sys-color-on-secondary: light-dark(#ffffff, #2e2e43);
-  --md-sys-color-secondary-container: light-dark(#dcdaf5, #45455a);
-  --md-sys-color-on-secondary-container: light-dark(#21182b, #e2e0fb);
-  /* Tertiary — lilac (m3.material.io search button) */
-  --md-sys-color-tertiary: light-dark(#6f5777, #dbbbe2);
-  --md-sys-color-on-tertiary: light-dark(#ffffff, #3e2946);
-  --md-sys-color-tertiary-container: light-dark(#f1d3f9, #553f5d);
-  --md-sys-color-on-tertiary-container: light-dark(#553f5d, #f1d3f9);
-  /* Extended — amber (the warm accent in M3 Expressive artwork) */
-  --md-extended-color-amber: light-dark(#8b5000, #ffb77c);
-  --md-extended-color-on-amber: light-dark(#ffffff, #4a2800);
-  --md-extended-color-amber-container: light-dark(#ffdcc2, #6a3c00);
-  --md-extended-color-on-amber-container: light-dark(#6a3c00, #ffdcc2);
-  /* Error */
-  --md-sys-color-error: light-dark(#ba1a1a, #ffb4ab);
-  --md-sys-color-on-error: light-dark(#ffffff, #690005);
-  --md-sys-color-error-container: light-dark(#ffdad6, #93000a);
-  --md-sys-color-on-error-container: light-dark(#93000a, #ffdad6);
-  /* Surfaces — pink-tinted neutrals (m3.material.io canvas #f2ecee / panels #f8f1f6) */
-  --md-sys-color-surface: light-dark(#fefbff, #141315);
-  --md-sys-color-surface-dim: light-dark(#ded8e1, #141315);
-  --md-sys-color-surface-bright: light-dark(#fefbff, #3a383b);
-  --md-sys-color-surface-container-lowest: light-dark(#ffffff, #0f0e11);
-  --md-sys-color-surface-container-low: light-dark(#f8f1f6, #1c1b1d);
-  --md-sys-color-surface-container: light-dark(#f2ecee, #211f21);
-  --md-sys-color-surface-container-high: light-dark(#ece6ea, #2b292c);
-  --md-sys-color-surface-container-highest: light-dark(#e6e0e4, #363437);
-  --md-sys-color-on-surface: light-dark(#1c1b1d, #e6e1e3);
-  --md-sys-color-on-surface-variant: light-dark(#4d4256, #cbc4cc);
-  --md-sys-color-surface-variant: light-dark(#e8e0e8, #4d4256);
-  --md-sys-color-surface-tint: light-dark(#6442d6, #9f86ff);
-  /* Outline, inverse, misc */
-  --md-sys-color-outline: light-dark(#7e7489, #958d9d);
-  --md-sys-color-outline-variant: light-dark(#cbc4cc, #4d4256);
-  --md-sys-color-inverse-surface: light-dark(#313033, #e6e1e3);
-  --md-sys-color-inverse-on-surface: light-dark(#f4eff4, #313033);
-  --md-sys-color-inverse-primary: light-dark(#9f86ff, #6442d6);
-  --md-sys-color-scrim: #000000;
-  --md-sys-color-shadow: #000000;
-
-  /* Page canvas + the rounded panels that sit on it (m3.material.io layout) */
-  --m3-canvas: light-dark(#f2ecee, #211f21);
-  --m3-panel: light-dark(#f8f1f6, #1c1b1d);
-
   /* Shape scale */
   --md-sys-shape-corner-none: 0px;
   --md-sys-shape-corner-extra-small: 4px;
@@ -154,14 +101,6 @@
 
   --shadow-1: var(--md-sys-elevation-1);
   --shadow-2: var(--md-sys-elevation-2);
-}
-
-/* Manual theme override (set by the rail's theme toggle, persisted in localStorage) */
-:root[data-theme="light"] {
-  color-scheme: light;
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
 }
 
 /* --------------------------------------------------------------------------
