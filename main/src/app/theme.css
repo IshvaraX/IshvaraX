@@ -1,72 +1,70 @@
 /* ==========================================================================
    IshvaraX — colour scheme
-   Light mode: Tony Stark — arc-reactor blue primary, steel secondary, cyan
-   tertiary, gold extended colour, cool titanium neutrals.
-   Dark mode: Doctor Doom — emerald primary, gunmetal secondary, cold-steel
-   tertiary, antique gold, grey-green armour neutrals.
+   Violet primary, lavender-grey secondary, lilac tertiary, amber extended
+   colour and pink-tinted neutrals (sampled from m3.material.io).
    Every colour used by the site lives here as an M3 role token. Values are
-   light-dark(stark, doom) pairs resolved by `color-scheme`; the OS preference
-   is the default and `data-theme="light|dark"` on <html> forces one.
+   light/dark pairs resolved by `color-scheme`; the OS preference is the
+   default and `data-theme="light|dark"` on <html> forces one.
    ========================================================================== */
 :root {
   color-scheme: light dark;
 
-  /* Primary — arc-reactor blue / emerald cloak */
-  --md-sys-color-primary: light-dark(#2932db, #7edb9a);
-  --md-sys-color-on-primary: light-dark(#ffffff, #00391a);
-  --md-sys-color-primary-container: light-dark(#d8e2ff, #005228);
-  --md-sys-color-on-primary-container: light-dark(#001a42, #a6f2b8);
+  /* Primary — violet */
+  --md-sys-color-primary: light-dark(#6442d6, #9f86ff);
+  --md-sys-color-on-primary: light-dark(#ffffff, #1a0056);
+  --md-sys-color-primary-container: light-dark(#e7deff, #4b27bd);
+  --md-sys-color-on-primary-container: light-dark(#4b27bd, #e7deff);
 
-  /* Secondary — steel / gunmetal */
-  --md-sys-color-secondary: light-dark(#565e71, #b7ccc0);
-  --md-sys-color-on-secondary: light-dark(#ffffff, #22352d);
-  --md-sys-color-secondary-container: light-dark(#dae2f9, #394b43);
-  --md-sys-color-on-secondary-container: light-dark(#131b2c, #d3e8dc);
+  /* Secondary — lavender grey */
+  --md-sys-color-secondary: light-dark(#5e5d7b, #c5c3e0);
+  --md-sys-color-on-secondary: light-dark(#ffffff, #2e2e43);
+  --md-sys-color-secondary-container: light-dark(#dcdaf5, #45455a);
+  --md-sys-color-on-secondary-container: light-dark(#21182b, #e2e0fb);
 
-  /* Tertiary — reactor cyan / cold steel */
-  --md-sys-color-tertiary: light-dark(#006876, #a6cbe2);
-  --md-sys-color-on-tertiary: light-dark(#ffffff, #0a3447);
-  --md-sys-color-tertiary-container: light-dark(#a1efff, #26485b);
-  --md-sys-color-on-tertiary-container: light-dark(#001f26, #c2e8ff);
+  /* Tertiary — lilac */
+  --md-sys-color-tertiary: light-dark(#6f5777, #dbbbe2);
+  --md-sys-color-on-tertiary: light-dark(#ffffff, #3e2946);
+  --md-sys-color-tertiary-container: light-dark(#f1d3f9, #553f5d);
+  --md-sys-color-on-tertiary-container: light-dark(#553f5d, #f1d3f9);
 
-  /* Extended — Iron Man gold / antique gold */
-  --md-extended-color-amber: light-dark(#7a5900, #e6c54c);
-  --md-extended-color-on-amber: light-dark(#ffffff, #3c2f00);
-  --md-extended-color-amber-container: light-dark(#ffdf9b, #564600);
-  --md-extended-color-on-amber-container: light-dark(#261a00, #ffe17f);
+  /* Extended — amber */
+  --md-extended-color-amber: light-dark(#8b5000, #ffb77c);
+  --md-extended-color-on-amber: light-dark(#ffffff, #4a2800);
+  --md-extended-color-amber-container: light-dark(#ffdcc2, #6a3c00);
+  --md-extended-color-on-amber-container: light-dark(#6a3c00, #ffdcc2);
 
   /* Error */
   --md-sys-color-error: light-dark(#ba1a1a, #ffb4ab);
   --md-sys-color-on-error: light-dark(#ffffff, #690005);
-  --md-sys-color-on-error-container: light-dark(#93000a, #ffdad6);
   --md-sys-color-error-container: light-dark(#ffdad6, #93000a);
+  --md-sys-color-on-error-container: light-dark(#93000a, #ffdad6);
 
-  /* Surfaces — titanium neutrals / grey-green armour */
-  --md-sys-color-surface: light-dark(#faf9fd, #111412);
-  --md-sys-color-surface-dim: light-dark(#dad9de, #111412);
-  --md-sys-color-surface-bright: light-dark(#faf9fd, #373a37);
-  --md-sys-color-surface-container-lowest: light-dark(#ffffff, #0c0f0d);
-  --md-sys-color-surface-container-low: light-dark(#f4f3f8, #1a1c1a);
-  --md-sys-color-surface-container: light-dark(#eeedf2, #1e201e);
-  --md-sys-color-surface-container-high: light-dark(#e8e8ed, #282b28);
-  --md-sys-color-surface-container-highest: light-dark(#e3e2e7, #333633);
-  --md-sys-color-on-surface: light-dark(#1b1b1f, #e2e3df);
-  --md-sys-color-on-surface-variant: light-dark(#44474f, #c0c9c1);
-  --md-sys-color-surface-variant: light-dark(#e1e2ec, #414943);
-  --md-sys-color-surface-tint: light-dark(#0057c2, #7edb9a);
+  /* Surfaces — pink-tinted neutrals */
+  --md-sys-color-surface: light-dark(#fefbff, #141315);
+  --md-sys-color-surface-dim: light-dark(#ded8e1, #141315);
+  --md-sys-color-surface-bright: light-dark(#fefbff, #3a383b);
+  --md-sys-color-surface-container-lowest: light-dark(#ffffff, #0f0e11);
+  --md-sys-color-surface-container-low: light-dark(#f8f1f6, #1c1b1d);
+  --md-sys-color-surface-container: light-dark(#f2ecee, #211f21);
+  --md-sys-color-surface-container-high: light-dark(#ece6ea, #2b292c);
+  --md-sys-color-surface-container-highest: light-dark(#e6e0e4, #363437);
+  --md-sys-color-on-surface: light-dark(#1c1b1d, #e6e1e3);
+  --md-sys-color-on-surface-variant: light-dark(#4d4256, #cbc4cc);
+  --md-sys-color-surface-variant: light-dark(#e8e0e8, #4d4256);
+  --md-sys-color-surface-tint: light-dark(#6442d6, #9f86ff);
 
   /* Outline, inverse, misc */
-  --md-sys-color-outline: light-dark(#74777f, #8a938b);
-  --md-sys-color-outline-variant: light-dark(#c4c6d0, #414943);
-  --md-sys-color-inverse-surface: light-dark(#303034, #e2e3df);
-  --md-sys-color-inverse-on-surface: light-dark(#f2f0f4, #2f312f);
-  --md-sys-color-inverse-primary: light-dark(#adc6ff, #1b6b3a);
+  --md-sys-color-outline: light-dark(#7e7489, #958d9d);
+  --md-sys-color-outline-variant: light-dark(#cbc4cc, #4d4256);
+  --md-sys-color-inverse-surface: light-dark(#313033, #e6e1e3);
+  --md-sys-color-inverse-on-surface: light-dark(#f4eff4, #313033);
+  --md-sys-color-inverse-primary: light-dark(#9f86ff, #6442d6);
   --md-sys-color-scrim: #000000;
   --md-sys-color-shadow: #000000;
 
   /* Page canvas + the rounded panels that sit on it */
-  --m3-canvas: light-dark(#eeedf2, #1e201e);
-  --m3-panel: light-dark(#f4f3f8, #1a1c1a);
+  --m3-canvas: light-dark(#f2ecee, #211f21);
+  --m3-panel: light-dark(#f8f1f6, #1c1b1d);
 }
 
 /* Manual theme override (set by the rail's theme toggle, persisted in localStorage) */
