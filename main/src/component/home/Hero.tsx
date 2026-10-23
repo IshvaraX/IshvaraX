@@ -57,31 +57,59 @@ const ProductTile = ({
   product: ProductDTO;
   tall: boolean;
   tone: string;
-}) => (
-  <a
-    href={product.link}
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label={`${product.name} — ${product.tagline}`}
-    className={`m3-state rounded-2xl ${tone} ${
-      tall
-        ? "col-span-2 row-span-2 flex flex-col justify-between gap-3 p-5"
-        : "col-span-3 flex items-center gap-4 px-4 py-3"
-    }`}
-  >
-    <ProductIcon product={product} className={tall ? "h-14 w-14" : "h-12 w-12"} />
-    <div className="min-w-0 flex-1">
-      <p className="m3-title-medium truncate">{product.name}</p>
-      <p className={`m3-body-small opacity-85 ${tall ? "line-clamp-3" : "line-clamp-1"}`}>
-        {product.tagline}
-      </p>
-    </div>
-    <span className="m3-label-medium inline-flex shrink-0 items-center gap-1 self-start rounded-full bg-current/15 px-2.5 py-1">
-      {PLATFORM_LABEL[product.platform]}
-      <MdArrowOutward className="h-3.5 w-3.5" aria-hidden />
-    </span>
-  </a>
-);
+}) => {
+  // Tall tiles use the uploaded artwork as a full-bleed background with a solid caption panel.
+  if (tall && product.icon) {
+    return (
+      <a
+        href={product.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${product.name} — ${product.tagline}`}
+        className="m3-state relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden rounded-2xl bg-surface-container-highest"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={product.icon} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="relative m-3 flex items-end gap-3 rounded-xl bg-surface-container-lowest/92 p-3 text-on-surface">
+          <div className="min-w-0 flex-1">
+            <p className="m3-title-medium truncate">{product.name}</p>
+            <p className="m3-body-small line-clamp-2 text-on-surface-variant">{product.tagline}</p>
+          </div>
+          <span className="m3-label-medium inline-flex shrink-0 items-center gap-1 rounded-full bg-primary-container px-2.5 py-1 text-on-primary-container">
+            {PLATFORM_LABEL[product.platform]}
+            <MdArrowOutward className="h-3.5 w-3.5" aria-hidden />
+          </span>
+        </div>
+      </a>
+    );
+  }
+
+  return (
+    <a
+      href={product.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${product.name} — ${product.tagline}`}
+      className={`m3-state rounded-2xl ${tone} ${
+        tall
+          ? "col-span-2 row-span-2 flex flex-col justify-between gap-3 p-5"
+          : "col-span-3 flex items-center gap-4 px-4 py-3"
+      }`}
+    >
+      <ProductIcon product={product} className={tall ? "h-14 w-14" : "h-12 w-12"} />
+      <div className="min-w-0 flex-1">
+        <p className="m3-title-medium truncate">{product.name}</p>
+        <p className={`m3-body-small opacity-85 ${tall ? "line-clamp-3" : "line-clamp-1"}`}>
+          {product.tagline}
+        </p>
+      </div>
+      <span className="m3-label-medium inline-flex shrink-0 items-center gap-1 self-start rounded-full bg-current/15 px-2.5 py-1">
+        {PLATFORM_LABEL[product.platform]}
+        <MdArrowOutward className="h-3.5 w-3.5" aria-hidden />
+      </span>
+    </a>
+  );
+};
 
 /**
  * Hero media panel: a tonal collage. The "open projects" and "Build together"
