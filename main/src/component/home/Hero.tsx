@@ -183,7 +183,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="grid gap-3 p-2 lg:grid-cols-[minmax(0,34rem)_1fr] lg:p-3 lg:pl-1"
+      className="mx-auto grid w-full max-w-[1680px] gap-3 p-2 lg:grid-cols-[minmax(0,34rem)_1fr] lg:p-3 lg:pl-1 2xl:pl-3"
     >
       <div className="m3-panel flex min-w-0 flex-col justify-center p-8 md:p-12 lg:min-h-[30rem]">
         <span className="m3-title-medium inline-flex items-center gap-2 text-on-surface-variant">
