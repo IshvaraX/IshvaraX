@@ -1,11 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import type { IconType } from "react-icons";
+import { FaGithub, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from "react-icons/fa6";
 import content from "@/app/site-content.json";
 import { useAuth } from "@/context/AuthContext";
 import { BrandMark, Wordmark } from "@/component/nav/LearnNav";
 
 const { footer, site } = content;
+
+const SOCIAL_ICONS: Record<string, IconType> = {
+  GitHub: FaGithub,
+  X: FaXTwitter,
+  LinkedIn: FaLinkedinIn,
+  Instagram: FaInstagram,
+  YouTube: FaYoutube,
+};
 
 const Footer = () => {
   const { user } = useAuth();
@@ -64,10 +74,29 @@ const Footer = () => {
           © {new Date().getFullYear()} {site.name}. Built by the community, for
           the community.
         </span>
-        <span className="m3-body-small text-on-surface-variant">
-          PINAKA is a separate, independent research side project.
-        </span>
+        <ul className="flex items-center gap-1" aria-label="Social media">
+          {footer.social.map(({ name, href }) => {
+            const Icon = SOCIAL_ICONS[name];
+            return (
+              <li key={name}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  title={name}
+                  className="m3-icon-btn"
+                >
+                  {Icon ? <Icon /> : name}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       </div>
+      <p className="m3-body-small mt-4 text-on-surface-variant">
+        PINAKA is a separate, independent research side project.
+      </p>
     </footer>
   );
 };

@@ -98,8 +98,20 @@
     "heading": "PINAKA",
     "body": "PINAKA is a separate, independent research side project of ours. It is unrelated to the IshvaraX community and carries no promises to members — we mention it only for transparency."
   },
+  "contact": {
+    "heading": "Get in touch",
+    "body": "Questions, ideas, or want to collaborate? Send us a message and we'll reply by email.",
+    "submit": "Send message"
+  },
   "footer": {
     "tagline": "A community for the upliftment of people who love to code — learn, collaborate, and build real projects together.",
+    "social": [
+      { "name": "GitHub", "href": "https://github.com/ishvarax" },
+      { "name": "X", "href": "https://x.com/ishvarax" },
+      { "name": "LinkedIn", "href": "https://www.linkedin.com/company/ishvarax" },
+      { "name": "Instagram", "href": "https://www.instagram.com/ishvarax" },
+      { "name": "YouTube", "href": "https://www.youtube.com/@ishvarax" }
+    ],
     "columns": [
       {
         "heading": "Explore",
@@ -130,7 +142,8 @@
         "heading": "About",
         "links": [
           { "label": "Our journey", "href": "/#roadmap" },
-          { "label": "PINAKA project", "href": "/#pinaka" }
+          { "label": "PINAKA project", "href": "/#pinaka" },
+          { "label": "Contact us", "href": "/#contact" }
         ]
       }
     ]

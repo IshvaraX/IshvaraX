@@ -23,6 +23,7 @@ export const ENDPOINTS = {
   members: "/members",
   products: "/products",
   adminStorage: "/admin/storage",
+  contact: "/contact",
 } as const;
 
 export type AuthUser = {
@@ -180,6 +181,13 @@ async function apiFetch<T>(
 
   return data as T;
 }
+
+export type ContactPayload = { name: string; email: string; message: string };
+
+export const contactApi = {
+  send: (payload: ContactPayload) =>
+    request<{ message: string }>(ENDPOINTS.contact, payload),
+};
 
 export const authApi = {
   register: (payload: RegisterPayload) =>

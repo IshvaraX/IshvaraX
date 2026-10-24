@@ -24,12 +24,13 @@ const PLATFORM_LABEL: Record<ProductPlatform, string> = {
   desktop: "Desktop",
 };
 
-// Tonal tiles for the four product slots (tall, tall, wide, wide).
+// Tonal tiles for the five product slots (four tall, one wide).
 const PRODUCT_TONES = [
   "bg-inverse-surface text-inverse-on-surface",
-  "bg-surface-container-highest text-on-surface",
   "bg-secondary-container text-on-secondary-container",
   "bg-tertiary-container text-on-tertiary-container",
+  "bg-surface-container-highest text-on-surface",
+  "bg-surface-container-high text-on-surface",
 ];
 
 const ProductIcon = ({ product, className }: { product: ProductDTO; className: string }) =>
@@ -84,24 +85,40 @@ const ProductTile = ({
     );
   }
 
+  // Wide (2×1) tiles are compact: icon, name and platform only.
+  if (!tall) {
+    return (
+      <a
+        href={product.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${product.name} — ${product.tagline}`}
+        className={`m3-state col-span-2 flex items-center gap-3 rounded-2xl px-4 py-3 ${tone}`}
+      >
+        <ProductIcon product={product} className="h-10 w-10" />
+        <div className="min-w-0 flex-1">
+          <p className="m3-title-small truncate">{product.name}</p>
+          <p className="m3-label-medium inline-flex items-center gap-1 opacity-85">
+            {PLATFORM_LABEL[product.platform]}
+            <MdArrowOutward className="h-3.5 w-3.5" aria-hidden />
+          </p>
+        </div>
+      </a>
+    );
+  }
+
   return (
     <a
       href={product.link}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${product.name} — ${product.tagline}`}
-      className={`m3-state rounded-2xl ${tone} ${
-        tall
-          ? "col-span-2 row-span-2 flex flex-col justify-between gap-3 p-5"
-          : "col-span-3 flex items-center gap-4 px-4 py-3"
-      }`}
+      className={`m3-state col-span-2 row-span-2 flex flex-col justify-between gap-3 rounded-2xl p-5 ${tone}`}
     >
-      <ProductIcon product={product} className={tall ? "h-14 w-14" : "h-12 w-12"} />
+      <ProductIcon product={product} className="h-14 w-14" />
       <div className="min-w-0 flex-1">
         <p className="m3-title-medium truncate">{product.name}</p>
-        <p className={`m3-body-small opacity-85 ${tall ? "line-clamp-3" : "line-clamp-1"}`}>
-          {product.tagline}
-        </p>
+        <p className="m3-body-small line-clamp-3 opacity-85">{product.tagline}</p>
       </div>
       <span className="m3-label-medium inline-flex shrink-0 items-center gap-1 self-start rounded-full bg-current/15 px-2.5 py-1">
         {PLATFORM_LABEL[product.platform]}
@@ -113,8 +130,8 @@ const ProductTile = ({
 
 /**
  * Hero media panel: a tonal collage. The "open projects" and "Build together"
- * tiles are fixed; the other four slots show featured products (admin-managed)
- * and fall back to decorative tiles while there are fewer than four.
+ * tiles are fixed; the five remaining slots (four tall, one wide) show featured
+ * products (admin-managed) and fall back to decorative tiles while empty.
  */
 const HeroMosaic = ({
   openCount,
@@ -127,44 +144,18 @@ const HeroMosaic = ({
   skills: string[];
   products: ProductDTO[];
 }) => {
-  // Slot order: tall, tall, wide, wide — the first product gets the most prominent tile.
-  const [tallA, tallB, wideA, wideB] = products;
+  // Slot order: tall ×4 then wide — the first product gets the most prominent tile.
+  const [tallA, tallB, tallC, tallD, wide] = products;
 
   return (
     <div className="m3-panel grid min-h-[22rem] grid-cols-6 grid-rows-[repeat(4,minmax(0,1fr))] gap-3 p-3 lg:min-h-0">
-      <div className="relative col-span-3 row-span-2 flex flex-col justify-between overflow-hidden rounded-2xl bg-primary-container p-5 text-on-primary-container">
+      <div className="relative col-span-2 row-span-2 flex flex-col justify-between overflow-hidden rounded-2xl bg-primary-container p-5 text-on-primary-container">
         <span aria-hidden className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-primary/15" />
         <MdOutlineWork className="h-7 w-7" aria-hidden />
         <div>
           <span className="m3-display-small block font-medium">{ready ? openCount : "—"}</span>
           <span className="m3-label-large">open projects</span>
         </div>
-      </div>
-
-      {wideA ? (
-        <ProductTile product={wideA} tall={false} tone={PRODUCT_TONES[2]} />
-      ) : (
-        <div aria-hidden className="col-span-3 flex items-center gap-3 rounded-2xl bg-secondary-container px-5 text-on-secondary-container">
-          <MdOutlineSchool className="h-7 w-7 shrink-0" />
-          <span className="m3-title-medium">Courses, notes &amp; playlists</span>
-        </div>
-      )}
-
-      {wideB ? (
-        <ProductTile product={wideB} tall={false} tone={PRODUCT_TONES[3]} />
-      ) : (
-        <div aria-hidden className="col-span-3 flex flex-wrap content-center items-center gap-2 overflow-hidden rounded-2xl bg-tertiary-container px-4 py-3 text-on-tertiary-container">
-          {(skills.length ? skills : ["React", "Python", "Design"]).map((s) => (
-            <span key={s} className="m3-label-medium rounded-full bg-tertiary px-3 py-1 text-on-tertiary">
-              {s}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-amber-container p-5 text-on-amber-container">
-        <MdOutlineGroups className="h-7 w-7" />
-        <span className="m3-title-medium">Build together</span>
       </div>
 
       {tallA ? (
@@ -179,9 +170,43 @@ const HeroMosaic = ({
       {tallB ? (
         <ProductTile product={tallB} tall tone={PRODUCT_TONES[1]} />
       ) : (
+        <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-secondary-container p-5 text-on-secondary-container">
+          <MdOutlineSchool className="h-7 w-7" />
+          <span className="m3-title-medium">Courses, notes &amp; playlists</span>
+        </div>
+      )}
+
+      <div aria-hidden className="col-span-2 flex items-center gap-3 rounded-2xl bg-amber-container px-4 text-on-amber-container">
+        <MdOutlineGroups className="h-7 w-7 shrink-0" />
+        <span className="m3-title-small">Build together</span>
+      </div>
+
+      {tallC ? (
+        <ProductTile product={tallC} tall tone={PRODUCT_TONES[2]} />
+      ) : (
+        <div aria-hidden className="col-span-2 row-span-2 flex flex-wrap content-center items-center gap-2 overflow-hidden rounded-2xl bg-tertiary-container p-4 text-on-tertiary-container">
+          {(skills.length ? skills : ["React", "Python", "Design"]).map((s) => (
+            <span key={s} className="m3-label-medium rounded-full bg-tertiary px-3 py-1 text-on-tertiary">
+              {s}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {tallD ? (
+        <ProductTile product={tallD} tall tone={PRODUCT_TONES[3]} />
+      ) : (
         <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-surface-container-highest p-5 text-on-surface">
           <MdOutlineArticle className="h-7 w-7" />
           <span className="m3-title-medium">Notes &amp; updates</span>
+        </div>
+      )}
+
+      {wide ? (
+        <ProductTile product={wide} tall={false} tone={PRODUCT_TONES[4]} />
+      ) : (
+        <div aria-hidden className="col-span-2 flex items-center justify-center rounded-2xl bg-surface-container-high">
+          <BrandMark size={32} />
         </div>
       )}
     </div>

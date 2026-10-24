@@ -8,6 +8,7 @@ import FreelanceProjects from "@/component/home/FreelanceProjects";
 import LatestContent from "@/component/home/LatestContent";
 import Team from "@/component/home/Team";
 import Pinaka from "@/component/home/Pinaka";
+import Contact from "@/component/home/Contact";
 import Footer from "@/component/home/Footer";
 import { HomeSearchProvider } from "@/context/HomeSearchContext";
 
@@ -31,6 +32,7 @@ const HomeView = () => {
         <LatestContent />
         <Team />
         <Pinaka />
+        <Contact />
       </main>
       <Footer />
     </HomeSearchProvider>
