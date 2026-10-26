@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { MdCheck, MdExpandMore, MdPlaylistPlay } from "react-icons/md";
-import AppShell from "@/component/nav/AppShell";
 import PagePanel from "@/component/ui/PagePanel";
 import { useAuth } from "@/context/AuthContext";
 import { learningsApi, type LearningDTO } from "@/lib/api";
@@ -43,8 +42,7 @@ const LearningsPage = () => {
 
   if (isReady && !user) {
     return (
-      <AppShell>
-        <PagePanel narrow className="flex flex-col items-center justify-center text-center">
+      <PagePanel narrow className="flex flex-col items-center justify-center text-center">
           <h1 className="m3-headline-large">Learnings</h1>
           <p className="m3-body-large mt-3 text-on-surface-variant">
             Log in with your IshvaraX account to access the study materials.
@@ -52,14 +50,12 @@ const LearningsPage = () => {
           <Link href="/login" className="m3-btn m3-btn-filled mt-6">
             Log in
           </Link>
-        </PagePanel>
-      </AppShell>
+      </PagePanel>
     );
   }
 
   return (
-    <AppShell>
-      <PagePanel>
+    <PagePanel>
         <span className="m3-label-large text-primary">
           Learnings
         </span>
@@ -226,7 +222,7 @@ const LearningsPage = () => {
                                           {playlistId && (
                                             <MdPlaylistPlay
                                               aria-hidden
-                                              className="h-5 w-5 text-on-surface-variant"
+                                              className="h-4 w-4 text-on-surface-variant"
                                             />
                                           )}
                                           {it.title}
@@ -246,8 +242,7 @@ const LearningsPage = () => {
             </div>
           </div>
         )}
-      </PagePanel>
-    </AppShell>
+    </PagePanel>
   );
 };
 

@@ -39,6 +39,7 @@ const ProductIcon = ({ product, className }: { product: ProductDTO; className: s
     <img
       src={product.icon}
       alt=""
+      decoding="async"
       className={`${className} shrink-0 rounded-xl object-cover shadow-sm`}
     />
   ) : (
@@ -70,7 +71,7 @@ const ProductTile = ({
         className="m3-state relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden rounded-2xl bg-surface-container-highest"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={product.icon} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={product.icon} alt="" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
         <div className="relative m-3 flex items-end gap-3 rounded-xl bg-surface-container-lowest/92 p-3 text-on-surface">
           <div className="min-w-0 flex-1">
             <p className="m3-title-medium truncate">{product.name}</p>
@@ -78,7 +79,7 @@ const ProductTile = ({
           </div>
           <span className="m3-label-medium inline-flex shrink-0 items-center gap-1 rounded-full bg-primary-container px-2.5 py-1 text-on-primary-container">
             {PLATFORM_LABEL[product.platform]}
-            <MdArrowOutward className="h-3.5 w-3.5" aria-hidden />
+            <MdArrowOutward className="h-3 w-3" aria-hidden />
           </span>
         </div>
       </a>
@@ -95,12 +96,12 @@ const ProductTile = ({
         aria-label={`${product.name} — ${product.tagline}`}
         className={`m3-state col-span-2 flex items-center gap-3 rounded-2xl px-4 py-3 ${tone}`}
       >
-        <ProductIcon product={product} className="h-10 w-10" />
+        <ProductIcon product={product} className="h-9 w-9" />
         <div className="min-w-0 flex-1">
           <p className="m3-title-small truncate">{product.name}</p>
           <p className="m3-label-medium inline-flex items-center gap-1 opacity-85">
             {PLATFORM_LABEL[product.platform]}
-            <MdArrowOutward className="h-3.5 w-3.5" aria-hidden />
+            <MdArrowOutward className="h-3 w-3" aria-hidden />
           </p>
         </div>
       </a>
@@ -115,14 +116,14 @@ const ProductTile = ({
       aria-label={`${product.name} — ${product.tagline}`}
       className={`m3-state col-span-2 row-span-2 flex flex-col justify-between gap-3 rounded-2xl p-5 ${tone}`}
     >
-      <ProductIcon product={product} className="h-14 w-14" />
+      <ProductIcon product={product} className="h-12 w-12" />
       <div className="min-w-0 flex-1">
         <p className="m3-title-medium truncate">{product.name}</p>
         <p className="m3-body-small line-clamp-3 opacity-85">{product.tagline}</p>
       </div>
       <span className="m3-label-medium inline-flex shrink-0 items-center gap-1 self-start rounded-full bg-current/15 px-2.5 py-1">
         {PLATFORM_LABEL[product.platform]}
-        <MdArrowOutward className="h-3.5 w-3.5" aria-hidden />
+        <MdArrowOutward className="h-3 w-3" aria-hidden />
       </span>
     </a>
   );
@@ -151,7 +152,7 @@ const HeroMosaic = ({
     <div className="m3-panel grid min-h-[22rem] grid-cols-6 grid-rows-[repeat(4,minmax(0,1fr))] gap-3 p-3 lg:min-h-0">
       <div className="relative col-span-2 row-span-2 flex flex-col justify-between overflow-hidden rounded-2xl bg-primary-container p-5 text-on-primary-container">
         <span aria-hidden className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-primary/15" />
-        <MdOutlineWork className="h-7 w-7" aria-hidden />
+        <MdOutlineWork className="h-6 w-6" aria-hidden />
         <div>
           <span className="m3-display-small block font-medium">{ready ? openCount : "—"}</span>
           <span className="m3-label-large">open projects</span>
@@ -163,7 +164,7 @@ const HeroMosaic = ({
       ) : (
         <div aria-hidden className="relative col-span-2 row-span-2 flex items-center justify-center overflow-hidden rounded-2xl bg-inverse-surface text-inverse-on-surface">
           <span className="absolute inset-x-5 bottom-5 h-2 rounded-full bg-inverse-primary/60" />
-          <span className="font-mono text-4xl font-medium">{"</>"}</span>
+          <span className="font-mono text-3xl font-medium">{"</>"}</span>
         </div>
       )}
 
@@ -171,13 +172,13 @@ const HeroMosaic = ({
         <ProductTile product={tallB} tall tone={PRODUCT_TONES[1]} />
       ) : (
         <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-secondary-container p-5 text-on-secondary-container">
-          <MdOutlineSchool className="h-7 w-7" />
+          <MdOutlineSchool className="h-6 w-6" />
           <span className="m3-title-medium">Courses, notes &amp; playlists</span>
         </div>
       )}
 
       <div aria-hidden className="col-span-2 flex items-center gap-3 rounded-2xl bg-amber-container px-4 text-on-amber-container">
-        <MdOutlineGroups className="h-7 w-7 shrink-0" />
+        <MdOutlineGroups className="h-6 w-6 shrink-0" />
         <span className="m3-title-small">Build together</span>
       </div>
 
@@ -197,7 +198,7 @@ const HeroMosaic = ({
         <ProductTile product={tallD} tall tone={PRODUCT_TONES[3]} />
       ) : (
         <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-surface-container-highest p-5 text-on-surface">
-          <MdOutlineArticle className="h-7 w-7" />
+          <MdOutlineArticle className="h-6 w-6" />
           <span className="m3-title-medium">Notes &amp; updates</span>
         </div>
       )}
@@ -206,7 +207,7 @@ const HeroMosaic = ({
         <ProductTile product={wide} tall={false} tone={PRODUCT_TONES[4]} />
       ) : (
         <div aria-hidden className="col-span-2 flex items-center justify-center rounded-2xl bg-surface-container-high">
-          <BrandMark size={32} />
+          <BrandMark size={28} />
         </div>
       )}
     </div>
@@ -240,7 +241,7 @@ const Hero = () => {
     >
       <div className="m3-panel flex min-w-0 flex-col justify-center p-8 md:p-12 lg:min-h-[30rem]">
         <span className="m3-title-medium inline-flex items-center gap-2 text-on-surface-variant">
-          <BrandMark size={22} />
+          <BrandMark size={20} />
           {site.name}
         </span>
 

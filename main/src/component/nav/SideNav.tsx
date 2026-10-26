@@ -123,7 +123,7 @@ const SideNav = () => {
         {user ? (
           <>
             <RailItem href="/profile" label="Profile" active={isNavActive(pathname, "/profile")}>
-              <UserAvatar size={24} />
+              <UserAvatar size={20} />
             </RailItem>
             <RailItem label="Sign out" onClick={logout}>
               <MdOutlineLogout />

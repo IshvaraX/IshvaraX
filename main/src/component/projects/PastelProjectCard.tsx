@@ -76,7 +76,7 @@ const PastelProjectCard = ({
         style={toneStyle(tone)}
       >
         <div className="flex items-start justify-between gap-2">
-          <MdOutlineWork className="h-6 w-6" aria-hidden />
+          <MdOutlineWork className="h-5 w-5" aria-hidden />
           {showStatus && (
             <span
               className="m3-label-medium inline-flex h-6 items-center rounded-full px-2.5"

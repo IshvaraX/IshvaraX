@@ -145,41 +145,114 @@ type ApiFetchOptions = {
   token?: string;
 };
 
+// ---------------------------------------------------------------------------
+// Request activity: lets the UI show a progress bar while the backend is busy.
+// ---------------------------------------------------------------------------
+type ActivityListener = (pending: number) => void;
+const activityListeners = new Set<ActivityListener>();
+let pendingRequests = 0;
+
+function setPending(delta: number) {
+  pendingRequests = Math.max(0, pendingRequests + delta);
+  activityListeners.forEach((cb) => cb(pendingRequests));
+}
+
+export const apiActivity = {
+  /** Subscribe to the number of in-flight API requests. Returns an unsubscribe. */
+  subscribe(cb: ActivityListener) {
+    activityListeners.add(cb);
+    cb(pendingRequests);
+    return () => {
+      activityListeners.delete(cb);
+    };
+  },
+  get pending() {
+    return pendingRequests;
+  },
+};
+
+// ---------------------------------------------------------------------------
+// GET cache: in-flight requests are shared, and successful responses are kept
+// so moving between pages doesn't refetch identical data. Any write clears the
+// cache so lists reflect the mutation on the next read.
+// ---------------------------------------------------------------------------
+const GET_CACHE_TTL = 5 * 60_000;
+const inflight = new Map<string, Promise<unknown>>();
+const cache = new Map<string, { at: number; data: unknown }>();
+
+export function invalidateApiCache() {
+  cache.clear();
+}
+
 async function apiFetch<T>(
   path: string,
   { method = "GET", body, token }: ApiFetchOptions = {}
+): Promise<T> {
+  if (method !== "GET") {
+    try {
+      return await performFetch<T>(path, { method, body, token });
+    } finally {
+      invalidateApiCache();
+    }
+  }
+
+  const key = `${token ?? ""}:${path}`;
+  const hit = cache.get(key);
+  if (hit && Date.now() - hit.at < GET_CACHE_TTL) return hit.data as T;
+
+  const existing = inflight.get(key);
+  if (existing) return existing as Promise<T>;
+
+  const p = performFetch<T>(path, { method, token })
+    .then((data) => {
+      cache.set(key, { at: Date.now(), data });
+      return data;
+    })
+    .finally(() => inflight.delete(key));
+  inflight.set(key, p);
+  return p;
+}
+
+async function performFetch<T>(
+  path: string,
+  { method = "GET", body, token }: ApiFetchOptions
 ): Promise<T> {
   const headers: Record<string, string> = {};
   if (body !== undefined) headers["Content-Type"] = "application/json";
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
-  let res: Response;
+  setPending(1);
   try {
-    res = await fetch(`${API_BASE_URL}${path}`, {
-      method,
-      headers,
-      credentials: "include",
-      body: body !== undefined ? JSON.stringify(body) : undefined,
-    });
-  } catch {
-    throw new ApiError(
-      "Cannot reach the server. Check that the API is running and the URL is correct.",
-      0
-    );
+    let res: Response;
+    try {
+      res = await fetch(`${API_BASE_URL}${path}`, {
+        method,
+        headers,
+        credentials: "include",
+        body: body !== undefined ? JSON.stringify(body) : undefined,
+      });
+    } catch {
+      throw new ApiError(
+        "Cannot reach the server. Check that the API is running and the URL is correct.",
+        0
+      );
+    }
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      const detail =
+        (data && (data.detail || data.message)) || `Request failed (${res.status})`;
+      throw new ApiError(
+        typeof detail === "string" ? detail : "Request failed",
+        res.status
+      );
+    }
+
+    return data as T;
+  } finally {
+    setPending(-1);
   }
-
-  const data = await res.json().catch(() => ({}));
-
-  if (!res.ok) {
-    const detail =
-      (data && (data.detail || data.message)) || `Request failed (${res.status})`;
-    throw new ApiError(
-      typeof detail === "string" ? detail : "Request failed",
-      res.status
-    );
-  }
-
-  return data as T;
 }
 
 export type ContactPayload = { name: string; email: string; message: string };

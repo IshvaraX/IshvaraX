@@ -159,6 +159,28 @@
   --radius-3xl: 28px;
   --radius-4xl: 28px;
 
+  /* Compact text scale: every Tailwind text-* utility is one notch smaller */
+  --text-xs: 0.6875rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.125rem;
+  --text-base: 0.9375rem;
+  --text-base--line-height: 1.375rem;
+  --text-lg: 1.0625rem;
+  --text-lg--line-height: 1.5rem;
+  --text-xl: 1.125rem;
+  --text-xl--line-height: 1.625rem;
+  --text-2xl: 1.375rem;
+  --text-2xl--line-height: 1.875rem;
+  --text-3xl: 1.625rem;
+  --text-3xl--line-height: 2rem;
+  --text-4xl: 2rem;
+  --text-4xl--line-height: 2.375rem;
+  --text-5xl: 2.5rem;
+  --text-5xl--line-height: 1;
+  --text-6xl: 3.25rem;
+  --text-6xl--line-height: 1;
+
   --font-weight-semibold: 500;
   --font-weight-bold: 500;
   --font-weight-extrabold: 500;
@@ -180,8 +202,8 @@
   body {
     margin: 0;
     font-family: var(--md-ref-typeface-plain);
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
     letter-spacing: 0.03125rem; /* body-large */
   }
 
@@ -223,21 +245,21 @@
    -------------------------------------------------------------------------- */
 @layer components {
   /* ---- Type scale ------------------------------------------------------- */
-  .m3-display-large { font-size: 3.5625rem; line-height: 4rem; font-weight: 400; letter-spacing: -0.015625rem; }
-  .m3-display-medium { font-size: 2.8125rem; line-height: 3.25rem; font-weight: 400; letter-spacing: 0; }
-  .m3-display-small { font-size: 2.25rem; line-height: 2.75rem; font-weight: 400; letter-spacing: 0; }
-  .m3-headline-large { font-size: 2rem; line-height: 2.5rem; font-weight: 400; letter-spacing: 0; }
-  .m3-headline-medium { font-size: 1.75rem; line-height: 2.25rem; font-weight: 400; letter-spacing: 0; }
-  .m3-headline-small { font-size: 1.5rem; line-height: 2rem; font-weight: 400; letter-spacing: 0; }
-  .m3-title-large { font-size: 1.375rem; line-height: 1.75rem; font-weight: 400; letter-spacing: 0; }
-  .m3-title-medium { font-size: 1rem; line-height: 1.5rem; font-weight: 500; letter-spacing: 0.009375rem; }
-  .m3-title-small { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: 0.00625rem; }
-  .m3-body-large { font-size: 1rem; line-height: 1.5rem; font-weight: 400; letter-spacing: 0.03125rem; }
-  .m3-body-medium { font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; letter-spacing: 0.015625rem; }
-  .m3-body-small { font-size: 0.75rem; line-height: 1rem; font-weight: 400; letter-spacing: 0.025rem; }
-  .m3-label-large { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: 0.00625rem; }
-  .m3-label-medium { font-size: 0.75rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125rem; }
-  .m3-label-small { font-size: 0.6875rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125rem; }
+  .m3-display-large { font-size: 3rem; line-height: 3.5rem; font-weight: 400; letter-spacing: -0.015625rem; }
+  .m3-display-medium { font-size: 2.5rem; line-height: 3rem; font-weight: 400; letter-spacing: 0; }
+  .m3-display-small { font-size: 2rem; line-height: 2.5rem; font-weight: 400; letter-spacing: 0; }
+  .m3-headline-large { font-size: 1.75rem; line-height: 2.25rem; font-weight: 400; letter-spacing: 0; }
+  .m3-headline-medium { font-size: 1.5rem; line-height: 2rem; font-weight: 400; letter-spacing: 0; }
+  .m3-headline-small { font-size: 1.25rem; line-height: 1.75rem; font-weight: 400; letter-spacing: 0; }
+  .m3-title-large { font-size: 1.125rem; line-height: 1.5rem; font-weight: 400; letter-spacing: 0; }
+  .m3-title-medium { font-size: 0.9375rem; line-height: 1.375rem; font-weight: 500; letter-spacing: 0.009375rem; }
+  .m3-title-small { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; letter-spacing: 0.00625rem; }
+  .m3-body-large { font-size: 0.9375rem; line-height: 1.375rem; font-weight: 400; letter-spacing: 0.03125rem; }
+  .m3-body-medium { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0.015625rem; }
+  .m3-body-small { font-size: 0.6875rem; line-height: 1rem; font-weight: 400; letter-spacing: 0.025rem; }
+  .m3-label-large { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; letter-spacing: 0.00625rem; }
+  .m3-label-medium { font-size: 0.6875rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125rem; }
+  .m3-label-small { font-size: 0.625rem; line-height: 0.875rem; font-weight: 500; letter-spacing: 0.03125rem; }
 
   /* Legacy heading names → M3 scale (fluid where the old ones were) */
   .g-heading-xl,
@@ -245,35 +267,35 @@
     font-weight: 400;
     letter-spacing: 0;
     line-height: 1.12;
-    font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.5625rem);
+    font-size: clamp(2rem, 1.375rem + 2vw, 3rem);
     color: var(--md-sys-color-on-surface);
   }
   .g-heading-lg {
     font-weight: 400;
     letter-spacing: 0;
     line-height: 1.2;
-    font-size: clamp(1.75rem, 1.25rem + 1.6vw, 2.25rem);
+    font-size: clamp(1.5rem, 1.125rem + 1.25vw, 2rem);
     color: var(--md-sys-color-on-surface);
   }
   .g-heading-md,
   .gdm-heading-md {
     font-weight: 400;
     letter-spacing: 0;
-    line-height: 1.75rem;
-    font-size: 1.375rem;
+    line-height: 1.5rem;
+    font-size: 1.125rem;
     color: var(--md-sys-color-on-surface);
   }
   .g-heading-sm {
     font-weight: 500;
     letter-spacing: 0.009375rem;
-    line-height: 1.5rem;
-    font-size: 1rem;
+    line-height: 1.375rem;
+    font-size: 0.9375rem;
     color: var(--md-sys-color-on-surface);
   }
   .g-eyebrow,
   .gdm-eyebrow {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
     color: var(--md-sys-color-primary);
@@ -283,7 +305,7 @@
   }
   .g-label {
     display: inline-flex;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     line-height: 1rem;
     font-weight: 500;
     letter-spacing: 0.03125rem;
@@ -292,8 +314,8 @@
   .g-body,
   .gdm-body {
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
     letter-spacing: 0.03125rem;
   }
 
@@ -338,8 +360,8 @@
     border-radius: var(--md-sys-shape-corner-full);
     border: 1px solid transparent;
     font-family: inherit;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
     white-space: nowrap;
@@ -392,8 +414,8 @@
   .gdm-btn svg,
   .g-pill svg,
   .m3-btn svg {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1rem;
+    height: 1rem;
     flex: none;
   }
   .g-btn .arrow,
@@ -509,8 +531,8 @@
     opacity: var(--md-sys-state-pressed-state-layer-opacity);
   }
   .m3-icon-btn svg {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
   }
   .m3-icon-btn-tonal {
     background: var(--md-sys-color-secondary-container);
@@ -552,8 +574,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
     color: var(--md-sys-color-primary);
@@ -680,8 +702,8 @@
     border-radius: var(--md-sys-shape-corner-full);
     background: transparent;
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
     text-align: left;
@@ -710,8 +732,8 @@
     color: var(--md-sys-color-on-secondary-container);
   }
   .m3-nav-item svg {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
     flex: none;
   }
 
@@ -743,8 +765,8 @@
     background: transparent;
     color: var(--md-sys-color-on-surface);
     font-family: inherit;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
     white-space: nowrap;
@@ -755,8 +777,8 @@
       color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
   }
   .m3-chip svg {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1rem;
+    height: 1rem;
     margin-left: -0.375rem;
     flex: none;
   }
@@ -796,7 +818,7 @@
     height: 1.5rem;
     padding: 0 0.625rem;
     border-radius: var(--md-sys-shape-corner-full);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     line-height: 1rem;
     font-weight: 500;
     letter-spacing: 0.03125rem;
@@ -835,8 +857,8 @@
     background: transparent;
     color: var(--md-sys-color-on-surface);
     font-family: inherit;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
     cursor: pointer;
@@ -866,8 +888,8 @@
     color: var(--md-sys-color-on-secondary-container);
   }
   .m3-segment svg {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1rem;
+    height: 1rem;
   }
 
   /* ---- Menus ------------------------------------------------------------ */
@@ -892,8 +914,8 @@
     background: transparent;
     color: inherit;
     font-family: inherit;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
     text-align: left;
@@ -935,8 +957,8 @@
     background: transparent;
     color: var(--md-sys-color-on-surface);
     font-family: inherit;
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
     letter-spacing: 0.03125rem;
     outline: none;
     caret-color: var(--md-sys-color-primary);
@@ -983,7 +1005,7 @@
     display: flex;
     align-items: center;
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
   input[type="file"]::file-selector-button {
     margin-right: 0.75rem;
@@ -994,7 +1016,7 @@
     background: var(--md-sys-color-secondary-container);
     color: var(--md-sys-color-on-secondary-container);
     font-family: inherit;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.00625rem;
     cursor: pointer;
@@ -1022,8 +1044,8 @@
     border-radius: 2px;
     background: var(--m3-field-bg);
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
     letter-spacing: 0.03125rem;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -1036,7 +1058,7 @@
   .m3-field > .g-input:focus ~ .m3-field-label,
   .m3-field > .g-input:not(:placeholder-shown) ~ .m3-field-label {
     top: 0;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     line-height: 1rem;
     letter-spacing: 0.025rem;
   }
@@ -1058,7 +1080,7 @@
     display: block;
     padding: 0.25rem 1rem 0;
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     line-height: 1rem;
     letter-spacing: 0.025rem;
   }
@@ -1141,7 +1163,7 @@
     border: none;
     background: transparent;
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     line-height: 1rem;
     font-weight: 500;
     letter-spacing: 0.03125rem;
@@ -1180,8 +1202,8 @@
     opacity: var(--md-sys-state-pressed-state-layer-opacity);
   }
   .m3-rail-item svg {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
   }
   .m3-rail-item.is-active {
     color: var(--md-sys-color-on-surface);
@@ -1247,22 +1269,22 @@
     padding: 1.5rem;
   }
   .m3-tile-title {
-    font-size: 1.5rem;
-    line-height: 2rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
     font-weight: 500;
     letter-spacing: 0;
     color: var(--md-sys-color-on-surface);
   }
   .m3-tile-desc {
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
     letter-spacing: 0.03125rem;
     color: var(--md-sys-color-on-surface-variant);
   }
 
   /* Section headline (display-large on desktop) */
   .m3-section-title {
-    font-size: clamp(2.25rem, 1.5rem + 3vw, 3.5625rem);
+    font-size: clamp(2rem, 1.375rem + 2.5vw, 3rem);
     line-height: 1.12;
     font-weight: 500;
     letter-spacing: -0.015625rem;
@@ -1271,17 +1293,17 @@
 
   /* Hero display headline + large call-to-action */
   .m3-hero-title {
-    font-size: clamp(3rem, 2rem + 5vw, 6rem);
+    font-size: clamp(2.5rem, 1.75rem + 4vw, 5rem);
     line-height: 1;
     font-weight: 500;
     letter-spacing: -0.02em;
     color: var(--md-sys-color-on-surface);
   }
   .m3-btn-large {
-    min-height: 4rem;
-    padding: 0 2.5rem;
-    font-size: 1.25rem;
-    line-height: 1.75rem;
+    min-height: 3.5rem;
+    padding: 0 2.25rem;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
   }
 
   /* Wavy divider above the footer (masked so it follows the theme) */
@@ -1306,7 +1328,6 @@
   transition:
     opacity var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized-decelerate),
     transform var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized-decelerate);
-  will-change: opacity, transform;
 }
 .reveal-in {
   opacity: 1;

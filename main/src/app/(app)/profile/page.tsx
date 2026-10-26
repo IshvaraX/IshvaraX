@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import AppShell from "@/component/nav/AppShell";
 import PagePanel from "@/component/ui/PagePanel";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, projectsApi, type UserApplicationDTO } from "@/lib/api";
@@ -46,15 +45,13 @@ const ProfilePage = () => {
 
   if (isReady && !user) {
     return (
-      <AppShell>
-        <PagePanel narrow className="flex flex-col items-center justify-center text-center">
+      <PagePanel narrow className="flex flex-col items-center justify-center text-center">
           <h1 className="m3-headline-large">Your profile</h1>
           <p className="m3-body-large mt-3 text-on-surface-variant">Log in to view and edit your profile.</p>
           <Link href="/login" className="m3-btn m3-btn-filled mt-6">
             Log in
           </Link>
-        </PagePanel>
-      </AppShell>
+      </PagePanel>
     );
   }
 
@@ -99,8 +96,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <AppShell>
-      <PagePanel>
+    <PagePanel>
         <span className="m3-label-large text-primary">
           Profile
         </span>
@@ -287,8 +283,7 @@ const ProfilePage = () => {
           )}
         </div>
         </div>
-      </PagePanel>
-    </AppShell>
+    </PagePanel>
   );
 };
 

@@ -64,10 +64,10 @@ const FounderCard = ({
       href={github}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center justify-center w-8 h-8 rounded-full text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface)] transition-colors"
+      className="inline-flex items-center justify-center w-7 h-7 rounded-full text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface)] transition-colors"
       aria-label={`${name} on GitHub`}
     >
-      <SiGithub size={16} />
+      <SiGithub size={14} />
     </a>
   </div>
 )

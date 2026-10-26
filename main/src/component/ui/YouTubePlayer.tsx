@@ -84,6 +84,7 @@ const YouTubePlayer = ({ videoId, playlistId, title }: Props) => {
           ref={iframeRef}
           src={src}
           title={title ?? "YouTube video player"}
+          loading="lazy"
           className="absolute inset-0 h-full w-full"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen

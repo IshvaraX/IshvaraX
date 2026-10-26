@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { MdArrowBack } from "react-icons/md";
-import AppShell from "@/component/nav/AppShell";
 import PagePanel from "@/component/ui/PagePanel";
 import { useProjects } from "@/context/ProjectsContext";
 import ProjectCard from "@/component/projects/ProjectCard";
@@ -27,8 +26,7 @@ const ProjectsPage = () => {
   );
 
   return (
-    <AppShell>
-      <PagePanel>
+    <PagePanel>
         <div className="mb-8">
           <Link href="/" className="m3-btn m3-btn-text -ml-3 mb-3">
             <MdArrowBack aria-hidden />
@@ -95,8 +93,7 @@ const ProjectsPage = () => {
             </section>
           </div>
         )}
-      </PagePanel>
-    </AppShell>
+    </PagePanel>
   );
 };
 

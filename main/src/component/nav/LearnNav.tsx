@@ -79,7 +79,7 @@ const LearnNav = () => {
               href="/"
               className="m3-title-medium ml-1 flex items-center gap-2 px-2 text-on-surface"
             >
-              <BrandMark size={22} />
+              <BrandMark size={20} />
               <span>
                 <Wordmark />
               </span>
@@ -105,7 +105,7 @@ const LearnNav = () => {
                 onClick={close}
                 className="m3-title-medium flex items-center gap-2 text-on-surface"
               >
-                <BrandMark size={22} />
+                <BrandMark size={20} />
                 <span>
                   <Wordmark />
                 </span>
@@ -141,7 +141,7 @@ const LearnNav = () => {
                   onClick={close}
                   className={`m3-nav-item ${isNavActive(pathname, "/profile") ? "is-active" : ""}`}
                 >
-                  <UserAvatar size={24} />
+                  <UserAvatar size={20} />
                   Profile · @{user.username}
                 </Link>
                 <button

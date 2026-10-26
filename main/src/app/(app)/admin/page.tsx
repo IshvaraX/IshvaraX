@@ -2,18 +2,21 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { MdArrowBack } from "react-icons/md";
-import AppShell from "@/component/nav/AppShell";
 import PagePanel from "@/component/ui/PagePanel";
 import { useAuth } from "@/context/AuthContext";
 import { useProjects, type NewProject } from "@/context/ProjectsContext";
 import { ApiError, authApi } from "@/lib/api";
 import Markdown from "@/component/ui/Markdown";
-import LearningsAdmin from "@/component/admin/LearningsAdmin";
-import BlogAdmin from "@/component/admin/BlogAdmin";
-import MembersAdmin from "@/component/admin/MembersAdmin";
-import ProductsAdmin from "@/component/admin/ProductsAdmin";
-import StorageAdmin from "@/component/admin/StorageAdmin";
+
+// Each admin section is its own chunk; only the active tab's code is downloaded.
+const panelLoading = () => <p className="m3-body-medium text-on-surface-variant">Loading…</p>;
+const LearningsAdmin = dynamic(() => import("@/component/admin/LearningsAdmin"), { loading: panelLoading });
+const BlogAdmin = dynamic(() => import("@/component/admin/BlogAdmin"), { loading: panelLoading });
+const MembersAdmin = dynamic(() => import("@/component/admin/MembersAdmin"), { loading: panelLoading });
+const ProductsAdmin = dynamic(() => import("@/component/admin/ProductsAdmin"), { loading: panelLoading });
+const StorageAdmin = dynamic(() => import("@/component/admin/StorageAdmin"), { loading: panelLoading });
 
 const ADMIN_USERNAME = "admin";
 
@@ -153,8 +156,7 @@ const AdminPage = () => {
 
   if (isReady && !isAdmin) {
     return (
-      <AppShell>
-        <PagePanel narrow className="flex flex-col justify-center">
+      <PagePanel narrow className="flex flex-col justify-center">
           <div className="mx-auto w-full max-w-md">
           <h1 className="m3-headline-large mb-2 text-center">Admin login</h1>
           <p className="m3-body-large mb-8 text-center text-on-surface-variant">
@@ -196,14 +198,12 @@ const AdminPage = () => {
             </button>
           </form>
           </div>
-        </PagePanel>
-      </AppShell>
+      </PagePanel>
     );
   }
 
   return (
-    <AppShell>
-      <PagePanel>
+    <PagePanel>
       {/* Compact header */}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-baseline gap-3">
@@ -468,6 +468,8 @@ const AdminPage = () => {
                           <img
                             src={app.photo}
                             alt={app.username}
+                            loading="lazy"
+                            decoding="async"
                             className="h-9 w-9 shrink-0 rounded-full object-cover"
                           />
                         ) : null}
@@ -519,8 +521,7 @@ const AdminPage = () => {
           {activeSection === "storage" && <StorageAdmin token={token} />}
         </div>
       </div>
-      </PagePanel>
-    </AppShell>
+    </PagePanel>
   );
 };
 

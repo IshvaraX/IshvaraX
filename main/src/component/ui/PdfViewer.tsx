@@ -9,6 +9,7 @@ const PdfViewer = ({ src, title }: { src: string; title?: string }) => (
       <iframe
         src={src}
         title={title ?? "PDF document"}
+        loading="lazy"
         className="absolute inset-0 h-full w-full"
       />
     </div>

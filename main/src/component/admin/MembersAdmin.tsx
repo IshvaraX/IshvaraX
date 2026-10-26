@@ -156,6 +156,8 @@ const MembersAdmin = ({ token }: { token: string }) => {
                   <img
                     src={m.photo}
                     alt={m.name}
+                    loading="lazy"
+                    decoding="async"
                     className="h-10 w-10 shrink-0 rounded-full object-cover"
                   />
                 ) : (

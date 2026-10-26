@@ -28,7 +28,7 @@ const Footer = () => {
         {/* Brand */}
         <div className="lg:pr-8">
           <Link href="/" className="inline-flex items-center gap-2 text-on-surface">
-            <BrandMark size={28} />
+            <BrandMark size={24} />
             <span className="m3-title-large">
               <Wordmark />
             </span>

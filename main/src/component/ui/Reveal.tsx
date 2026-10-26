@@ -11,6 +11,28 @@ type RevealProps = {
   style?: React.CSSProperties;
 };
 
+/** One observer shared by every Reveal on the page instead of one per element. */
+type RevealCallback = (visible: boolean) => void;
+let sharedObserver: IntersectionObserver | null = null;
+const callbacks = new WeakMap<Element, RevealCallback>();
+
+function observe(el: Element, cb: RevealCallback) {
+  if (!sharedObserver) {
+    sharedObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) callbacks.get(entry.target)?.(entry.isIntersecting);
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+  }
+  callbacks.set(el, cb);
+  sharedObserver.observe(el);
+  return () => {
+    callbacks.delete(el);
+    sharedObserver?.unobserve(el);
+  };
+}
+
 /** Reveals its children with a fade/slide-up every time they enter the viewport. */
 const Reveal = ({ children, className, delay = 0, as = "div", style }: RevealProps) => {
   const ref = useRef<HTMLElement | null>(null);
@@ -20,12 +42,7 @@ const Reveal = ({ children, className, delay = 0, as = "div", style }: RevealPro
     const el = ref.current;
     if (!el) return;
     // Toggle on each enter/leave so the animation repeats, not just on load.
-    const io = new IntersectionObserver(
-      ([entry]) => setShown(entry.isIntersecting),
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    return observe(el, setShown);
   }, []);
 
   // ElementType keeps TS from expanding every intrinsic element's props.

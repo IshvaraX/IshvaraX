@@ -1,19 +1,40 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import LearnNav from "@/component/nav/LearnNav";
 import SideNav from "@/component/nav/SideNav";
+import { blogsApi, learningsApi, membersApi, productsApi } from "@/lib/api";
+
+/** Warm the API cache while the browser is idle so the next page renders from memory. */
+const usePrefetchListData = () =>
+  useEffect(() => {
+    const run = () => {
+      for (const load of [blogsApi.list, learningsApi.list, productsApi.list, membersApi.list]) {
+        load().catch(() => {});
+      }
+    };
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => number; cancelIdleCallback?: (id: number) => void };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(run);
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const id = setTimeout(run, 1500);
+    return () => clearTimeout(id);
+  }, []);
 
 /**
  * m3.material.io-style shell: grey canvas, an 88px navigation rail on the left
  * from `lg` up, and a top app bar + modal drawer on smaller screens.
  */
-const AppShell = ({ children }: { children: ReactNode }) => (
-  <div className="m3-canvas min-h-screen">
-    <LearnNav />
-    <SideNav />
-    <div className="min-w-0 lg:pl-[88px]">{children}</div>
-  </div>
-);
+const AppShell = ({ children }: { children: ReactNode }) => {
+  usePrefetchListData();
+  return (
+    <div className="m3-canvas min-h-screen">
+      <LearnNav />
+      <SideNav />
+      <div className="min-w-0 lg:pl-[88px]">{children}</div>
+    </div>
+  );
+};
 
 export default AppShell;
