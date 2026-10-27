@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   MdArrowOutward,
+  MdKeyboardArrowDown,
   MdOutlineArticle,
   MdOutlineGroups,
   MdOutlineSchool,
@@ -235,9 +236,10 @@ const Hero = () => {
   }, [projects]);
 
   return (
+    <>
     <section
       id="hero"
-      className="mx-auto grid w-full max-w-[1680px] gap-3 p-2 lg:grid-cols-[minmax(0,34rem)_1fr] lg:p-3 lg:pl-1 2xl:pl-3"
+      className="mx-auto grid w-full max-w-[1680px] gap-3 p-2 lg:min-h-[calc(90vh-3.5rem)] lg:grid-cols-[minmax(0,34rem)_1fr] lg:p-3 lg:pl-1 2xl:pl-3"
     >
       <div className="m3-panel flex min-w-0 flex-col justify-center p-8 md:p-12 lg:min-h-[30rem]">
         <span className="m3-title-medium inline-flex items-center gap-2 text-on-surface-variant">
@@ -283,6 +285,14 @@ const Hero = () => {
 
       <HeroMosaic openCount={openCount} ready={isReady} skills={skills} products={products} />
     </section>
+
+    {/* Scroll hint, centred in the strip left under the 90vh hero */}
+    <div className="flex items-center justify-center py-4 lg:h-[10vh] lg:py-0">
+      <a href="#content" aria-label="Scroll to content" className="m3-fab-small">
+        <MdKeyboardArrowDown className="h-6 w-6" aria-hidden />
+      </a>
+    </div>
+    </>
   );
 };
 

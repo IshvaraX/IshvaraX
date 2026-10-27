@@ -63,6 +63,18 @@ const LearnNav = () => {
 
   return (
     <>
+      {/* Desktop top bar: brand only; navigation lives in the rail. Keeps the rail's canvas colour (no scroll tint). */}
+      <header className="m3-top-bar hidden lg:ml-[88px] lg:block">
+        <div className="flex h-14 items-center px-6">
+          <Link href="/" className="m3-title-medium flex items-center gap-2 text-on-surface">
+            <BrandMark size={22} />
+            <span>
+              <Wordmark />
+            </span>
+          </Link>
+        </div>
+      </header>
+
       <header className={`m3-top-bar lg:hidden ${scrolled ? "is-scrolled" : ""}`}>
         <div className="flex h-16 items-center justify-between px-2">
           <div className="flex items-center">

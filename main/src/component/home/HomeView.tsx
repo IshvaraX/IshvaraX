@@ -25,7 +25,7 @@ const HomeView = () => {
   return (
     <HomeSearchProvider>
       <Hero />
-      <main className="mx-auto w-full max-w-[1320px] px-5 pb-24 md:px-12 xl:px-[88px]">
+      <main id="content" className="mx-auto w-full max-w-[1320px] scroll-mt-4 px-5 pb-24 md:px-12 xl:px-[88px]">
         {!user && <Roadmap />}
         <ProjectSearch />
         <FreelanceProjects />
