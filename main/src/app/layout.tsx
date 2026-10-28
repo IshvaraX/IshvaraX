@@ -6,7 +6,6 @@ import { ProjectsProvider } from "@/context/ProjectsContext";
 import NavigationProgress from "@/component/ui/NavigationProgress";
 import { siteConfig } from "@/lib/site";
 
-// Site typefaces: Poppins for the M3 type scale, Roboto Mono for code.
 const fontSans = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -33,7 +32,9 @@ export const metadata: Metadata = {
   category: "technology",
   alternates: {
     canonical: "/",
+    types: { "application/rss+xml": `${siteConfig.url}/feed.xml` },
   },
+  formatDetection: { email: false, address: false, telephone: false },
   icons: {
     icon: [{ url: "/logo-blue-orange.svg", type: "image/svg+xml" }],
     shortcut: "/logo-blue-orange.svg",
@@ -57,9 +58,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: siteConfig.twitter,
+    creator: siteConfig.twitter,
     title: siteConfig.title,
     description: siteConfig.description,
-    creator: siteConfig.twitter,
     images: ["/icon.jpg"],
   },
   robots: {
@@ -90,8 +92,14 @@ const jsonLd = {
       "@id": `${siteConfig.url}/#organization`,
       name: siteConfig.name,
       url: siteConfig.url,
-      logo: `${siteConfig.url}/icon.jpg`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteConfig.url}/icon.jpg`,
+        width: 1200,
+        height: 630,
+      },
       description: siteConfig.description,
+      sameAs: [...siteConfig.social],
     },
     {
       "@type": "WebSite",
@@ -99,7 +107,30 @@ const jsonLd = {
       url: siteConfig.url,
       name: siteConfig.name,
       description: siteConfig.description,
+      inLanguage: "en",
       publisher: { "@id": `${siteConfig.url}/#organization` },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${siteConfig.url}/#webpage`,
+      url: siteConfig.url,
+      name: siteConfig.title,
+      description: siteConfig.description,
+      isPartOf: { "@id": `${siteConfig.url}/#website` },
+      about: { "@id": `${siteConfig.url}/#organization` },
+      inLanguage: "en",
+    },
+    {
+      "@type": "SiteNavigationElement",
+      "@id": `${siteConfig.url}/#nav`,
+      name: ["Home", "Projects", "Learnings", "Blog", "Join"],
+      url: [
+        siteConfig.url,
+        `${siteConfig.url}/projects`,
+        `${siteConfig.url}/learnings`,
+        `${siteConfig.url}/blog`,
+        `${siteConfig.url}/register`,
+      ],
     },
   ],
 };
@@ -116,7 +147,6 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Apply the saved theme before first paint to avoid a flash */}
         <script
           dangerouslySetInnerHTML={{
             __html:

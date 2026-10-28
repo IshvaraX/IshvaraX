@@ -17,7 +17,6 @@ const DEFAULT_SECTIONS = [
   "Video courses",
 ];
 
-/** Admin CRUD for learning resources (course, category, link). */
 const LearningsAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<LearningDTO[]>([]);
   const [form, setForm] = useState<LearningPayload>(empty);
@@ -83,7 +82,6 @@ const LearningsAdmin = ({ token }: { token: string }) => {
       if (editingId === id) reset();
       load();
     } catch {
-      // ignore
     }
   };
 
@@ -91,7 +89,6 @@ const LearningsAdmin = ({ token }: { token: string }) => {
     <section className="mt-12">
       <h2 className="g-heading-sm mb-4 text-lg">Learnings ({items.length})</h2>
       <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-        {/* Form */}
         <form onSubmit={onSubmit} className="g-card h-fit flex flex-col gap-3">
           <h3 className="g-heading-sm">
             {editingId ? "Edit resource" : "Add a resource"}
@@ -163,7 +160,6 @@ const LearningsAdmin = ({ token }: { token: string }) => {
           </div>
         </form>
 
-        {/* List */}
         <div className="flex flex-col gap-3">
           {items.length === 0 && (
             <p className="g-body">No resources yet.</p>

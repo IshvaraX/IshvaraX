@@ -101,7 +101,6 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
       const list = await projectsApi.list();
       setProjects(list.map(normalizeProject));
     } catch {
-      // Leave the current list in place if the backend is unreachable.
     } finally {
       setIsReady(true);
     }

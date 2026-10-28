@@ -2,7 +2,6 @@
 
 import { MdOpenInNew } from "react-icons/md";
 
-/** Embeds a PDF in an inline viewer with a fallback open link. */
 const PdfViewer = ({ src, title }: { src: string; title?: string }) => (
   <div>
     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-surface-container-high">

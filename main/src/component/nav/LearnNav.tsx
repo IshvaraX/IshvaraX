@@ -17,7 +17,6 @@ import content from "@/app/site-content.json";
 
 const { auth, site } = content;
 
-/** Brand mark: two chevrons in primary + tertiary. */
 export const BrandMark = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>
     <path d="M3 20L12 3l9 17" stroke="var(--md-sys-color-primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
@@ -32,10 +31,6 @@ export const Wordmark = () => (
   </>
 );
 
-/**
- * Small-screen navigation (the rail takes over from `lg`): a top app bar with
- * menu + search, and a modal navigation drawer.
- */
 const LearnNav = () => {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
@@ -49,7 +44,6 @@ const LearnNav = () => {
     };
   }, [open]);
 
-  // Close the drawer whenever the route changes.
   useEffect(() => setOpen(false), [pathname]);
 
   useEffect(() => {
@@ -63,7 +57,6 @@ const LearnNav = () => {
 
   return (
     <>
-      {/* Desktop top bar: brand only; navigation lives in the rail. Keeps the rail's canvas colour (no scroll tint). */}
       <header className="m3-top-bar hidden lg:ml-[88px] lg:block">
         <div className="flex h-14 items-center px-6">
           <Link href="/" className="m3-title-medium flex items-center gap-2 text-on-surface">

@@ -24,12 +24,10 @@ type Tile =
   | { kind: "course"; id: string; createdAt: number; data: LearningDTO }
   | { kind: "post"; id: string; createdAt: number; data: BlogDTO };
 
-/** Thumbnail block for a course: YouTube poster, PDF badge, or generic link. */
 const CourseThumb = ({ link, title }: { link: string; title: string }) => {
   const { videoId } = getYouTube(link);
   if (videoId) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
         alt={title}
@@ -46,7 +44,6 @@ const CourseThumb = ({ link, title }: { link: string; title: string }) => {
   );
 };
 
-/** Home section: the newest courses and blog posts as pastel tiles. */
 const LatestContent = () => {
   const [courses, setCourses] = useState<LearningDTO[]>([]);
   const [posts, setPosts] = useState<BlogDTO[]>([]);
@@ -66,7 +63,6 @@ const LatestContent = () => {
 
   if (courses.length === 0 && posts.length === 0) return null;
 
-  // Interleave courses and posts, newest first.
   const tiles: Tile[] = [
     ...courses.map<Tile>((c) => ({ kind: "course", id: c.id, createdAt: c.createdAt, data: c })),
     ...posts.map<Tile>((p) => ({ kind: "post", id: p.id, createdAt: p.createdAt, data: p })),
@@ -74,7 +70,6 @@ const LatestContent = () => {
 
   return (
     <section id="latest" className="pt-16 md:pt-24">
-      {/* Header */}
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 className="m3-section-title">Latest in IshvaraX</h2>

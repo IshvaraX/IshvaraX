@@ -2,12 +2,10 @@ import type { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
-  /** Narrow column for reading-focused pages (blog post, auth-gated notices). */
   narrow?: boolean;
   className?: string;
 };
 
-/** Rounded content panel on the grey canvas, the way m3.material.io lays out its pages. */
 const PagePanel = ({ children, narrow = false, className = "" }: Props) => (
   <main className="mx-auto w-full max-w-[1320px] p-2 lg:p-3 lg:pl-1">
     <div

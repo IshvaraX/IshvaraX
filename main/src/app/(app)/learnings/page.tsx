@@ -9,14 +9,12 @@ import { learningsApi, type LearningDTO } from "@/lib/api";
 import { getYouTube } from "@/lib/youtube";
 import CourseMedia from "@/component/ui/CourseMedia";
 
-/** Study materials with a sidebar + sub-nav and inline video players. */
 const LearningsPage = () => {
   const { user, isReady } = useAuth();
   const [items, setItems] = useState<LearningDTO[]>([]);
   const [loading, setLoading] = useState(true);
-  // Filter: "section" or "section|category", or null for all.
   const [filter, setFilter] = useState<string | null>(null);
-  const [menu, setMenu] = useState<string | null>(null); // open dropdown section
+  const [menu, setMenu] = useState<string | null>(null);
 
   const filterSection = filter ? filter.split("|")[0] : null;
   const filterCat = filter && filter.includes("|") ? filter.split("|")[1] : null;
@@ -67,7 +65,6 @@ const LearningsPage = () => {
           and category.
         </p>
 
-        {/* Sub-nav: filter chips with a category menu per section */}
         {!loading && sections.length > 0 && (
           <div className="sticky top-16 z-30 mt-8 flex flex-wrap items-center gap-2 border-y border-outline-variant bg-panel/95 py-3 backdrop-blur lg:top-0">
             <button
@@ -141,7 +138,6 @@ const LearningsPage = () => {
           <p className="g-body mt-10">No materials have been added yet.</p>
         ) : (
           <div className="mt-8 flex gap-8">
-            {/* Sidebar */}
             <aside className="sticky top-32 hidden h-fit w-56 shrink-0 md:block lg:top-20">
               <nav className="flex flex-col gap-4">
                 <button
@@ -193,7 +189,6 @@ const LearningsPage = () => {
               </nav>
             </aside>
 
-            {/* Content */}
             <div className="min-w-0 flex-1">
               <div className="flex flex-col gap-12">
                 {Object.entries(grouped)

@@ -26,11 +26,9 @@ export type NavItem = {
   href: string;
   icon: IconType;
   activeIcon: IconType;
-  /** Onboarding destinations are hidden once signed in. */
   visitorOnly?: boolean;
 };
 
-// Outlined icon at rest, filled icon when the destination is active (M3 convention).
 export const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/", icon: MdOutlineHome, activeIcon: MdHome },
   { label: "Get started", href: "/#roadmap", icon: MdOutlineRocketLaunch, activeIcon: MdRocketLaunch, visitorOnly: true },
@@ -53,7 +51,6 @@ type RailItemProps = {
   children: React.ReactNode;
 };
 
-/** Rail destination: icon in a 56×32 pill indicator with the label beneath. */
 const RailItem = ({ label, active = false, href, onClick, children }: RailItemProps) => {
   const className = `m3-rail-item ${active ? "is-active" : ""}`;
   const inner = (
@@ -73,12 +70,10 @@ const RailItem = ({ label, active = false, href, onClick, children }: RailItemPr
   );
 };
 
-/** Avatar bubble for the signed-in user (primary-container when no photo). */
 export const UserAvatar = ({ size = 32 }: { size?: number }) => {
   const { user } = useAuth();
   if (!user) return null;
   return typeof user.photo === "string" && user.photo ? (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={user.photo}
       alt=""
@@ -92,7 +87,6 @@ export const UserAvatar = ({ size = 32 }: { size?: number }) => {
   );
 };
 
-/** Desktop navigation rail (m3.material.io style): search on top, theme toggle at the bottom. */
 const SideNav = () => {
   const pathname = usePathname();
   const { user, logout } = useAuth();

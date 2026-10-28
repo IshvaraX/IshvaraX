@@ -1,19 +1,13 @@
-/**
- * Fixed, non-interactive background: a faint blueprint grid plus scattered
- * coding & time symbols for a vintage-futurist look. Positions are static to
- * avoid hydration mismatches.
- */
 
 type Mark = {
   s: string;
-  top: number; // %
-  left: number; // %
-  size: number; // rem
-  rot: number; // deg
-  op: number; // opacity
+  top: number;
+  left: number;
+  size: number;
+  rot: number;
+  op: number;
 };
 
-// Coding + time-related glyphs scattered across the viewport.
 const MARKS: Mark[] = [
   { s: "</>", top: 8, left: 6, size: 1.6, rot: -8, op: 0.14 },
   { s: "{ }", top: 18, left: 82, size: 2, rot: 10, op: 0.12 },
@@ -48,7 +42,6 @@ const MARKS: Mark[] = [
   { s: "->", top: 36, left: 6, size: 1.7, rot: 6, op: 0.12 },
   { s: "404", top: 94, left: 74, size: 1.3, rot: -5, op: 0.1 },
   { s: "τ", top: 14, left: 54, size: 2, rot: 0, op: 0.1 },
-  // math
   { s: "∑", top: 20, left: 34, size: 2, rot: 0, op: 0.11 },
   { s: "∫", top: 66, left: 62, size: 2.1, rot: 0, op: 0.11 },
   { s: "√", top: 40, left: 44, size: 1.9, rot: 0, op: 0.1 },
@@ -69,7 +62,6 @@ const MARKS: Mark[] = [
   { s: "φ", top: 52, left: 40, size: 1.9, rot: 0, op: 0.1 },
   { s: "≡", top: 30, left: 64, size: 1.7, rot: 0, op: 0.1 },
   { s: "∝", top: 72, left: 52, size: 1.7, rot: 0, op: 0.1 },
-  // more tech / code
   { s: "sudo", top: 10, left: 30, size: 1.1, rot: 4, op: 0.1 },
   { s: "SELECT *", top: 82, left: 16, size: 1, rot: -4, op: 0.1 },
   { s: "GET /", top: 24, left: 70, size: 1.1, rot: 6, op: 0.1 },
@@ -86,13 +78,11 @@ const MARKS: Mark[] = [
   { s: "<=>", top: 86, left: 76, size: 1.4, rot: -4, op: 0.1 },
   { s: "??", top: 50, left: 30, size: 1.7, rot: 8, op: 0.1 },
   { s: "</html>", top: 22, left: 48, size: 1.1, rot: -3, op: 0.1 },
-  // more time
   { s: "⏲", top: 40, left: 82, size: 1.7, rot: 0, op: 0.1 },
   { s: "09:41", top: 64, left: 76, size: 1.1, rot: 4, op: 0.1 },
   { s: "t₀", top: 28, left: 24, size: 1.7, rot: 0, op: 0.1 },
   { s: "Hz", top: 84, left: 66, size: 1.5, rot: -3, op: 0.1 },
   { s: "UTC", top: 12, left: 14, size: 1.2, rot: 5, op: 0.1 },
-  // more coding
   { s: "try{}", top: 2, left: 50, size: 1.1, rot: -4, op: 0.1 },
   { s: "catch", top: 96, left: 48, size: 1.1, rot: 5, op: 0.1 },
   { s: "for()", top: 6, left: 84, size: 1.1, rot: 6, op: 0.1 },
@@ -109,7 +99,6 @@ const MARKS: Mark[] = [
   { s: "void", top: 26, left: 4, size: 1.2, rot: 6, op: 0.1 },
   { s: "0x7E", top: 80, left: 40, size: 1.1, rot: 0, op: 0.1 },
   { s: "</>", top: 54, left: 62, size: 1.5, rot: -8, op: 0.11 },
-  // more math
   { s: "∮", top: 4, left: 8, size: 1.9, rot: 0, op: 0.1 },
   { s: "⊗", top: 92, left: 4, size: 1.8, rot: 0, op: 0.1 },
   { s: "∪", top: 36, left: 52, size: 1.7, rot: 0, op: 0.1 },
@@ -125,7 +114,6 @@ const MARKS: Mark[] = [
   { s: "δ", top: 44, left: 34, size: 1.9, rot: 0, op: 0.1 },
   { s: "χ²", top: 12, left: 88, size: 1.5, rot: 0, op: 0.1 },
   { s: "n!", top: 96, left: 68, size: 1.6, rot: 0, op: 0.1 },
-  // more time
   { s: "⏰", top: 2, left: 74, size: 1.7, rot: 8, op: 0.1 },
   { s: "🕐", top: 88, left: 54, size: 1.6, rot: 0, op: 0.09 },
   { s: "00:00", top: 34, left: 8, size: 1.1, rot: 5, op: 0.1 },
@@ -141,7 +129,6 @@ const BackgroundDecor = () => (
     aria-hidden
     className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
   >
-    {/* Blueprint grid */}
     <svg className="absolute inset-0 h-full w-full">
       <defs>
         <pattern id="ix-grid" width="44" height="44" patternUnits="userSpaceOnUse">
@@ -165,7 +152,6 @@ const BackgroundDecor = () => (
       <rect width="100%" height="100%" fill="url(#ix-grid-lg)" opacity="0.6" />
     </svg>
 
-    {/* Futurist crosshair / concentric motifs */}
     <svg
       className="absolute right-[6%] top-[12%] h-40 w-40 text-[var(--border)]"
       viewBox="0 0 100 100"
@@ -187,7 +173,6 @@ const BackgroundDecor = () => (
       <path d="M50 8v84M8 50h84" />
     </svg>
 
-    {/* Scattered coding & time symbols */}
     {MARKS.map((m, i) => (
       <span
         key={i}

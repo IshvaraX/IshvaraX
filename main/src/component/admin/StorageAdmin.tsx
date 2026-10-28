@@ -28,7 +28,6 @@ const BAR_COLORS = [
   "var(--md-sys-color-on-tertiary-container)",
 ];
 
-/** Admin: database storage usage, remaining quota, and where the bytes go. */
 const StorageAdmin = ({ token }: { token: string }) => {
   const [report, setReport] = useState<StorageReportDTO | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -90,7 +89,6 @@ const StorageAdmin = ({ token }: { token: string }) => {
         !error && <p className="g-body">Loading storage stats…</p>
       ) : (
         <>
-          {/* Overall gauge */}
           <section className="g-card">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <p className="text-2xl font-medium">
@@ -116,7 +114,6 @@ const StorageAdmin = ({ token }: { token: string }) => {
           </section>
 
           <div className="grid gap-5 lg:grid-cols-2">
-            {/* Per-table breakdown */}
             <section className="g-card">
               <h3 className="g-heading-sm mb-4 text-sm">Where storage is going</h3>
               <ul className="flex flex-col gap-3">
@@ -166,7 +163,6 @@ const StorageAdmin = ({ token }: { token: string }) => {
               </ul>
             </section>
 
-            {/* Photo blobs */}
             <section className="g-card h-fit">
               <h3 className="g-heading-sm mb-1 text-sm">Inline photos</h3>
               <p className="mb-4 text-xs text-[var(--muted)]">

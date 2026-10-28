@@ -25,7 +25,6 @@ type StoredAuth = {
 
 type AuthContextValue = {
   user: AuthUser | null;
-  /** Session token for authenticated API calls (empty until logged in). */
   token: string;
   isReady: boolean;
   login: (payload: LoginPayload) => Promise<string>;
@@ -52,7 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as StoredAuth;
-        // Sessions saved before tokens existed can't call protected endpoints; ask for a fresh login.
         if (parsed.user && parsed.token) {
           setUser(parsed.user);
           setToken(parsed.token);
@@ -61,7 +59,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
     } catch {
-      // ignore malformed storage
     }
     setIsReady(true);
   }, []);

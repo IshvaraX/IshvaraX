@@ -12,14 +12,9 @@ import Contact from "@/component/home/Contact";
 import Footer from "@/component/home/Footer";
 import { HomeSearchProvider } from "@/context/HomeSearchContext";
 
-/**
- * Home page body, laid out like m3.material.io: a full-width hero pair of
- * panels, then headline + tile-grid sections in a centred column.
- */
 const HomeView = () => {
   const { user, isReady } = useAuth();
 
-  // Avoid flashing the wrong copy before auth state is known.
   if (!isReady) return null;
 
   return (

@@ -3,7 +3,6 @@ import type { CSSProperties } from "react";
 import { MdOutlineWork } from "react-icons/md";
 import type { Project } from "@/context/ProjectsContext";
 
-/** M3 tonal tile: container colour, its "on" colour, and the matching role for the CTA. */
 export type Tone = { bg: string; fg: string; btn: string; onBtn: string };
 
 const PALETTE: Tone[] = [
@@ -42,7 +41,6 @@ const hash = (s: string) => {
 export const pastelFor = (key: string) => PALETTE[hash(key) % PALETTE.length];
 export const pastelAt = (i: number) => PALETTE[i % PALETTE.length];
 
-/** Inline style for a tile; also exposes --pc-text for legacy `text-[var(--pc-text)]` usage. */
 export const toneStyle = (tone: Tone): CSSProperties =>
   ({ background: tone.bg, color: tone.fg, "--pc-text": tone.fg }) as CSSProperties;
 
@@ -51,13 +49,10 @@ type Props = {
   href?: string;
   label?: string;
   className?: string;
-  /** When provided, the CTA is a button that calls this instead of a link. */
   onAction?: () => void;
-  /** Show the open/closed status pill. */
   showStatus?: boolean;
 };
 
-/** Project tile: tonal media block on top, title + description, action at the bottom. */
 const PastelProjectCard = ({
   project,
   href = `/projects?id=${project.id}`,

@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 
-/** Modal that plays a YouTube video inside the platform. */
 const VideoModal = ({
   videoId,
   title,

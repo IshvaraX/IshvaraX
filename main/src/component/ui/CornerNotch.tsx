@@ -1,21 +1,13 @@
 import type { ReactNode } from "react";
 
 type Props = {
-  /** Colour of the surface the notch is cut into (the card). */
   surface: string;
-  /** Colour visible inside the notch (whatever sits behind the card). */
   behind: string;
-  /** Corner radius, in px, of the concave curves. */
   radius?: number;
-  /** Which bottom corner to cut. */
   side?: "left" | "right";
   children: ReactNode;
 };
 
-/**
- * Cuts a rounded notch into a bottom corner of a `relative` parent and
- * places its children (usually a pill button) inside it.
- */
 const CornerNotch = ({
   surface,
   behind,
@@ -36,7 +28,6 @@ const CornerNotch = ({
         paddingTop: radius * 0.75,
       }}
     >
-      {/* Concave corners so the surface curves smoothly into the notch */}
       <span
         aria-hidden
         className={`absolute ${isLeft ? "left-0" : "right-0"}`}

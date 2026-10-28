@@ -1,13 +1,6 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// 🔗 REPLACE THIS ONE LINE with your deployed HFI backend URL.
-// Locally the FastAPI server runs at http://localhost:8000
-// You can also set NEXT_PUBLIC_API_BASE_URL in .env.local to override it.
-// ─────────────────────────────────────────────────────────────────────────────
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 
-// Route paths from the HFI `auth.router`. Adjust here if your prefix differs
-// (e.g. "/register" instead of "/auth/register").
 export const ENDPOINTS = {
   register: "/auth/register",
   login: "/auth/login",
@@ -32,8 +25,6 @@ export type AuthUser = {
   [key: string]: unknown;
 };
 
-// The HFI auth router returns `{ message }`; login additionally returns the
-// profile and a session token for authenticated endpoints.
 export type AuthResponse = {
   message?: string;
   token?: string;
@@ -59,7 +50,7 @@ export type LoginPayload = {
 
 export type ProfileUpdatePayload = {
   username: string;
-  password: string; // current password, to authorize
+  password: string;
   email?: string;
   photo?: string | null;
   skills?: string[];
@@ -141,13 +132,9 @@ async function request<T>(path: string, body: unknown): Promise<T> {
 type ApiFetchOptions = {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: unknown;
-  /** Session token from login; required for user- and admin-scoped endpoints. */
   token?: string;
 };
 
-// ---------------------------------------------------------------------------
-// Request activity: lets the UI show a progress bar while the backend is busy.
-// ---------------------------------------------------------------------------
 type ActivityListener = (pending: number) => void;
 const activityListeners = new Set<ActivityListener>();
 let pendingRequests = 0;
@@ -158,7 +145,6 @@ function setPending(delta: number) {
 }
 
 export const apiActivity = {
-  /** Subscribe to the number of in-flight API requests. Returns an unsubscribe. */
   subscribe(cb: ActivityListener) {
     activityListeners.add(cb);
     cb(pendingRequests);
@@ -171,11 +157,6 @@ export const apiActivity = {
   },
 };
 
-// ---------------------------------------------------------------------------
-// GET cache: in-flight requests are shared, and successful responses are kept
-// so moving between pages doesn't refetch identical data. Any write clears the
-// cache so lists reflect the mutation on the next read.
-// ---------------------------------------------------------------------------
 const GET_CACHE_TTL = 5 * 60_000;
 const inflight = new Map<string, Promise<unknown>>();
 const cache = new Map<string, { at: number; data: unknown }>();
@@ -428,7 +409,6 @@ export const membersApi = {
 
 export type ProductPlatform = "android" | "ios" | "web" | "desktop";
 
-/** An app/product built by the community, showcased on the home page. */
 export type ProductDTO = {
   id: string;
   name: string;

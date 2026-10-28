@@ -5,7 +5,6 @@ import { ApiError, membersApi, type MemberDTO, type MemberPayload } from "@/lib/
 
 const empty: MemberPayload = { name: "", role: "", photo: "" };
 
-/** Admin CRUD for organisation members and their roles. */
 const MembersAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<MemberDTO[]>([]);
   const [form, setForm] = useState<MemberPayload>(empty);
@@ -73,7 +72,6 @@ const MembersAdmin = ({ token }: { token: string }) => {
       if (editingId === id) reset();
       load();
     } catch {
-      // ignore
     }
   };
 
@@ -81,7 +79,6 @@ const MembersAdmin = ({ token }: { token: string }) => {
     <section className="mt-12">
       <h2 className="g-heading-sm mb-4 text-lg">Members ({items.length})</h2>
       <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-        {/* Form */}
         <form onSubmit={onSubmit} className="g-card h-fit flex flex-col gap-3">
           <h3 className="g-heading-sm">
             {editingId ? "Edit member" : "Add a member"}
@@ -114,7 +111,6 @@ const MembersAdmin = ({ token }: { token: string }) => {
             />
           </label>
           {form.photo && (
-            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={form.photo}
               alt="Member preview"
@@ -142,7 +138,6 @@ const MembersAdmin = ({ token }: { token: string }) => {
           </div>
         </form>
 
-        {/* List */}
         <div className="flex flex-col gap-3">
           {items.length === 0 && <p className="g-body">No members yet.</p>}
           {items.map((m) => (
@@ -152,7 +147,6 @@ const MembersAdmin = ({ token }: { token: string }) => {
             >
               <div className="flex min-w-0 items-center gap-3">
                 {m.photo ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={m.photo}
                     alt={m.name}

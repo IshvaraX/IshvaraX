@@ -1,9 +1,7 @@
-/** Extract a YouTube video id from common URL formats, or null if not YouTube. */
 export function getYouTubeId(url: string): string | null {
   return getYouTube(url).videoId;
 }
 
-/** Extract both a video id and a playlist id (either may be null). */
 export function getYouTube(url: string): {
   videoId: string | null;
   playlistId: string | null;
@@ -27,7 +25,6 @@ export function getYouTube(url: string): {
       } else {
         const parts = u.pathname.split("/").filter(Boolean);
         if (["embed", "shorts", "v"].includes(parts[0])) {
-          // /embed/videoseries carries only a playlist
           videoId = parts[1] && parts[1] !== "videoseries" ? parts[1] : null;
         }
       }

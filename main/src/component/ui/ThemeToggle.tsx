@@ -12,9 +12,7 @@ const resolveTheme = (): Theme => {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 };
 
-/** Light / dark switch (bottom of the rail, like m3.material.io). Persists the choice. */
 const ThemeToggle = ({ className = "" }: { className?: string }) => {
-  // null until mounted so server and first client render match.
   const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => setTheme(resolveTheme()), []);
@@ -25,7 +23,6 @@ const ThemeToggle = ({ className = "" }: { className?: string }) => {
     try {
       localStorage.setItem(THEME_KEY, next);
     } catch {
-      /* storage unavailable */
     }
     setTheme(next);
   };

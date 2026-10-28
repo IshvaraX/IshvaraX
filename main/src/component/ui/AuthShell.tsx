@@ -10,7 +10,6 @@ type AuthShellProps = {
   footer: ReactNode;
 };
 
-/** Centered panel layout shared by the login and register pages. */
 const AuthShell = ({ title, subtitle, children, footer }: AuthShellProps) => (
   <AppShell>
     <main className="grid min-h-[calc(100dvh-4rem)] w-full place-items-center px-4 py-12 lg:min-h-screen">

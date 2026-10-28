@@ -6,7 +6,6 @@ import { isPdf, pdfEmbedSrc } from "@/lib/media";
 import YouTubePlayer from "@/component/ui/YouTubePlayer";
 import PdfViewer from "@/component/ui/PdfViewer";
 
-/** Renders the right inline embed for a course link: video, PDF, or a link. */
 const CourseMedia = ({ link, title }: { link: string; title?: string }) => {
   const { videoId, playlistId } = getYouTube(link);
   if (videoId || playlistId) {

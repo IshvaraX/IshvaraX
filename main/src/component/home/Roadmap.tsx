@@ -37,7 +37,6 @@ const STEPS: Step[] = [
   },
 ];
 
-// Step markers cycle through the scheme's hues.
 const MARKERS = [
   { bg: "var(--md-sys-color-primary)", fg: "var(--md-sys-color-on-primary)" },
   { bg: "var(--md-sys-color-secondary)", fg: "var(--md-sys-color-on-secondary)" },
@@ -45,11 +44,9 @@ const MARKERS = [
   { bg: "var(--md-extended-color-amber)", fg: "var(--md-extended-color-on-amber)" },
 ];
 
-/** "How it works" steps as a grid of tiles with numbered, colour-cycled markers. */
 const Roadmap = () => {
   const { user } = useAuth();
 
-  // The "how it works" onboarding is only relevant to logged-out visitors.
   if (user) return null;
 
   return (

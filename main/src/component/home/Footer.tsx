@@ -21,11 +21,9 @@ const Footer = () => {
   const { user } = useAuth();
   return (
     <footer className="mx-auto w-full max-w-[1320px] px-5 pb-10 md:px-12 xl:px-[88px]">
-      {/* Wavy divider, as on m3.material.io */}
       <div className="m3-wave mb-12" aria-hidden />
 
       <div className="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))] lg:gap-8">
-        {/* Brand */}
         <div className="lg:pr-8">
           <Link href="/" className="inline-flex items-center gap-2 text-on-surface">
             <BrandMark size={24} />
@@ -48,7 +46,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Link columns */}
         {footer.columns.map((column) => (
           <div key={column.heading}>
             <h3 className="m3-title-small mb-4 text-on-surface">{column.heading}</h3>
@@ -68,7 +65,6 @@ const Footer = () => {
         ))}
       </div>
 
-      {/* Bottom bar */}
       <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-outline-variant pt-6 sm:flex-row sm:items-center">
         <span className="m3-body-small text-on-surface-variant">
           © {new Date().getFullYear()} {site.name}. Built by the community, for

@@ -10,7 +10,6 @@ import { useProjects, type NewProject } from "@/context/ProjectsContext";
 import { ApiError, authApi } from "@/lib/api";
 import Markdown from "@/component/ui/Markdown";
 
-// Each admin section is its own chunk; only the active tab's code is downloaded.
 const panelLoading = () => <p className="m3-body-medium text-on-surface-variant">Loading…</p>;
 const LearningsAdmin = dynamic(() => import("@/component/admin/LearningsAdmin"), { loading: panelLoading });
 const BlogAdmin = dynamic(() => import("@/component/admin/BlogAdmin"), { loading: panelLoading });
@@ -61,14 +60,12 @@ const AdminPage = () => {
     [projects, selectedProjectId]
   );
 
-  // Default to the first project once the list has loaded.
   useEffect(() => {
     if (!selectedProjectId && projects.length > 0) {
       setSelectedProjectId(projects[0].id);
     }
   }, [projects, selectedProjectId]);
 
-  // Load applications once signed in as admin.
   useEffect(() => {
     if (!isAdmin) return;
     refreshApplications(token).catch(() => {});
@@ -111,7 +108,6 @@ const AdminPage = () => {
     try {
       await deleteProject(id, token);
     } catch {
-      // ignore — the list stays as-is if the delete fails
     }
   };
 
@@ -119,7 +115,6 @@ const AdminPage = () => {
     try {
       await setProjectStatus(id, current === "open" ? "closed" : "open", token);
     } catch {
-      // ignore — the list stays as-is if the update fails
     }
   };
 
@@ -204,7 +199,6 @@ const AdminPage = () => {
 
   return (
     <PagePanel>
-      {/* Compact header */}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-baseline gap-3">
           <h1 className="m3-headline-small">Admin panel</h1>
@@ -219,7 +213,6 @@ const AdminPage = () => {
       </div>
 
       <div className="flex flex-col gap-6 lg:flex-row">
-        {/* Section navigation — drawer-style items */}
         <aside className="w-full shrink-0 lg:sticky lg:top-4 lg:h-fit lg:w-48">
           <nav className="flex flex-wrap gap-1 lg:flex-col">
             {(
@@ -247,7 +240,6 @@ const AdminPage = () => {
             })}
           </nav>
 
-          {/* Maintenance, tucked under the nav */}
           <div className="mt-4 border-t border-outline-variant pt-3 lg:mt-6">
             <p className="m3-label-medium mb-2 text-on-surface-variant">
               Maintenance
@@ -266,11 +258,9 @@ const AdminPage = () => {
           </div>
         </aside>
 
-        {/* Active section content */}
         <div className="min-w-0 flex-1">
           {activeSection === "projects" && (
             <div className="grid gap-6 xl:grid-cols-3 lg:grid-cols-2">
-        {/* Add project form */}
         <section className="g-card h-fit">
           <h2 className="g-heading-sm mb-4">Add a project</h2>
           <form onSubmit={onSubmit} className="flex flex-col gap-3">
@@ -338,7 +328,6 @@ const AdminPage = () => {
           </form>
         </section>
 
-        {/* Projects list — short previews */}
         <section className="min-w-0">
           <h2 className="g-heading-sm mb-4">Projects ({projects.length})</h2>
           {projects.length === 0 ? (
@@ -383,7 +372,6 @@ const AdminPage = () => {
           )}
         </section>
 
-        {/* Full preview of the selected project + applications */}
         <section className="min-w-0 lg:sticky lg:top-4 lg:h-fit">
           {selectedProject ? (
             <div className="g-card flex flex-col lg:max-h-[calc(100vh-6rem)]">
@@ -448,7 +436,6 @@ const AdminPage = () => {
                 </div>
               )}
 
-              {/* Applications */}
               <div className="mt-6 border-t border-outline-variant pt-4">
                 <h4 className="g-heading-sm mb-3 text-sm">
                   Applications ({applicationsFor(selectedProject.id).length})
@@ -464,7 +451,6 @@ const AdminPage = () => {
                     >
                       <div className="flex items-center gap-3">
                         {app.photo ? (
-                          // eslint-disable-next-line @next/next/no-img-element
                           <img
                             src={app.photo}
                             alt={app.username}

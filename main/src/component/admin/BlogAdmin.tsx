@@ -18,7 +18,6 @@ const splitList = (raw: string) =>
     .map((s) => s.trim())
     .filter(Boolean);
 
-/** Admin CRUD for blog posts. */
 const BlogAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<BlogDTO[]>([]);
   const [form, setForm] = useState<FormState>(empty);
@@ -84,7 +83,6 @@ const BlogAdmin = ({ token }: { token: string }) => {
       if (editingId === id) reset();
       load();
     } catch {
-      // ignore
     }
   };
 
@@ -92,7 +90,6 @@ const BlogAdmin = ({ token }: { token: string }) => {
     <section className="mt-12">
       <h2 className="g-heading-sm mb-4 text-lg">Blog ({items.length})</h2>
       <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-        {/* Form */}
         <form onSubmit={onSubmit} className="g-card h-fit flex flex-col gap-3">
           <h3 className="g-heading-sm">
             {editingId ? "Edit post" : "Write a post"}
@@ -150,7 +147,6 @@ const BlogAdmin = ({ token }: { token: string }) => {
           </div>
         </form>
 
-        {/* List */}
         <div className="flex flex-col gap-3">
           {items.length === 0 && <p className="g-body">No posts yet.</p>}
           {items.map((b) => (

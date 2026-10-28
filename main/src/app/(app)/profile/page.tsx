@@ -8,7 +8,6 @@ import { ApiError, projectsApi, type UserApplicationDTO } from "@/lib/api";
 
 const str = (v: unknown) => (typeof v === "string" ? v : "");
 
-/** Edit the signed-in user's profile and profile picture. */
 const ProfilePage = () => {
   const { user, token, isReady, updateProfile } = useAuth();
 
@@ -24,7 +23,6 @@ const ProfilePage = () => {
   const [done, setDone] = useState(false);
   const [applied, setApplied] = useState<UserApplicationDTO[]>([]);
 
-  // Load the user's applied projects.
   useEffect(() => {
     if (!user || !token) return;
     projectsApi
@@ -33,7 +31,6 @@ const ProfilePage = () => {
       .catch(() => {});
   }, [user, token]);
 
-  // Prefill once the stored user is available.
   useEffect(() => {
     if (!user) return;
     setPhoto(str(user.photo));
@@ -104,14 +101,11 @@ const ProfilePage = () => {
         <p className="m3-body-large mt-3 text-on-surface-variant">Signed in as @{user?.username}</p>
 
         <div className="mt-6 flex flex-col gap-8 lg:flex-row">
-          {/* Edit form — sidebar */}
           <aside className="h-fit w-full shrink-0 lg:sticky lg:top-4 lg:w-[380px]">
 
         <form onSubmit={onSubmit} className="g-card flex flex-col gap-4">
-          {/* Avatar */}
           <div className="flex items-center gap-4">
             {photo ? (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={photo}
                 alt="Profile"
@@ -240,7 +234,6 @@ const ProfilePage = () => {
         </form>
         </aside>
 
-        {/* Applied projects — right side */}
         <div className="flex-1">
           <h2 className="m3-title-large">
             Applied projects ({applied.length})

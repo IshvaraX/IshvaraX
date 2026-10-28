@@ -12,7 +12,6 @@ const initials = (name: string) =>
     .slice(0, 2)
     .toUpperCase();
 
-/** Home section: organisation members and their roles (managed by admin). */
 const Team = () => {
   const [members, setMembers] = useState<MemberDTO[]>([]);
 
@@ -37,7 +36,6 @@ const Team = () => {
           <Reveal as="article" key={m.id} delay={i * 60} className="m3-tile">
             <div className="m3-tile-body flex-row items-center gap-4">
               {m.photo ? (
-                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={m.photo}
                   alt={m.name}

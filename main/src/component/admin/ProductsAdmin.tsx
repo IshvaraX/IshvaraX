@@ -26,10 +26,8 @@ const empty: ProductPayload = {
   featured: true,
 };
 
-// Icons are stored inline as data URLs, so keep them small.
 const MAX_ICON_BYTES = 300_000;
 
-/** Admin CRUD for the products showcased in the home-page hero. */
 const ProductsAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<ProductDTO[]>([]);
   const [form, setForm] = useState<ProductPayload>(empty);
@@ -111,7 +109,6 @@ const ProductsAdmin = ({ token }: { token: string }) => {
       if (editingId === id) reset();
       load();
     } catch {
-      // ignore — the list stays as-is if the delete fails
     }
   };
 
@@ -120,7 +117,6 @@ const ProductsAdmin = ({ token }: { token: string }) => {
       await productsApi.update(p.id, { ...p, featured: !p.featured }, token);
       load();
     } catch {
-      // ignore
     }
   };
 
@@ -132,7 +128,6 @@ const ProductsAdmin = ({ token }: { token: string }) => {
         home-page hero.
       </p>
       <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-        {/* Form */}
         <form onSubmit={onSubmit} className="g-card h-fit flex flex-col gap-3">
           <h3 className="g-heading-sm">
             {editingId ? "Edit product" : "Add a product"}
@@ -189,7 +184,6 @@ const ProductsAdmin = ({ token }: { token: string }) => {
           </label>
           {form.icon && (
             <div className="flex items-center gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={form.icon}
                 alt="Icon preview"
@@ -230,7 +224,6 @@ const ProductsAdmin = ({ token }: { token: string }) => {
           </div>
         </form>
 
-        {/* List */}
         <div className="flex flex-col gap-3">
           {items.length === 0 && <p className="g-body">No products yet.</p>}
           {items.map((p) => (
@@ -240,7 +233,6 @@ const ProductsAdmin = ({ token }: { token: string }) => {
             >
               <div className="flex min-w-0 items-center gap-3">
                 {p.icon ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={p.icon}
                     alt={p.name}

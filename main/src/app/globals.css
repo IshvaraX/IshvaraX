@@ -1,20 +1,7 @@
 @import "tailwindcss";
 @import "./theme.css";
 
-/* ==========================================================================
-   IshvaraX — Material Design 3, styled after m3.material.io
-   Colours live in ./theme.css (M3 role tokens, light/dark pairs). This file
-   holds the Poppins type scale, M3 shape, elevation, motion and state-layer
-   tokens, Tailwind utility mappings and component classes. Legacy
-   `--foreground` style variables are aliased to M3 roles so every component
-   picks them up.
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   System tokens (non-colour)
-   -------------------------------------------------------------------------- */
 :root {
-  /* Shape scale */
   --md-sys-shape-corner-none: 0px;
   --md-sys-shape-corner-extra-small: 4px;
   --md-sys-shape-corner-small: 8px;
@@ -23,7 +10,6 @@
   --md-sys-shape-corner-extra-large: 28px;
   --md-sys-shape-corner-full: 9999px;
 
-  /* Elevation (ambient + key shadows) */
   --md-sys-elevation-0: none;
   --md-sys-elevation-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
   --md-sys-elevation-2: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
@@ -31,13 +17,11 @@
   --md-sys-elevation-4: 0 2px 3px 0 rgba(0, 0, 0, 0.3), 0 6px 10px 4px rgba(0, 0, 0, 0.15);
   --md-sys-elevation-5: 0 4px 4px 0 rgba(0, 0, 0, 0.3), 0 8px 12px 6px rgba(0, 0, 0, 0.15);
 
-  /* State layers */
   --md-sys-state-hover-state-layer-opacity: 0.08;
   --md-sys-state-focus-state-layer-opacity: 0.1;
   --md-sys-state-pressed-state-layer-opacity: 0.1;
   --md-sys-state-dragged-state-layer-opacity: 0.16;
 
-  /* Motion */
   --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --md-sys-motion-easing-standard-decelerate: cubic-bezier(0, 0, 0, 1);
   --md-sys-motion-easing-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
@@ -50,14 +34,11 @@
   --md-sys-motion-duration-medium4: 400ms;
   --md-sys-motion-duration-long2: 500ms;
 
-  /* Typefaces (next/font injects --font-poppins / --font-roboto-mono on <html>) */
   --md-ref-typeface-plain: var(--font-poppins), Poppins, system-ui, -apple-system, "Segoe UI", sans-serif;
   --md-ref-typeface-mono: var(--font-roboto-mono), "Roboto Mono", ui-monospace, "Cascadia Code", monospace;
 
-  /* Background painted behind a floating text-field label (set per container) */
   --m3-field-bg: var(--md-sys-color-surface);
 
-  /* ---- Legacy aliases (older components keep working, now in M3 roles) ---- */
   --foreground: var(--md-sys-color-on-surface);
   --muted: var(--md-sys-color-on-surface-variant);
   --background: var(--md-sys-color-surface);
@@ -83,7 +64,6 @@
   --brand-amber-deep: var(--md-sys-color-tertiary);
   --brand-cyan-deep: var(--md-sys-color-secondary);
 
-  /* Tonal project-card palette: container + its "on" colour + matching role */
   --pc-text: var(--md-sys-color-on-surface);
   --pc-red: var(--md-sys-color-primary-container);
   --pc-red-ink: var(--md-sys-color-primary);
@@ -103,10 +83,6 @@
   --shadow-2: var(--md-sys-elevation-2);
 }
 
-/* --------------------------------------------------------------------------
-   Tailwind theme: expose M3 roles as utilities (bg-primary, text-on-surface…),
-   align the radius scale with M3 shape, and keep weights at 400/500.
-   -------------------------------------------------------------------------- */
 @theme inline {
   --font-sans: var(--font-poppins), Poppins, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-roboto-mono), "Roboto Mono", ui-monospace, "Cascadia Code", monospace;
@@ -159,7 +135,6 @@
   --radius-3xl: 28px;
   --radius-4xl: 28px;
 
-  /* Compact text scale: every Tailwind text-* utility is one notch smaller */
   --text-xs: 0.6875rem;
   --text-xs--line-height: 1rem;
   --text-sm: 0.8125rem;
@@ -186,9 +161,6 @@
   --font-weight-extrabold: 500;
 }
 
-/* --------------------------------------------------------------------------
-   Base
-   -------------------------------------------------------------------------- */
 @layer base {
   html {
     color: var(--md-sys-color-on-surface);
@@ -204,7 +176,7 @@
     font-family: var(--md-ref-typeface-plain);
     font-size: 0.9375rem;
     line-height: 1.375rem;
-    letter-spacing: 0.03125rem; /* body-large */
+    letter-spacing: 0.03125rem; 
   }
 
   code,
@@ -214,7 +186,6 @@
     font-family: var(--md-ref-typeface-mono);
   }
 
-  /* Flatten native control rendering */
   button,
   input[type="button"],
   input[type="submit"],
@@ -224,7 +195,6 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Keyboard focus ring (M3 focus indicator) */
   :where(a, button, input, select, textarea, [tabindex]):focus-visible {
     outline: 2px solid var(--md-sys-color-primary);
     outline-offset: 2px;
@@ -234,17 +204,12 @@
     background: color-mix(in srgb, var(--md-sys-color-primary) 24%, transparent);
   }
 
-  /* Keep anchored sections clear of the fixed top app bar */
   section[id] {
     scroll-margin-top: 5rem;
   }
 }
 
-/* --------------------------------------------------------------------------
-   Components
-   -------------------------------------------------------------------------- */
 @layer components {
-  /* ---- Type scale ------------------------------------------------------- */
   .m3-display-large { font-size: 3rem; line-height: 3.5rem; font-weight: 400; letter-spacing: -0.015625rem; }
   .m3-display-medium { font-size: 2.5rem; line-height: 3rem; font-weight: 400; letter-spacing: 0; }
   .m3-display-small { font-size: 2rem; line-height: 2.5rem; font-weight: 400; letter-spacing: 0; }
@@ -261,7 +226,6 @@
   .m3-label-medium { font-size: 0.6875rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125rem; }
   .m3-label-small { font-size: 0.625rem; line-height: 0.875rem; font-weight: 500; letter-spacing: 0.03125rem; }
 
-  /* Legacy heading names → M3 scale (fluid where the old ones were) */
   .g-heading-xl,
   .gdm-heading-xl {
     font-weight: 400;
@@ -319,7 +283,6 @@
     letter-spacing: 0.03125rem;
   }
 
-  /* ---- State layer (hover / focus / pressed overlay in currentColor) ---- */
   .m3-state {
     position: relative;
     overflow: hidden;
@@ -344,7 +307,6 @@
     opacity: var(--md-sys-state-pressed-state-layer-opacity);
   }
 
-  /* ---- Common buttons --------------------------------------------------- */
   .g-btn,
   .gdm-btn,
   .g-pill,
@@ -429,7 +391,6 @@
     transform: translateX(3px);
   }
 
-  /* Outlined (default for .g-btn) */
   .g-btn,
   .gdm-btn,
   .m3-btn-outlined {
@@ -438,7 +399,6 @@
     border-color: var(--md-sys-color-outline);
   }
 
-  /* Filled */
   .g-btn-primary,
   .gdm-btn-primary,
   .g-pill-primary,
@@ -454,7 +414,6 @@
     box-shadow: var(--md-sys-elevation-1);
   }
 
-  /* Filled tonal */
   .g-pill-soft,
   .m3-btn-tonal {
     background: var(--md-sys-color-secondary-container);
@@ -466,7 +425,6 @@
     box-shadow: var(--md-sys-elevation-1);
   }
 
-  /* Elevated */
   .g-pill-contrast,
   .m3-btn-elevated {
     background: var(--md-sys-color-surface-container-low);
@@ -479,7 +437,6 @@
     box-shadow: var(--md-sys-elevation-2);
   }
 
-  /* Text */
   .m3-btn-text {
     background: transparent;
     color: var(--md-sys-color-primary);
@@ -487,14 +444,12 @@
     padding: 0 0.75rem;
   }
 
-  /* Error (outlined) */
   .g-btn-danger {
     background: transparent;
     color: var(--md-sys-color-error);
     border-color: var(--md-sys-color-outline);
   }
 
-  /* ---- Icon buttons ----------------------------------------------------- */
   .m3-icon-btn {
     position: relative;
     overflow: hidden;
@@ -551,7 +506,6 @@
     color: color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);
   }
 
-  /* ---- Small FAB (used for the hero scroll hint) ------------------------ */
   .m3-fab-small {
     display: inline-flex;
     align-items: center;
@@ -568,7 +522,6 @@
     box-shadow: var(--md-sys-elevation-4);
   }
 
-  /* ---- Arrow links → text-button flavoured links ------------------------ */
   .g-link,
   .gdm-link {
     display: inline-flex;
@@ -599,8 +552,6 @@
     transform: translateX(3px);
   }
 
-  /* ---- Cards ------------------------------------------------------------ */
-  /* Elevated card */
   .g-card,
   .m3-card-elevated {
     --m3-field-bg: var(--md-sys-color-surface-container-low);
@@ -612,7 +563,6 @@
     box-shadow: var(--md-sys-elevation-1);
     transition: box-shadow var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
   }
-  /* Outlined card */
   .g-card-featured,
   .gdm-card,
   .m3-card-outlined {
@@ -628,7 +578,6 @@
   .gdm-card-body {
     padding: 1.5rem;
   }
-  /* Filled card */
   .m3-card-filled {
     --m3-field-bg: var(--md-sys-color-surface-container-highest);
     background: var(--md-sys-color-surface-container-highest);
@@ -646,7 +595,6 @@
     background: var(--md-sys-color-surface-container);
   }
 
-  /* ---- Selectable list cards (project / post sidebars) ------------------ */
   .m3-list-card {
     position: relative;
     overflow: hidden;
@@ -688,7 +636,6 @@
     opacity: 0.85;
   }
 
-  /* ---- Navigation drawer / side-menu items ------------------------------ */
   .m3-nav-item {
     position: relative;
     overflow: hidden;
@@ -737,7 +684,6 @@
     flex: none;
   }
 
-  /* ---- Top app bar ------------------------------------------------------ */
   .m3-top-bar {
     position: sticky;
     top: 0;
@@ -750,7 +696,6 @@
     background: var(--md-sys-color-surface-container-high);
   }
 
-  /* ---- Chips ------------------------------------------------------------ */
   .g-chip,
   .m3-chip {
     position: relative;
@@ -811,7 +756,6 @@
     border-color: transparent;
   }
 
-  /* ---- Status badges (container colours, label-medium) ------------------ */
   .g-badge {
     display: inline-flex;
     align-items: center;
@@ -834,7 +778,6 @@
     color: var(--md-sys-color-on-error-container);
   }
 
-  /* ---- Segmented buttons ------------------------------------------------ */
   .m3-segmented {
     display: inline-flex;
     height: 2.5rem;
@@ -892,7 +835,6 @@
     height: 1rem;
   }
 
-  /* ---- Menus ------------------------------------------------------------ */
   .m3-menu {
     min-width: 7rem;
     padding: 0.5rem 0;
@@ -934,7 +876,6 @@
     opacity: var(--md-sys-state-hover-state-layer-opacity);
   }
 
-  /* ---- Dialogs ---------------------------------------------------------- */
   .m3-scrim {
     background: color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent);
   }
@@ -947,7 +888,6 @@
     box-shadow: var(--md-sys-elevation-3);
   }
 
-  /* ---- Text fields (outlined) ------------------------------------------- */
   .g-input {
     width: 100%;
     min-height: 3.5rem;
@@ -1022,7 +962,6 @@
     cursor: pointer;
   }
 
-  /* Outlined field with a floating label (label must follow the input) */
   .m3-field {
     position: relative;
     display: block;
@@ -1062,7 +1001,6 @@
     line-height: 1rem;
     letter-spacing: 0.025rem;
   }
-  /* Textarea: rest the label on the first line instead of the vertical centre */
   .m3-field > textarea.g-input ~ .m3-field-label {
     top: 1.75rem;
   }
@@ -1085,7 +1023,6 @@
     letter-spacing: 0.025rem;
   }
 
-  /* ---- Linear progress / divider --------------------------------------- */
   .g-divider,
   .gdm-divider {
     height: 1px;
@@ -1104,7 +1041,6 @@
     background: var(--md-sys-color-primary);
   }
 
-  /* ---- Avatar ----------------------------------------------------------- */
   .m3-avatar {
     display: inline-flex;
     align-items: center;
@@ -1117,13 +1053,10 @@
     flex: none;
   }
 
-  /* ---- Elevation helpers ------------------------------------------------ */
   .m3-elevation-1 { box-shadow: var(--md-sys-elevation-1); }
   .m3-elevation-2 { box-shadow: var(--md-sys-elevation-2); }
   .m3-elevation-3 { box-shadow: var(--md-sys-elevation-3); }
 
-  /* ---- Page shell (m3.material.io layout) ------------------------------- */
-  /* Grey canvas; content lives in 24px-radius panels */
   .m3-canvas {
     background: var(--m3-canvas);
     color: var(--md-sys-color-on-surface);
@@ -1135,7 +1068,6 @@
     border-radius: 24px;
   }
 
-  /* Navigation rail: 88px column pinned to the left on desktop */
   .m3-rail {
     position: fixed;
     inset: 0 auto 0 0;
@@ -1213,7 +1145,6 @@
     color: var(--md-sys-color-on-secondary-container);
   }
 
-  /* Modal navigation drawer (mobile) */
   .m3-drawer {
     position: fixed;
     inset: 0 auto 0 0;
@@ -1239,7 +1170,6 @@
     }
   }
 
-  /* Content tiles: panel cards with an optional media area on top */
   .m3-tile {
     position: relative;
     display: flex;
@@ -1282,7 +1212,6 @@
     color: var(--md-sys-color-on-surface-variant);
   }
 
-  /* Section headline (display-large on desktop) */
   .m3-section-title {
     font-size: clamp(2rem, 1.375rem + 2.5vw, 3rem);
     line-height: 1.12;
@@ -1291,7 +1220,6 @@
     color: var(--md-sys-color-on-surface);
   }
 
-  /* Hero display headline + large call-to-action */
   .m3-hero-title {
     font-size: clamp(2.5rem, 1.75rem + 4vw, 5rem);
     line-height: 1;
@@ -1306,7 +1234,6 @@
     line-height: 1.5rem;
   }
 
-  /* Wavy divider above the footer (masked so it follows the theme) */
   .m3-wave {
     height: 10px;
     background-color: var(--md-sys-color-outline-variant);
@@ -1319,9 +1246,6 @@
   }
 }
 
-/* ==========================================================================
-   Scroll reveal (M3 emphasized-decelerate)
-   ========================================================================== */
 .reveal {
   opacity: 0;
   transform: translateY(18px);
@@ -1334,9 +1258,6 @@
   transform: none;
 }
 
-/* ==========================================================================
-   Auto-scrolling marquee
-   ========================================================================== */
 @keyframes g-marquee {
   from {
     transform: translateX(0);
@@ -1369,9 +1290,6 @@
   }
 }
 
-/* ==========================================================================
-   Markdown (job / project descriptions)
-   ========================================================================== */
 .g-markdown {
   overflow-wrap: anywhere;
   word-break: break-word;

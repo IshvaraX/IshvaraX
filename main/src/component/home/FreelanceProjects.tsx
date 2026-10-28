@@ -23,7 +23,6 @@ const FreelanceProjects = () => {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Filter chips: status plus the most common skills across projects.
   const skillChips = (() => {
     const counts = new Map<string, number>();
     for (const p of projects)
@@ -74,7 +73,6 @@ const FreelanceProjects = () => {
 
   return (
     <section id="projects" className="pt-16 md:pt-24">
-      {/* Header */}
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 className="m3-section-title">{projectsContent.heading}</h2>
@@ -89,9 +87,7 @@ const FreelanceProjects = () => {
         </Link>
       </div>
 
-      {/* Filters */}
       <div className="mb-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-        {/* Status — segmented buttons */}
         <div className="m3-segmented" role="group" aria-label="Project status">
           {projectsContent.filters.map((chip) => {
             const activeChip = filter === chip.key;
@@ -110,7 +106,6 @@ const FreelanceProjects = () => {
           })}
         </div>
 
-        {/* Skills — filter chips */}
         {skillChips.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
             <span className="m3-label-medium text-on-surface-variant">
@@ -134,7 +129,6 @@ const FreelanceProjects = () => {
           </div>
         )}
 
-        {/* Clear — only when something is active */}
         {(filter !== "all" || query.trim()) && (
           <button
             type="button"
@@ -172,7 +166,6 @@ const FreelanceProjects = () => {
         </div>
       )}
 
-      {/* Apply dialog */}
       {active && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"

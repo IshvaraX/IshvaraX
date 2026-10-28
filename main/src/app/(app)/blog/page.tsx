@@ -25,7 +25,6 @@ const BlogListPage = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Default to the newest post once the list has loaded.
   useEffect(() => {
     if (!selectedId && posts.length > 0) {
       setSelectedId(posts[0].id);
@@ -53,7 +52,6 @@ const BlogListPage = () => {
           <p className="g-body mt-10">No posts yet.</p>
         ) : (
           <div className="mt-10 flex flex-col gap-8 lg:flex-row">
-            {/* Sidebar — post list */}
             <aside className="w-full shrink-0 lg:sticky lg:top-4 lg:h-fit lg:w-[320px]">
               <ul className="flex flex-col gap-2">
                 {posts.map((p) => {
@@ -82,7 +80,6 @@ const BlogListPage = () => {
               </ul>
             </aside>
 
-            {/* Detail — full post content */}
             <section className="min-w-0 flex-1">
               {selected ? (
                 <article key={selected.id}>

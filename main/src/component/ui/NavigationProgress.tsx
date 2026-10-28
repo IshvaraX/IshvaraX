@@ -1,17 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { apiActivity } from "@/lib/api";
 
-/** Only show the bar for backend work that takes longer than this (avoids flicker). */
 const API_SHOW_DELAY = 250;
 
-/**
- * Thin top-of-page progress bar. Appears when an internal link is clicked or
- * when the backend is busy for more than a moment; completes once the route
- * has rendered and all API requests have settled. Self-contained, no deps.
- */
 const NavigationProgress = () => {
   const pathname = usePathname();
   const [progress, setProgress] = useState(0);
@@ -22,19 +16,19 @@ const NavigationProgress = () => {
   const apiDelay = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hideTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  const stopTrickle = () => {
+  const stopTrickle = useCallback(() => {
     if (trickle.current) {
       clearInterval(trickle.current);
       trickle.current = null;
     }
-  };
+  }, []);
 
-  const clearHideTimers = () => {
+  const clearHideTimers = useCallback(() => {
     hideTimers.current.forEach(clearTimeout);
     hideTimers.current = [];
-  };
+  }, []);
 
-  const start = () => {
+  const start = useCallback(() => {
     clearHideTimers();
     if (trickle.current) return;
     setVisible(true);
@@ -42,9 +36,9 @@ const NavigationProgress = () => {
     trickle.current = setInterval(() => {
       setProgress((p) => (p >= 90 ? p : p + Math.random() * 12));
     }, 300);
-  };
+  }, [clearHideTimers]);
 
-  const finish = () => {
+  const finish = useCallback(() => {
     if (navPending.current || apiPending.current) return;
     stopTrickle();
     setProgress(100);
@@ -53,16 +47,13 @@ const NavigationProgress = () => {
       setTimeout(() => setVisible(false), 300),
       setTimeout(() => setProgress(0), 600),
     ];
-  };
+  }, [stopTrickle, clearHideTimers]);
 
-  // Route rendered: navigation is done.
   useEffect(() => {
     navPending.current = false;
     finish();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, finish]);
 
-  // Backend activity: show after a short delay, finish when everything settles.
   useEffect(() => {
     const unsubscribe = apiActivity.subscribe((pending) => {
       if (pending > 0) {
@@ -87,10 +78,8 @@ const NavigationProgress = () => {
       unsubscribe();
       if (apiDelay.current) clearTimeout(apiDelay.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [start, finish]);
 
-  // Start the bar when an internal navigation begins.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       if (
@@ -122,7 +111,6 @@ const NavigationProgress = () => {
         return;
       }
       if (url.origin !== window.location.origin) return;
-      // Same page (or hash on the same page) — no navigation, skip.
       if (
         url.pathname === window.location.pathname &&
         url.search === window.location.search
@@ -131,7 +119,6 @@ const NavigationProgress = () => {
 
       navPending.current = true;
       start();
-      // Query-only navigations don't change `pathname`; don't leave the bar hanging.
       hideTimers.current.push(
         setTimeout(() => {
           navPending.current = false;
@@ -146,8 +133,7 @@ const NavigationProgress = () => {
       stopTrickle();
       clearHideTimers();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [start, finish, stopTrickle, clearHideTimers]);
 
   return (
     <div
@@ -155,7 +141,6 @@ const NavigationProgress = () => {
       className="pointer-events-none fixed inset-x-0 top-0 z-[100] transition-opacity duration-200"
       style={{ opacity: visible ? 1 : 0 }}
     >
-      {/* M3 linear progress indicator: 4px primary bar on a container track */}
       <div className="h-1 w-full bg-primary-container">
         <div
           className="h-full rounded-r-full bg-primary transition-[width] duration-200 ease-out"

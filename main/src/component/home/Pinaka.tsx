@@ -3,7 +3,6 @@ import Reveal from "@/component/ui/Reveal";
 
 const { pinaka } = content;
 
-/** Brief, transparent note that PINAKA is a separate research side project. */
 const Pinaka = () => (
   <section id="pinaka" className="pt-16 md:pt-24">
     <Reveal>

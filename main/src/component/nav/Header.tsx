@@ -7,7 +7,6 @@ import content from "@/app/site-content.json";
 
 const { nav, auth, site } = content;
 
-/** Minimal sticky top bar: wordmark, section links, and a blocky CTA. */
 const Header = () => {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
@@ -42,7 +41,6 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Desktop actions */}
         <div className="hidden items-center gap-5 md:flex">
           {user ? (
             <>
@@ -69,7 +67,6 @@ const Header = () => {
           )}
         </div>
 
-        {/* Mobile actions */}
         <div className="flex items-center gap-3 md:hidden">
           {!user && signUpButton}
           <button
@@ -85,7 +82,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
       {open && (
         <div className="border-t border-[var(--border)] px-4 py-4 md:hidden">
           <nav className="flex flex-col gap-4">

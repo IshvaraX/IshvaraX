@@ -11,7 +11,6 @@ const { contact } = content;
 
 type Status = { kind: "idle" | "sending" | "sent" | "error"; text?: string };
 
-/** Contact form: forwards the message to the team inbox via the backend. */
 const Contact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

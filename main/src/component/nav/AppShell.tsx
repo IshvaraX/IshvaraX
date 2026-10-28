@@ -5,7 +5,6 @@ import LearnNav from "@/component/nav/LearnNav";
 import SideNav from "@/component/nav/SideNav";
 import { blogsApi, learningsApi, membersApi, productsApi } from "@/lib/api";
 
-/** Warm the API cache while the browser is idle so the next page renders from memory. */
 const usePrefetchListData = () =>
   useEffect(() => {
     const run = () => {
@@ -22,10 +21,6 @@ const usePrefetchListData = () =>
     return () => clearTimeout(id);
   }, []);
 
-/**
- * m3.material.io-style shell: grey canvas, an 88px navigation rail on the left
- * from `lg` up, and a top app bar + modal drawer on smaller screens.
- */
 const AppShell = ({ children }: { children: ReactNode }) => {
   usePrefetchListData();
   return (

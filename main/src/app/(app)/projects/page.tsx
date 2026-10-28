@@ -12,7 +12,6 @@ const ProjectsPage = () => {
   const openCount = projects.filter((p) => p.status === "open").length;
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // Default to the project from ?id=, else the first once the list has loaded.
   useEffect(() => {
     if (selectedId || projects.length === 0) return;
     const wanted = new URLSearchParams(window.location.search).get("id");
@@ -44,7 +43,6 @@ const ProjectsPage = () => {
           <p className="g-body">No projects are listed yet. Check back soon.</p>
         ) : (
           <div className="flex flex-col gap-8 lg:flex-row">
-            {/* Sidebar — project list */}
             <aside className="w-full shrink-0 lg:sticky lg:top-4 lg:h-fit lg:w-[320px]">
               <ul className="flex flex-col gap-2">
                 {projects.map((project) => {
@@ -83,7 +81,6 @@ const ProjectsPage = () => {
               </ul>
             </aside>
 
-            {/* Detail — full description of the selected project */}
             <section className="min-w-0 flex-1">
               {selected ? (
                 <ProjectCard key={selected.id} project={selected} featured />

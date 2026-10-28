@@ -25,7 +25,6 @@ const PLATFORM_LABEL: Record<ProductPlatform, string> = {
   desktop: "Desktop",
 };
 
-// Tonal tiles for the five product slots (four tall, one wide).
 const PRODUCT_TONES = [
   "bg-inverse-surface text-inverse-on-surface",
   "bg-secondary-container text-on-secondary-container",
@@ -36,7 +35,6 @@ const PRODUCT_TONES = [
 
 const ProductIcon = ({ product, className }: { product: ProductDTO; className: string }) =>
   product.icon ? (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={product.icon}
       alt=""
@@ -51,7 +49,6 @@ const ProductIcon = ({ product, className }: { product: ProductDTO; className: s
     </span>
   );
 
-/** A product (app) card inside the mosaic; links out to the store / site. */
 const ProductTile = ({
   product,
   tall,
@@ -61,7 +58,6 @@ const ProductTile = ({
   tall: boolean;
   tone: string;
 }) => {
-  // Tall tiles use the uploaded artwork as a full-bleed background with a solid caption panel.
   if (tall && product.icon) {
     return (
       <a
@@ -71,7 +67,6 @@ const ProductTile = ({
         aria-label={`${product.name} — ${product.tagline}`}
         className="m3-state relative col-span-2 row-span-2 flex flex-col justify-end overflow-hidden rounded-2xl bg-surface-container-highest"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={product.icon} alt="" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
         <div className="relative m-3 flex items-end gap-3 rounded-xl bg-surface-container-lowest/92 p-3 text-on-surface">
           <div className="min-w-0 flex-1">
@@ -87,7 +82,6 @@ const ProductTile = ({
     );
   }
 
-  // Wide (2×1) tiles are compact: icon, name and platform only.
   if (!tall) {
     return (
       <a
@@ -130,11 +124,6 @@ const ProductTile = ({
   );
 };
 
-/**
- * Hero media panel: a tonal collage. The "open projects" and "Build together"
- * tiles are fixed; the five remaining slots (four tall, one wide) show featured
- * products (admin-managed) and fall back to decorative tiles while empty.
- */
 const HeroMosaic = ({
   openCount,
   ready,
@@ -146,7 +135,6 @@ const HeroMosaic = ({
   skills: string[];
   products: ProductDTO[];
 }) => {
-  // Slot order: tall ×4 then wide — the first product gets the most prominent tile.
   const [tallA, tallB, tallC, tallD, wide] = products;
 
   return (
@@ -215,7 +203,6 @@ const HeroMosaic = ({
   );
 };
 
-/** Opening hero: white text panel + tonal media panel, side by side like m3.material.io. */
 const Hero = () => {
   const { user } = useAuth();
   const { projects, isReady } = useProjects();
@@ -286,7 +273,6 @@ const Hero = () => {
       <HeroMosaic openCount={openCount} ready={isReady} skills={skills} products={products} />
     </section>
 
-    {/* Scroll hint, centred in the strip left under the 90vh hero */}
     <div className="flex items-center justify-center py-4 lg:h-[10vh] lg:py-0">
       <a href="#content" aria-label="Scroll to content" className="m3-fab-small">
         <MdKeyboardArrowDown className="h-6 w-6" aria-hidden />

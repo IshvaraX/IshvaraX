@@ -3,13 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+type YTPlayer = {
+  previousVideo?: () => void;
+  nextVideo?: () => void;
+  destroy?: () => void;
+};
+type YTNamespace = {
+  Player: new (el: HTMLIFrameElement, opts: { events: { onReady: () => void } }) => YTPlayer;
+};
+type YTWindow = Window & { YT?: YTNamespace; onYouTubeIframeAPIReady?: () => void };
 
-// Load the YouTube IFrame Player API once, shared across players.
 let apiPromise: Promise<void> | null = null;
 function loadApi(): Promise<void> {
   if (typeof window === "undefined") return Promise.resolve();
-  const w = window as any;
+  const w = window as YTWindow;
   if (w.YT && w.YT.Player) return Promise.resolve();
   if (!apiPromise) {
     apiPromise = new Promise<void>((resolve) => {
@@ -32,13 +39,11 @@ type Props = {
   title?: string;
 };
 
-/** Inline YouTube player. For playlists it exposes prev / play-next controls. */
 const YouTubePlayer = ({ videoId, playlistId, title }: Props) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const playerRef = useRef<any>(null);
+  const playerRef = useRef<YTPlayer | null>(null);
   const [ready, setReady] = useState(false);
 
-  // Build a standard embed URL (this alone plays the video/playlist).
   const params = new URLSearchParams({
     rel: "0",
     modestbranding: "1",
@@ -55,13 +60,13 @@ const YouTubePlayer = ({ videoId, playlistId, title }: Props) => {
     src = `https://www.youtube.com/embed/${videoId}?${params}`;
   }
 
-  // Attach the IFrame API to the existing iframe so we can drive prev/next.
   useEffect(() => {
     if (!playlistId) return;
     let cancelled = false;
     loadApi().then(() => {
       if (cancelled || !iframeRef.current) return;
-      const YT = (window as any).YT;
+      const YT = (window as YTWindow).YT;
+      if (!YT) return;
       playerRef.current = new YT.Player(iframeRef.current, {
         events: { onReady: () => !cancelled && setReady(true) },
       });
@@ -71,7 +76,7 @@ const YouTubePlayer = ({ videoId, playlistId, title }: Props) => {
       try {
         playerRef.current?.destroy?.();
       } catch {
-        /* ignore */
+        playerRef.current = null;
       }
       playerRef.current = null;
     };

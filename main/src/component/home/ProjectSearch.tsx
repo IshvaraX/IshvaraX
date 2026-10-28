@@ -7,10 +7,6 @@ import { useHomeSearch } from "@/context/HomeSearchContext";
 import { useProjects } from "@/context/ProjectsContext";
 import PastelProjectCard from "@/component/projects/PastelProjectCard";
 
-/**
- * "Search for your next project": a panel with the form on the left and the
- * matching (or most recent) projects as tiles on the right.
- */
 const ProjectSearch = () => {
   const { query, setQuery } = useHomeSearch();
   const { projects, isReady } = useProjects();
@@ -40,7 +36,6 @@ const ProjectSearch = () => {
       <h2 className="m3-section-title">Search for your next project</h2>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,24rem)_1fr]">
-        {/* Search panel */}
         <form onSubmit={onSubmit} className="m3-panel flex h-fit flex-col gap-5 p-6 md:p-8">
           <p className="m3-body-large text-on-surface-variant">
             Filter by a skill, a keyword, or both.
@@ -84,7 +79,6 @@ const ProjectSearch = () => {
           </div>
         </form>
 
-        {/* Results / recent projects */}
         <div className="min-w-0">
           <div className="mb-4 flex items-center justify-between gap-4">
             <p className="m3-label-large text-on-surface-variant">
