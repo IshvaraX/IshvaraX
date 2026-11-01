@@ -19,8 +19,8 @@ const { auth, site } = content;
 
 export const BrandMark = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>
-    <path d="M3 20L12 3l9 17" stroke="var(--md-sys-color-primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M8 20l4-8 4 8" stroke="var(--md-sys-color-tertiary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M3 20L12 3l9 17" stroke="#4272FF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8 20l4-8 4 8" stroke="#A78BFA" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 

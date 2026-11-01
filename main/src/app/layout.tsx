@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   formatDetection: { email: false, address: false, telephone: false },
   icons: {
-    icon: [{ url: "/logo-blue-orange.svg", type: "image/svg+xml" }],
-    shortcut: "/logo-blue-orange.svg",
-    apple: "/logo-blue-orange.svg",
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
   openGraph: {
     type: "website",
