@@ -9,6 +9,7 @@ import {
   type ProductPayload,
   type ProductPlatform,
 } from "@/lib/api";
+import { IMAGE_ACCEPT, readImageFile } from "@/lib/media";
 
 const PLATFORMS: { value: ProductPlatform; label: string }[] = [
   { value: "android", label: "Android" },
@@ -25,8 +26,6 @@ const empty: ProductPayload = {
   platform: "android",
   featured: true,
 };
-
-const MAX_ICON_BYTES = 300_000;
 
 const ProductsAdmin = ({ token }: { token: string }) => {
   const [items, setItems] = useState<ProductDTO[]>([]);
@@ -50,13 +49,11 @@ const ProductsAdmin = ({ token }: { token: string }) => {
   const onIcon = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > MAX_ICON_BYTES) {
-      setError("Please choose an icon under 300 KB (a 512×512 PNG is plenty).");
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => setForm((f) => ({ ...f, icon: String(reader.result) }));
-    reader.readAsDataURL(file);
+    setError(null);
+    readImageFile(file).then(
+      (icon) => setForm((f) => ({ ...f, icon })),
+      (err: Error) => setError(err.message)
+    );
   };
 
   const reset = () => {
@@ -177,7 +174,7 @@ const ProductsAdmin = ({ token }: { token: string }) => {
             </span>
             <input
               type="file"
-              accept="image/*"
+              accept={IMAGE_ACCEPT}
               onChange={onIcon}
               className="g-input"
             />

@@ -66,7 +66,7 @@ export type ResetPasswordPayload = {
 
 export type TokenValidation = {
   valid: boolean;
-  user_id: string;
+  /** Masked, e.g. "v***k@gmail.com" */
   email: string;
   expires_at: string;
 };
@@ -165,6 +165,17 @@ export function invalidateApiCache() {
   cache.clear();
 }
 
+// Fired when a request made with a session token is rejected with 401, i.e. the
+// token expired or was revoked (password change/reset, server-side format change).
+const sessionExpiredListeners = new Set<() => void>();
+
+export function onSessionExpired(cb: () => void) {
+  sessionExpiredListeners.add(cb);
+  return () => {
+    sessionExpiredListeners.delete(cb);
+  };
+}
+
 async function apiFetch<T>(
   path: string,
   { method = "GET", body, token }: ApiFetchOptions = {}
@@ -222,6 +233,9 @@ async function performFetch<T>(
     const data = await res.json().catch(() => ({}));
 
     if (!res.ok) {
+      if (res.status === 401 && token) {
+        sessionExpiredListeners.forEach((cb) => cb());
+      }
       const detail =
         (data && (data.detail || data.message)) || `Request failed (${res.status})`;
       throw new ApiError(

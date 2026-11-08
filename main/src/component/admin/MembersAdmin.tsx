@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, membersApi, type MemberDTO, type MemberPayload } from "@/lib/api";
+import { IMAGE_ACCEPT, readImageFile } from "@/lib/media";
 
 const empty: MemberPayload = { name: "", role: "", photo: "" };
 
@@ -26,10 +27,11 @@ const MembersAdmin = ({ token }: { token: string }) => {
   const onPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () =>
-      setForm((f) => ({ ...f, photo: String(reader.result) }));
-    reader.readAsDataURL(file);
+    setError(null);
+    readImageFile(file).then(
+      (photo) => setForm((f) => ({ ...f, photo })),
+      (err: Error) => setError(err.message)
+    );
   };
 
   const reset = () => {
@@ -105,7 +107,7 @@ const MembersAdmin = ({ token }: { token: string }) => {
             </span>
             <input
               type="file"
-              accept="image/*"
+              accept={IMAGE_ACCEPT}
               onChange={onPhoto}
               className="g-input"
             />

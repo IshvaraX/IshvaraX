@@ -10,7 +10,7 @@ import Field from "@/component/ui/Field";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, sessionNotice, clearSessionNotice } = useAuth();
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -24,6 +24,7 @@ const LoginPage = () => {
     setLoading(true);
     try {
       await login(form);
+      clearSessionNotice();
       router.push("/");
     } catch (err) {
       setError(
@@ -48,6 +49,11 @@ const LoginPage = () => {
       }
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-5">
+        {sessionNotice && (
+          <p className="m3-body-small rounded-xl bg-secondary-container px-4 py-3 text-on-secondary-container" role="status">
+            {sessionNotice}
+          </p>
+        )}
         <Field
           id="username"
           name="username"

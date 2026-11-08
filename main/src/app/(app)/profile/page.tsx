@@ -5,6 +5,7 @@ import Link from "next/link";
 import PagePanel from "@/component/ui/PagePanel";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, projectsApi, type UserApplicationDTO } from "@/lib/api";
+import { IMAGE_ACCEPT, readImageFile } from "@/lib/media";
 
 const str = (v: unknown) => (typeof v === "string" ? v : "");
 
@@ -55,9 +56,8 @@ const ProfilePage = () => {
   const onPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setPhoto(String(reader.result));
-    reader.readAsDataURL(file);
+    setError(null);
+    readImageFile(file).then(setPhoto, (err: Error) => setError(err.message));
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -122,7 +122,7 @@ const ProfilePage = () => {
               </span>
               <input
                 type="file"
-                accept="image/*"
+                accept={IMAGE_ACCEPT}
                 onChange={onPhoto}
                 className="g-input"
               />

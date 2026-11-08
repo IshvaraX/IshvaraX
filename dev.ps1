@@ -101,13 +101,18 @@ try {
     $backendEnv = @{}
     Read-DotEnv (Join-Path $BackendDir ".env.local") $backendEnv
     Read-DotEnv (Join-Path $BackendDir ".env") $backendEnv
-    foreach ($required in "DATABASE_URL", "SECRET_KEY") {
+    foreach ($required in "DATABASE_URL", "SECRET_KEY", "DATA_ENCRYPTION_KEY") {
       if (-not $backendEnv[$required]) {
         Fail "$required is not set. Add it to $BackendDir\.env.local"
       }
     }
-    if ($backendEnv["SECRET_KEY"].Length -lt 32) {
-      Fail "SECRET_KEY must be at least 32 characters (the one in .env is a placeholder). Generate one with:`n  python -c `"import secrets; print(secrets.token_urlsafe(48))`"`nand put SECRET_KEY=<value> in $BackendDir\.env.local"
+    foreach ($key in "SECRET_KEY", "DATA_ENCRYPTION_KEY") {
+      if ($backendEnv[$key].Length -lt 32) {
+        Fail "$key must be at least 32 characters. Generate one with:`n  python -c `"import secrets; print(secrets.token_urlsafe(48))`"`nand put $key=<value> in $BackendDir\.env.local"
+      }
+    }
+    if ($backendEnv["SECRET_KEY"] -eq $backendEnv["DATA_ENCRYPTION_KEY"]) {
+      Fail "DATA_ENCRYPTION_KEY must be different from SECRET_KEY"
     }
     # Password-reset links should point at the local frontend, not production.
     $backendEnv["APP_BASE_URL"] = "http://localhost:$WebPort"

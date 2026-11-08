@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError } from "@/lib/api";
+import { IMAGE_ACCEPT, readImageFile } from "@/lib/media";
 import AuthShell from "@/component/ui/AuthShell";
 import Field from "@/component/ui/Field";
 
@@ -31,13 +32,8 @@ const RegisterPage = () => {
   const onPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 1_500_000) {
-      setError("Please choose a photo under 1.5 MB.");
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => setPhoto(typeof reader.result === "string" ? reader.result : "");
-    reader.readAsDataURL(file);
+    setError(null);
+    readImageFile(file).then(setPhoto, (err: Error) => setError(err.message));
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -177,7 +173,7 @@ const RegisterPage = () => {
             id="photo"
             name="photo"
             type="file"
-            accept="image/*"
+            accept={IMAGE_ACCEPT}
             onChange={onPhoto}
             className="g-input"
           />
@@ -191,7 +187,8 @@ const RegisterPage = () => {
         )}
 
         <p className="m3-body-small text-on-surface-variant">
-          PAN and Aadhaar are sensitive. Only share what you&apos;re comfortable with.
+          PAN and Aadhaar are optional, encrypted before they&apos;re stored, and never shown
+          anywhere on the site. Only share what you&apos;re comfortable with.
         </p>
 
         {error && (

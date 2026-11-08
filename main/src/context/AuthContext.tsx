@@ -8,8 +8,10 @@ import {
   useMemo,
   useState,
 } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   authApi,
+  onSessionExpired,
   type AuthUser,
   type LoginPayload,
   type ProfileUpdatePayload,
@@ -27,6 +29,9 @@ type AuthContextValue = {
   user: AuthUser | null;
   token: string;
   isReady: boolean;
+  /** Set when the last session ended because the server rejected its token. */
+  sessionNotice: string | null;
+  clearSessionNotice: () => void;
   login: (payload: LoginPayload) => Promise<string>;
   register: (payload: RegisterPayload) => Promise<void>;
   updateProfile: (payload: ProfileUpdatePayload) => Promise<void>;
@@ -42,9 +47,12 @@ function persist(user: AuthUser, token: string) {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState("");
   const [isReady, setIsReady] = useState(false);
+  const [sessionNotice, setSessionNotice] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -87,9 +95,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (payload: ProfileUpdatePayload) => {
       const res = await authApi.updateProfile(payload);
       const profile = res.user as AuthUser | undefined;
+      // A password change revokes old sessions; the server returns a fresh token.
+      const nextToken = res.token ?? token;
       if (profile) {
-        persist(profile, token);
+        persist(profile, nextToken);
         setUser(profile);
+        setToken(nextToken);
       }
     },
     [token]
@@ -101,9 +112,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setToken("");
   }, []);
 
+  const clearSessionNotice = useCallback(() => setSessionNotice(null), []);
+
+  useEffect(() => {
+    if (!token) return;
+    return onSessionExpired(() => {
+      logout();
+      setSessionNotice("Your session has ended. Please sign in again.");
+      if (pathname !== "/login") router.push("/login");
+    });
+  }, [token, logout, pathname, router]);
+
   const value = useMemo(
-    () => ({ user, token, isReady, login, register, updateProfile, logout }),
-    [user, token, isReady, login, register, updateProfile, logout]
+    () => ({
+      user,
+      token,
+      isReady,
+      sessionNotice,
+      clearSessionNotice,
+      login,
+      register,
+      updateProfile,
+      logout,
+    }),
+    [user, token, isReady, sessionNotice, clearSessionNotice, login, register, updateProfile, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

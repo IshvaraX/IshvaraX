@@ -1,4 +1,4 @@
-;#!/usr/bin/env bash
+#!/usr/bin/env bash
 # Run the IshvaraX frontend (Next.js) and backend (FastAPI) locally.
 #
 #   ./dev.sh                     # both
@@ -94,16 +94,22 @@ if [[ "$MODE" != "frontend" ]]; then
   # Precedence: .env.local > .env
   load_env "$BACKEND_DIR/.env"
   load_env "$BACKEND_DIR/.env.local"
-  for required in DATABASE_URL SECRET_KEY; do
+  for required in DATABASE_URL SECRET_KEY DATA_ENCRYPTION_KEY; do
     [[ -n "${!required:-}" ]] || { echo "error: $required is not set. Add it to $BACKEND_DIR/.env.local" >&2; exit 1; }
   done
-  if (( ${#SECRET_KEY} < 32 )); then
-    cat >&2 <<EOF
-error: SECRET_KEY must be at least 32 characters (the one in .env is a placeholder). Generate one with:
+  for key in SECRET_KEY DATA_ENCRYPTION_KEY; do
+    value="${!key}"
+    if (( ${#value} < 32 )); then
+      cat >&2 <<EOF
+error: $key must be at least 32 characters. Generate one with:
   python -c "import secrets; print(secrets.token_urlsafe(48))"
-and put SECRET_KEY=<value> in $BACKEND_DIR/.env.local
+and put $key=<value> in $BACKEND_DIR/.env.local
 EOF
-    exit 1
+      exit 1
+    fi
+  done
+  if [[ "$SECRET_KEY" == "$DATA_ENCRYPTION_KEY" ]]; then
+    echo "error: DATA_ENCRYPTION_KEY must be different from SECRET_KEY" >&2; exit 1
   fi
   # Password-reset links should point at the local frontend, not production.
   export APP_BASE_URL="http://localhost:$WEB_PORT"
