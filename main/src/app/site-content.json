@@ -15,15 +15,15 @@
     "signOut": "Sign out"
   },
   "hero": {
-    "headingLead": "Explore open projects",
-    "subtitle": "Pick a project that matches your skills and start building with the community.",
-    "cta": { "label": "Join now", "href": "/register" },
-    "ctaSecondary": { "label": "Browse projects", "href": "/projects" }
+    "headingLead": "A community for people who love to code.",
+    "subtitle": "Pick an open project that fits your skills, learn alongside people at the same stage, and ship real work together.",
+    "cta": { "label": "Create an account", "href": "/register" },
+    "ctaSecondary": { "label": "Browse open projects", "href": "/projects" }
   },
   "projects": {
     "label": "Projects",
-    "heading": "Find work to build",
-    "viewAll": "View all",
+    "heading": "Open projects",
+    "viewAll": "View all projects",
     "emptyFiltered": "No projects match your search. Try a different keyword or filter.",
     "emptyRest": "More projects coming soon.",
     "filters": [
@@ -94,9 +94,9 @@
     ]
   },
   "pinaka": {
-    "label": "Side project",
-    "heading": "PINAKA",
-    "body": "PINAKA is a separate, independent research side project of ours. It is unrelated to the IshvaraX community and carries no promises to members — we mention it only for transparency."
+    "label": "Independent research",
+    "heading": "About PINAKA",
+    "body": "PINAKA is a separate research project run by some of the same people. It is independent of the IshvaraX community and makes no promises to members — we mention it here for transparency."
   },
   "contact": {
     "heading": "Get in touch",

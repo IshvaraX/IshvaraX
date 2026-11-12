@@ -32,10 +32,10 @@ const ProjectsPage = () => {
             Home
           </Link>
           <h1 className="m3-section-title">Open projects</h1>
-          <p className="m3-body-large mt-3 text-on-surface-variant">
+          <p className="m3-section-lead">
             {isReady
-              ? `${openCount} open opportunit${openCount === 1 ? "y" : "ies"} for coders who want to build with PINAKA.`
-              : "Loading opportunities…"}
+              ? `${openCount} open ${openCount === 1 ? "project" : "projects"} you can apply to right now.`
+              : "Loading projects…"}
           </p>
         </div>
 

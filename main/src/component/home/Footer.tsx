@@ -21,7 +21,7 @@ const Footer = () => {
   const { user } = useAuth();
   return (
     <footer className="mx-auto w-full max-w-[1320px] px-5 pb-10 md:px-12 xl:px-[88px]">
-      <div className="m3-wave mb-12" aria-hidden />
+      <div className="mb-12 border-t border-outline-variant" aria-hidden />
 
       <div className="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))] lg:gap-8">
         <div className="lg:pr-8">
@@ -37,7 +37,7 @@ const Footer = () => {
           <div className="mt-6 flex gap-2">
             {!user && (
               <Link href="/register" className="m3-btn m3-btn-filled">
-                Join now
+                Create an account
               </Link>
             )}
             <Link href="/login" className="m3-btn m3-btn-text">
@@ -54,7 +54,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="m3-body-medium text-primary hover:underline"
+                    className="m3-body-medium text-on-surface-variant transition-colors hover:text-on-surface hover:underline"
                   >
                     {link.label}
                   </Link>
@@ -67,8 +67,8 @@ const Footer = () => {
 
       <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-outline-variant pt-6 sm:flex-row sm:items-center">
         <span className="m3-body-small text-on-surface-variant">
-          © {new Date().getFullYear()} {site.name}. Built by the community, for
-          the community.
+          © {new Date().getFullYear()} {site.name}. Built by the community, for the community.
+          PINAKA is a separate, independent research project.
         </span>
         <ul className="flex items-center gap-1" aria-label="Social media">
           {footer.social.map(({ name, href }) => {
@@ -90,9 +90,6 @@ const Footer = () => {
           })}
         </ul>
       </div>
-      <p className="m3-body-small mt-4 text-on-surface-variant">
-        PINAKA is a separate, independent research side project.
-      </p>
     </footer>
   );
 };

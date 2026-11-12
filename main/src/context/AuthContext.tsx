@@ -85,8 +85,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = useCallback(
     async (payload: RegisterPayload) => {
-      await authApi.register(payload);
-      await login({ username: payload.username, password: payload.password });
+      const { photo, ...account } = payload;
+      await authApi.register(account);
+      const sessionToken = await login({ username: account.username, password: account.password });
+      if (photo) {
+        // The photo is accepted only from an authenticated user; a failure here
+        // shouldn't undo a successful sign-up.
+        try {
+          const res = await authApi.updateProfile({
+            username: account.username,
+            password: account.password,
+            photo,
+          });
+          const profile = res.user as AuthUser | undefined;
+          if (profile) {
+            persist(profile, sessionToken);
+            setUser(profile);
+          }
+        } catch {
+          // Leave the account without a photo; the profile page can add one later.
+        }
+      }
     },
     [login]
   );

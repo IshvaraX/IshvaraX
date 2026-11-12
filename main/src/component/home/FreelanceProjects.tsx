@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useHomeSearch } from "@/context/HomeSearchContext";
 import Markdown from "@/component/ui/Markdown";
 import PastelProjectCard from "@/component/projects/PastelProjectCard";
+import { ApiError } from "@/lib/api";
 import content from "@/app/site-content.json";
 
 const projectsContent = content.projects;
@@ -64,26 +65,29 @@ const FreelanceProjects = () => {
     try {
       await applyToProject(active.id, { links });
       setSubmitted(true);
-    } catch {
-      setError("Could not submit your application. Please try again.");
+    } catch (err) {
+      setError(
+        err instanceof ApiError && err.status === 409
+          ? err.message
+          : "Could not submit your application. Please try again."
+      );
     } finally {
       setSending(false);
     }
   };
 
   return (
-    <section id="projects" className="pt-16 md:pt-24">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <section id="projects" className="pt-20 md:pt-28">
+      <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 className="m3-section-title">{projectsContent.heading}</h2>
-          <p className="m3-body-large mt-3 text-on-surface-variant">
-            {filtered.length} {filtered.length === 1 ? "result" : "results"}
-            {query.trim() && <> for “{query.trim()}”</>}
+          <p className="m3-section-lead">
+            {filtered.length} {filtered.length === 1 ? "project" : "projects"}
+            {query.trim() && <> matching “{query.trim()}”</>}
           </p>
         </div>
         <Link href="/projects" className="m3-btn m3-btn-tonal">
           {projectsContent.viewAll}
-          <span aria-hidden>→</span>
         </Link>
       </div>
 
@@ -150,7 +154,7 @@ const FreelanceProjects = () => {
           </div>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2">
           {filtered.map((project) => {
             const isOpen = project.status === "open";
             return (
@@ -158,7 +162,7 @@ const FreelanceProjects = () => {
                 key={project.id}
                 project={project}
                 showStatus
-                label={isOpen ? "Apply now" : "Learn more"}
+                label={isOpen ? "Apply" : "View details"}
                 onAction={isOpen ? () => openApply(project) : undefined}
               />
             );

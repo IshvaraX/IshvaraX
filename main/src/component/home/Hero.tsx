@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   MdArrowOutward,
-  MdKeyboardArrowDown,
   MdOutlineArticle,
   MdOutlineGroups,
   MdOutlineSchool,
@@ -25,12 +24,13 @@ const PLATFORM_LABEL: Record<ProductPlatform, string> = {
   desktop: "Desktop",
 };
 
+// Product tiles cycle through two accents and neutrals so the stat tile stays the focal point.
 const PRODUCT_TONES = [
   "bg-inverse-surface text-inverse-on-surface",
-  "bg-secondary-container text-on-secondary-container",
-  "bg-tertiary-container text-on-tertiary-container",
   "bg-surface-container-highest text-on-surface",
+  "bg-secondary-container text-on-secondary-container",
   "bg-surface-container-high text-on-surface",
+  "bg-surface-container-highest text-on-surface",
 ];
 
 const ProductIcon = ({ product, className }: { product: ProductDTO; className: string }) =>
@@ -139,12 +139,12 @@ const HeroMosaic = ({
 
   return (
     <div className="m3-panel grid min-h-[22rem] grid-cols-6 grid-rows-[repeat(4,minmax(0,1fr))] gap-3 p-3 lg:min-h-0">
-      <div className="relative col-span-2 row-span-2 flex flex-col justify-between overflow-hidden rounded-2xl bg-primary-container p-5 text-on-primary-container">
-        <span aria-hidden className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-primary/15" />
+      <div className="relative col-span-2 row-span-2 flex flex-col justify-between overflow-hidden rounded-2xl bg-primary p-5 text-on-primary">
+        <span aria-hidden className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-on-primary/10" />
         <MdOutlineWork className="h-6 w-6" aria-hidden />
         <div>
-          <span className="m3-display-small block font-medium">{ready ? openCount : "—"}</span>
-          <span className="m3-label-large">open projects</span>
+          <span className="m3-display-small block tabular-nums">{ready ? openCount : "—"}</span>
+          <span className="m3-label-large opacity-90">open projects</span>
         </div>
       </div>
 
@@ -160,13 +160,13 @@ const HeroMosaic = ({
       {tallB ? (
         <ProductTile product={tallB} tall tone={PRODUCT_TONES[1]} />
       ) : (
-        <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-secondary-container p-5 text-on-secondary-container">
-          <MdOutlineSchool className="h-6 w-6" />
-          <span className="m3-title-medium">Courses, notes &amp; playlists</span>
+        <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-surface-container-highest p-5 text-on-surface">
+          <MdOutlineSchool className="h-6 w-6 text-primary" />
+          <span className="m3-title-medium">Courses, notes and playlists</span>
         </div>
       )}
 
-      <div aria-hidden className="col-span-2 flex items-center gap-3 rounded-2xl bg-amber-container px-4 text-on-amber-container">
+      <div aria-hidden className="col-span-2 flex items-center gap-3 rounded-2xl bg-secondary-container px-4 text-on-secondary-container">
         <MdOutlineGroups className="h-6 w-6 shrink-0" />
         <span className="m3-title-small">Build together</span>
       </div>
@@ -174,9 +174,9 @@ const HeroMosaic = ({
       {tallC ? (
         <ProductTile product={tallC} tall tone={PRODUCT_TONES[2]} />
       ) : (
-        <div aria-hidden className="col-span-2 row-span-2 flex flex-wrap content-center items-center gap-2 overflow-hidden rounded-2xl bg-tertiary-container p-4 text-on-tertiary-container">
+        <div aria-hidden className="col-span-2 row-span-2 flex flex-wrap content-center items-center gap-2 overflow-hidden rounded-2xl bg-surface-container-highest p-4 text-on-surface">
           {(skills.length ? skills : ["React", "Python", "Design"]).map((s) => (
-            <span key={s} className="m3-label-medium rounded-full bg-tertiary px-3 py-1 text-on-tertiary">
+            <span key={s} className="m3-label-medium rounded-full bg-primary-container px-3 py-1 text-on-primary-container">
               {s}
             </span>
           ))}
@@ -186,9 +186,9 @@ const HeroMosaic = ({
       {tallD ? (
         <ProductTile product={tallD} tall tone={PRODUCT_TONES[3]} />
       ) : (
-        <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-surface-container-highest p-5 text-on-surface">
-          <MdOutlineArticle className="h-6 w-6" />
-          <span className="m3-title-medium">Notes &amp; updates</span>
+        <div aria-hidden className="col-span-2 row-span-2 flex flex-col justify-between rounded-2xl bg-surface-container-high p-5 text-on-surface">
+          <MdOutlineArticle className="h-6 w-6 text-primary" />
+          <span className="m3-title-medium">Notes and updates</span>
         </div>
       )}
 
@@ -223,10 +223,9 @@ const Hero = () => {
   }, [projects]);
 
   return (
-    <>
     <section
       id="hero"
-      className="mx-auto grid w-full max-w-[1680px] gap-3 p-2 lg:min-h-[calc(90vh-3.5rem)] lg:grid-cols-[minmax(0,34rem)_1fr] lg:p-3 lg:pl-1 2xl:pl-3"
+      className="mx-auto grid w-full max-w-[1680px] gap-3 p-2 lg:min-h-[calc(88vh-3.5rem)] lg:grid-cols-[minmax(0,34rem)_1fr] lg:p-3 lg:pl-1 2xl:pl-3"
     >
       <div className="m3-panel flex min-w-0 flex-col justify-center p-8 md:p-12 lg:min-h-[30rem]">
         <span className="m3-title-medium inline-flex items-center gap-2 text-on-surface-variant">
@@ -246,23 +245,23 @@ const Hero = () => {
           )}
         </h1>
 
-        <p className="m3-body-large mt-6 max-w-md text-on-surface-variant md:text-lg md:leading-7">
+        <p className="m3-body-large mt-6 max-w-[34rem] text-on-surface-variant md:text-lg md:leading-7">
           {user
-            ? "Pick up where you left off — new projects and study materials are waiting."
+            ? "Pick up where you left off. New projects and study materials are waiting."
             : hero.subtitle}
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           {user ? (
             <Link href="/projects" className="m3-btn m3-btn-filled m3-btn-large">
-              Browse projects
+              Browse open projects
             </Link>
           ) : (
             <>
               <Link href={hero.cta.href} className="m3-btn m3-btn-filled m3-btn-large">
                 {hero.cta.label}
               </Link>
-              <Link href={hero.ctaSecondary.href} className="m3-btn m3-btn-text m3-btn-large">
+              <Link href={hero.ctaSecondary.href} className="m3-btn m3-btn-outlined m3-btn-large">
                 {hero.ctaSecondary.label}
               </Link>
             </>
@@ -272,13 +271,6 @@ const Hero = () => {
 
       <HeroMosaic openCount={openCount} ready={isReady} skills={skills} products={products} />
     </section>
-
-    <div className="flex items-center justify-center py-4 lg:h-[10vh] lg:py-0">
-      <a href="#content" aria-label="Scroll to content" className="m3-fab-small">
-        <MdKeyboardArrowDown className="h-6 w-6" aria-hidden />
-      </a>
-    </div>
-    </>
   );
 };
 

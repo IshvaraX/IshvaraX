@@ -135,30 +135,26 @@
   --radius-3xl: 28px;
   --radius-4xl: 28px;
 
-  --text-xs: 0.6875rem;
+  --text-xs: 0.75rem;
   --text-xs--line-height: 1rem;
-  --text-sm: 0.8125rem;
-  --text-sm--line-height: 1.125rem;
-  --text-base: 0.9375rem;
-  --text-base--line-height: 1.375rem;
-  --text-lg: 1.0625rem;
-  --text-lg--line-height: 1.5rem;
-  --text-xl: 1.125rem;
-  --text-xl--line-height: 1.625rem;
-  --text-2xl: 1.375rem;
-  --text-2xl--line-height: 1.875rem;
-  --text-3xl: 1.625rem;
-  --text-3xl--line-height: 2rem;
-  --text-4xl: 2rem;
-  --text-4xl--line-height: 2.375rem;
-  --text-5xl: 2.5rem;
-  --text-5xl--line-height: 1;
-  --text-6xl: 3.25rem;
-  --text-6xl--line-height: 1;
-
-  --font-weight-semibold: 500;
-  --font-weight-bold: 500;
-  --font-weight-extrabold: 500;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.75rem;
+  --text-3xl--line-height: 2.125rem;
+  --text-4xl: 2.125rem;
+  --text-4xl--line-height: 2.5rem;
+  --text-5xl: 2.75rem;
+  --text-5xl--line-height: 1.1;
+  --text-6xl: 3.5rem;
+  --text-6xl--line-height: 1.05;
 }
 
 @layer base {
@@ -174,9 +170,9 @@
   body {
     margin: 0;
     font-family: var(--md-ref-typeface-plain);
-    font-size: 0.9375rem;
-    line-height: 1.375rem;
-    letter-spacing: 0.03125rem; 
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0;
   }
 
   code,
@@ -210,58 +206,58 @@
 }
 
 @layer components {
-  .m3-display-large { font-size: 3rem; line-height: 3.5rem; font-weight: 400; letter-spacing: -0.015625rem; }
-  .m3-display-medium { font-size: 2.5rem; line-height: 3rem; font-weight: 400; letter-spacing: 0; }
-  .m3-display-small { font-size: 2rem; line-height: 2.5rem; font-weight: 400; letter-spacing: 0; }
-  .m3-headline-large { font-size: 1.75rem; line-height: 2.25rem; font-weight: 400; letter-spacing: 0; }
-  .m3-headline-medium { font-size: 1.5rem; line-height: 2rem; font-weight: 400; letter-spacing: 0; }
-  .m3-headline-small { font-size: 1.25rem; line-height: 1.75rem; font-weight: 400; letter-spacing: 0; }
-  .m3-title-large { font-size: 1.125rem; line-height: 1.5rem; font-weight: 400; letter-spacing: 0; }
-  .m3-title-medium { font-size: 0.9375rem; line-height: 1.375rem; font-weight: 500; letter-spacing: 0.009375rem; }
-  .m3-title-small { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; letter-spacing: 0.00625rem; }
-  .m3-body-large { font-size: 0.9375rem; line-height: 1.375rem; font-weight: 400; letter-spacing: 0.03125rem; }
-  .m3-body-medium { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 400; letter-spacing: 0.015625rem; }
-  .m3-body-small { font-size: 0.6875rem; line-height: 1rem; font-weight: 400; letter-spacing: 0.025rem; }
-  .m3-label-large { font-size: 0.8125rem; line-height: 1.125rem; font-weight: 500; letter-spacing: 0.00625rem; }
-  .m3-label-medium { font-size: 0.6875rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125rem; }
-  .m3-label-small { font-size: 0.625rem; line-height: 0.875rem; font-weight: 500; letter-spacing: 0.03125rem; }
+  .m3-display-large { font-size: 3.5rem; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; }
+  .m3-display-medium { font-size: 2.75rem; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; }
+  .m3-display-small { font-size: 2.125rem; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
+  .m3-headline-large { font-size: 1.75rem; line-height: 2.125rem; font-weight: 600; letter-spacing: -0.015em; }
+  .m3-headline-medium { font-size: 1.5rem; line-height: 2rem; font-weight: 600; letter-spacing: -0.01em; }
+  .m3-headline-small { font-size: 1.25rem; line-height: 1.75rem; font-weight: 600; letter-spacing: -0.005em; }
+  .m3-title-large { font-size: 1.125rem; line-height: 1.5rem; font-weight: 500; letter-spacing: 0; }
+  .m3-title-medium { font-size: 1rem; line-height: 1.5rem; font-weight: 500; letter-spacing: 0; }
+  .m3-title-small { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: 0; }
+  .m3-body-large { font-size: 1rem; line-height: 1.5rem; font-weight: 400; letter-spacing: 0; }
+  .m3-body-medium { font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; letter-spacing: 0; }
+  .m3-body-small { font-size: 0.75rem; line-height: 1rem; font-weight: 400; letter-spacing: 0; }
+  .m3-label-large { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: 0; }
+  .m3-label-medium { font-size: 0.75rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.01em; }
+  .m3-label-small { font-size: 0.6875rem; line-height: 0.875rem; font-weight: 500; letter-spacing: 0.01em; }
 
   .g-heading-xl,
   .gdm-heading-xl {
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.12;
-    font-size: clamp(2rem, 1.375rem + 2vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-size: clamp(1.75rem, 1.25rem + 1.75vw, 2.5rem);
     color: var(--md-sys-color-on-surface);
   }
   .g-heading-lg {
-    font-weight: 400;
-    letter-spacing: 0;
+    font-weight: 600;
+    letter-spacing: -0.015em;
     line-height: 1.2;
-    font-size: clamp(1.5rem, 1.125rem + 1.25vw, 2rem);
+    font-size: clamp(1.375rem, 1.125rem + 1vw, 1.75rem);
     color: var(--md-sys-color-on-surface);
   }
   .g-heading-md,
   .gdm-heading-md {
-    font-weight: 400;
-    letter-spacing: 0;
+    font-weight: 600;
+    letter-spacing: -0.005em;
     line-height: 1.5rem;
     font-size: 1.125rem;
     color: var(--md-sys-color-on-surface);
   }
   .g-heading-sm {
     font-weight: 500;
-    letter-spacing: 0.009375rem;
-    line-height: 1.375rem;
-    font-size: 0.9375rem;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    font-size: 1rem;
     color: var(--md-sys-color-on-surface);
   }
   .g-eyebrow,
   .gdm-eyebrow {
-    font-size: 0.8125rem;
-    line-height: 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 500;
-    letter-spacing: 0.00625rem;
+    letter-spacing: 0;
     color: var(--md-sys-color-primary);
   }
   .g-eyebrow-blue {
@@ -269,18 +265,18 @@
   }
   .g-label {
     display: inline-flex;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     line-height: 1rem;
     font-weight: 500;
-    letter-spacing: 0.03125rem;
+    letter-spacing: 0.01em;
     color: var(--md-sys-color-on-surface-variant);
   }
   .g-body,
   .gdm-body {
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.9375rem;
-    line-height: 1.375rem;
-    letter-spacing: 0.03125rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0;
   }
 
   .m3-state {
@@ -322,10 +318,10 @@
     border-radius: var(--md-sys-shape-corner-full);
     border: 1px solid transparent;
     font-family: inherit;
-    font-size: 0.8125rem;
-    line-height: 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 500;
-    letter-spacing: 0.00625rem;
+    letter-spacing: 0;
     white-space: nowrap;
     text-decoration: none;
     cursor: pointer;
@@ -527,10 +523,10 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.8125rem;
-    line-height: 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 500;
-    letter-spacing: 0.00625rem;
+    letter-spacing: 0;
     color: var(--md-sys-color-primary);
     text-decoration: none;
     cursor: pointer;
@@ -649,10 +645,10 @@
     border-radius: var(--md-sys-shape-corner-full);
     background: transparent;
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.8125rem;
-    line-height: 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 500;
-    letter-spacing: 0.00625rem;
+    letter-spacing: 0;
     text-align: left;
     text-decoration: none;
     cursor: pointer;
@@ -710,10 +706,10 @@
     background: transparent;
     color: var(--md-sys-color-on-surface);
     font-family: inherit;
-    font-size: 0.8125rem;
-    line-height: 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 500;
-    letter-spacing: 0.00625rem;
+    letter-spacing: 0;
     white-space: nowrap;
     -webkit-tap-highlight-color: transparent;
     transition:
@@ -762,10 +758,10 @@
     height: 1.5rem;
     padding: 0 0.625rem;
     border-radius: var(--md-sys-shape-corner-full);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     line-height: 1rem;
     font-weight: 500;
-    letter-spacing: 0.03125rem;
+    letter-spacing: 0.01em;
     text-transform: capitalize;
     white-space: nowrap;
   }
@@ -800,10 +796,10 @@
     background: transparent;
     color: var(--md-sys-color-on-surface);
     font-family: inherit;
-    font-size: 0.8125rem;
-    line-height: 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 500;
-    letter-spacing: 0.00625rem;
+    letter-spacing: 0;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     transition:
@@ -856,10 +852,10 @@
     background: transparent;
     color: inherit;
     font-family: inherit;
-    font-size: 0.8125rem;
-    line-height: 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 500;
-    letter-spacing: 0.00625rem;
+    letter-spacing: 0;
     text-align: left;
     cursor: pointer;
   }
@@ -897,9 +893,9 @@
     background: transparent;
     color: var(--md-sys-color-on-surface);
     font-family: inherit;
-    font-size: 0.9375rem;
-    line-height: 1.375rem;
-    letter-spacing: 0.03125rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0;
     outline: none;
     caret-color: var(--md-sys-color-primary);
     transition:
@@ -983,9 +979,9 @@
     border-radius: 2px;
     background: var(--m3-field-bg);
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.9375rem;
-    line-height: 1.375rem;
-    letter-spacing: 0.03125rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0;
     white-space: nowrap;
     text-overflow: ellipsis;
     pointer-events: none;
@@ -997,9 +993,9 @@
   .m3-field > .g-input:focus ~ .m3-field-label,
   .m3-field > .g-input:not(:placeholder-shown) ~ .m3-field-label {
     top: 0;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     line-height: 1rem;
-    letter-spacing: 0.025rem;
+    letter-spacing: 0.01em;
   }
   .m3-field > textarea.g-input ~ .m3-field-label {
     top: 1.75rem;
@@ -1018,9 +1014,9 @@
     display: block;
     padding: 0.25rem 1rem 0;
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     line-height: 1rem;
-    letter-spacing: 0.025rem;
+    letter-spacing: 0.01em;
   }
 
   .g-divider,
@@ -1095,10 +1091,10 @@
     border: none;
     background: transparent;
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     line-height: 1rem;
     font-weight: 500;
-    letter-spacing: 0.03125rem;
+    letter-spacing: 0.01em;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
@@ -1200,58 +1196,57 @@
   }
   .m3-tile-title {
     font-size: 1.25rem;
-    line-height: 1.75rem;
-    font-weight: 500;
-    letter-spacing: 0;
+    line-height: 1.625rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     color: var(--md-sys-color-on-surface);
   }
   .m3-tile-desc {
-    font-size: 0.9375rem;
-    line-height: 1.375rem;
-    letter-spacing: 0.03125rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0;
     color: var(--md-sys-color-on-surface-variant);
   }
 
   .m3-section-title {
-    font-size: clamp(2rem, 1.375rem + 2.5vw, 3rem);
-    line-height: 1.12;
-    font-weight: 500;
-    letter-spacing: -0.015625rem;
+    font-size: clamp(1.75rem, 1.25rem + 1.75vw, 2.5rem);
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
     color: var(--md-sys-color-on-surface);
+  }
+  .m3-section-lead {
+    max-width: 36rem;
+    margin-top: 0.75rem;
+    font-size: 1.0625rem;
+    line-height: 1.625rem;
+    color: var(--md-sys-color-on-surface-variant);
+    text-wrap: pretty;
   }
 
   .m3-hero-title {
-    font-size: clamp(2.5rem, 1.75rem + 4vw, 5rem);
-    line-height: 1;
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-size: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
+    line-height: 1.02;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
     color: var(--md-sys-color-on-surface);
   }
   .m3-btn-large {
-    min-height: 3.5rem;
-    padding: 0 2.25rem;
-    font-size: 1.125rem;
+    min-height: 3.25rem;
+    padding: 0 1.75rem;
+    font-size: 1rem;
     line-height: 1.5rem;
-  }
-
-  .m3-wave {
-    height: 10px;
-    background-color: var(--md-sys-color-outline-variant);
-    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'><path d='M0 5c3-4 9-4 12 0s9 4 12 0' fill='none' stroke='black' stroke-width='1.5'/></svg>");
-    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10'><path d='M0 5c3-4 9-4 12 0s9 4 12 0' fill='none' stroke='black' stroke-width='1.5'/></svg>");
-    -webkit-mask-repeat: repeat-x;
-    mask-repeat: repeat-x;
-    -webkit-mask-size: 24px 10px;
-    mask-size: 24px 10px;
   }
 }
 
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(6px);
   transition:
-    opacity var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized-decelerate),
-    transform var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized-decelerate);
+    opacity 350ms var(--md-sys-motion-easing-standard-decelerate),
+    transform 350ms var(--md-sys-motion-easing-standard-decelerate);
 }
 .reveal-in {
   opacity: 1;

@@ -69,17 +69,17 @@ const LatestContent = () => {
   ].sort((a, b) => b.createdAt - a.createdAt);
 
   return (
-    <section id="latest" className="pt-16 md:pt-24">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <section id="latest" className="pt-20 md:pt-28">
+      <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="m3-section-title">Latest in IshvaraX</h2>
-          <p className="m3-body-large mt-3 text-on-surface-variant">
+          <h2 className="m3-section-title">Latest from the community</h2>
+          <p className="m3-section-lead">
             New videos, study materials and writing from the team.
           </p>
         </div>
         <div className="flex gap-2">
           <Link href="/learnings" className="m3-btn m3-btn-tonal">
-            All videos
+            All learnings
           </Link>
           <Link href="/blog" className="m3-btn m3-btn-text">
             All posts
@@ -87,24 +87,24 @@ const LatestContent = () => {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         {tiles.map((t, i) => {
           const tone = pastelAt(i);
 
           if (t.kind === "course") {
             const c = t.data;
             return (
-              <Reveal key={t.id} as="article" delay={i * 50} className="m3-tile is-interactive">
+              <Reveal key={t.id} as="article" delay={i * 40} className="m3-tile is-interactive">
                 <div className="m3-tile-media aspect-[16/9]" style={toneStyle(tone)}>
                   <CourseThumb link={c.link} title={c.title} />
                 </div>
                 <div className="m3-tile-body">
                   <p className="m3-label-large" style={{ color: tone.btn }}>
-                    {c.section} · {c.category}
+                    {c.category} in {c.section}
                   </p>
                   <h3 className="m3-tile-title">{c.title}</h3>
                   <Link href="/learnings" className="m3-btn m3-btn-text mt-auto -ml-3 self-start pt-2">
-                    Watch now <span aria-hidden>→</span>
+                    Watch
                   </Link>
                 </div>
               </Reveal>
@@ -113,18 +113,20 @@ const LatestContent = () => {
 
           const p = t.data;
           return (
-            <Reveal key={t.id} as="article" delay={i * 50} className="m3-tile is-interactive">
+            <Reveal key={t.id} as="article" delay={i * 40} className="m3-tile is-interactive">
               <div
                 className="m3-tile-media flex min-h-[7rem] items-end p-5"
                 style={toneStyle(tone)}
               >
-                <span className="m3-label-large">Blog · {formatDate(p.createdAt)}</span>
+                <time dateTime={new Date(p.createdAt).toISOString()} className="m3-label-large">
+                  {formatDate(p.createdAt)}
+                </time>
               </div>
               <div className="m3-tile-body">
                 <h3 className="m3-tile-title">{p.title}</h3>
                 <p className="m3-tile-desc line-clamp-3">{p.content}</p>
                 <Link href={`/blog/${p.id}`} className="m3-btn m3-btn-text mt-auto -ml-3 self-start pt-2">
-                  Read more <span aria-hidden>→</span>
+                  Read the post
                 </Link>
               </div>
             </Reveal>

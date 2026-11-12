@@ -37,12 +37,12 @@ const Contact = () => {
   const sending = status.kind === "sending";
 
   return (
-    <section id="contact" className="pt-16 md:pt-24">
+    <section id="contact" className="pt-20 md:pt-28">
       <Reveal>
         <h2 className="m3-section-title">{contact.heading}</h2>
       </Reveal>
-      <Reveal className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,24rem)_1fr]">
-        <p className="m3-body-large text-on-surface-variant lg:pt-8">{contact.body}</p>
+      <Reveal className="mt-10 grid gap-5 lg:grid-cols-[minmax(0,24rem)_1fr]">
+        <p className="m3-body-large max-w-sm text-on-surface-variant lg:pt-2">{contact.body}</p>
         <form onSubmit={onSubmit} className="m3-panel flex flex-col gap-5 p-6 md:p-8">
           <div className="grid gap-5 sm:grid-cols-2">
             <Field

@@ -32,14 +32,12 @@ const ProjectSearch = () => {
   }, [projects, q]);
 
   return (
-    <section id="search" className="pt-16 md:pt-24">
-      <h2 className="m3-section-title">Search for your next project</h2>
+    <section id="search" className="pt-20 md:pt-28">
+      <h2 className="m3-section-title">Find your next project</h2>
+      <p className="m3-section-lead">Filter by a skill, a keyword, or both.</p>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,24rem)_1fr]">
+      <div className="mt-10 grid gap-5 lg:grid-cols-[minmax(0,24rem)_1fr]">
         <form onSubmit={onSubmit} className="m3-panel flex h-fit flex-col gap-5 p-6 md:p-8">
-          <p className="m3-body-large text-on-surface-variant">
-            Filter by a skill, a keyword, or both.
-          </p>
           <label className="m3-field">
             <input
               value={skill}
@@ -101,7 +99,7 @@ const ProjectSearch = () => {
               </div>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2">
               {results.map((p) => (
                 <PastelProjectCard key={p.id} project={p} />
               ))}

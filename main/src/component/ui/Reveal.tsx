@@ -6,7 +6,7 @@ type RevealProps = {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  as?: "div" | "section" | "article" | "li";
+  as?: "div" | "section" | "article" | "li" | "aside";
   style?: React.CSSProperties;
 };
 

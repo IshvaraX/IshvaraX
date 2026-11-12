@@ -38,6 +38,7 @@ export type RegisterPayload = {
   pan?: string;
   aadhaar?: string;
   upi_id?: string;
+  /** Not sent to /register; uploaded via /profile once signed in. */
   photo?: string;
   skills?: string[];
   language?: string;

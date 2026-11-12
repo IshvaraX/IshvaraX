@@ -56,7 +56,7 @@ type Props = {
 const PastelProjectCard = ({
   project,
   href = `/projects?id=${project.id}`,
-  label = "Learn more",
+  label = "View project",
   className = "",
   onAction,
   showStatus = false,
@@ -105,25 +105,29 @@ const PastelProjectCard = ({
           <p className="m3-tile-desc line-clamp-3">{project.description}</p>
         )}
         {(project.stipend || project.duration) && (
-          <p className="m3-label-medium mt-1 flex flex-wrap gap-x-4 gap-y-1 text-on-surface-variant">
+          <dl className="mt-2 flex flex-wrap gap-x-6 gap-y-1">
             {project.stipend && (
-              <span className="whitespace-nowrap">Stipend · {project.stipend}</span>
+              <div className="whitespace-nowrap">
+                <dt className="m3-label-medium text-on-surface-variant">Stipend</dt>
+                <dd className="m3-body-medium text-on-surface">{project.stipend}</dd>
+              </div>
             )}
             {project.duration && (
-              <span className="whitespace-nowrap">Duration · {project.duration}</span>
+              <div className="whitespace-nowrap">
+                <dt className="m3-label-medium text-on-surface-variant">Duration</dt>
+                <dd className="m3-body-medium text-on-surface">{project.duration}</dd>
+              </div>
             )}
-          </p>
+          </dl>
         )}
         <div className="mt-auto pt-5">
           {onAction ? (
             <button type="button" onClick={onAction} className="m3-btn m3-btn-filled">
               {label}
-              <span aria-hidden>→</span>
             </button>
           ) : (
             <Link href={href} className="m3-btn m3-btn-tonal">
               {label}
-              <span aria-hidden>→</span>
             </Link>
           )}
         </div>

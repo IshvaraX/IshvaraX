@@ -25,15 +25,17 @@ const Team = () => {
   if (members.length === 0) return null;
 
   return (
-    <section id="team" className="pt-16 md:pt-24">
+    <section id="team" className="pt-20 md:pt-28">
       <Reveal>
         <h2 className="m3-section-title">The people behind IshvaraX</h2>
-        <p className="m3-label-large mt-3 text-tertiary">Our team</p>
+        <p className="m3-section-lead">
+          Builders at different stages who run the projects, record the lessons and keep the lights on.
+        </p>
       </Reveal>
 
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {members.map((m, i) => (
-          <Reveal as="article" key={m.id} delay={i * 60} className="m3-tile">
+          <Reveal as="article" key={m.id} delay={i * 40} className="m3-tile">
             <div className="m3-tile-body flex-row items-center gap-4">
               {m.photo ? (
                 <img
